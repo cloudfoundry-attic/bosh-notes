@@ -1,0 +1,146 @@
+# Cloud Config
+
+To keep service brokers (and other users of BOSH) IaaS agnostic, IaaS resource configuration (networks, resource_pools, disk_pools, compilation) can be configured per the Director such that service brokers only references those resources by name.
+
+Currently deployment manifests include all IaaS specific resource configuration for that deployment. For example:
+
+```yaml
+name: my-deployment
+
+networks:
+- name: default
+  type: manual
+  subnets:
+  - range: 10.0.0.0/24
+    gateway: 10.0.0.1
+    cloud_properties: {subnet_id: subnet-27rh}
+
+resource_pools:
+- name: default
+  stemcell:
+  	name: bosh-aws-xen-ubuntu-trusty
+  	version: 2889
+  network: default
+  cloud_properties:
+  	availability_zone: us-east-1a
+  	instance_type: m1.small
+
+disk_pools:
+- name: default
+  disk_size: 10_000
+  cloud_properties: {type: gp2}
+
+compilation:
+  network: default
+  cloud_properties:
+  	availability_zone: us-east-1a
+  	instance_type: m1.small
+
+jobs:
+- name: web
+  instances: 1
+  templates:
+  - name: web
+  resource_pool: default
+  persistent_disk_pool: default
+  networks:
+  - name: default
+```
+
+For example, `iaas.yml` would look something like this:
+
+```yaml
+networks:
+- name: default
+  type: manual
+  subnets:
+  - range: 10.0.0.0/24
+    gateway: 10.0.0.1
+    cloud_properties: {subnet_id: subnet-27rh}
+
+resource_pools:
+- name: default
+  stemcell:
+  	name: bosh-aws-xen-ubuntu-trusty
+  	version: 2889
+  network: default
+  cloud_properties:
+  	availability_zone: us-east-1a
+  	instance_type: m1.small
+
+disk_pools:
+- name: default
+  disk_size: 10_000
+  cloud_properties: {type: gp2}
+
+compilation:
+  workers: 5
+  network: default
+  cloud_properties:
+  	availability_zone: us-east-1a
+  	instance_type: m1.small
+```
+
+And to apply such configuration `update iaas-config` would be used:
+
+```
+$ bosh update iaas-config ./iaas.yml
+```
+
+Since IaaS configuration is in a separate file, deployment manifest will only include deployment specific configuration:
+
+```yaml
+name: my-deployment
+
+jobs:
+- name: web
+  instances: 1
+  templates:
+  - name: web
+  resource_pool: default
+  persistent_disk_pool: default
+  networks:
+  - name: default
+```
+
+And to deploy it:
+
+```
+$ bosh deployment ./my-deployment.yml
+$ bosh deploy
+```
+
+## Stories (see cloud-config stories in Tracker)
+
+* user can save iaas config to the Director via `bosh update cloud-config` (2)
+* user can view iaas config uploaded to the Director via `bosh cloud-config` (2)
+* user can run bosh deploy and see that latest iaas config is referenced (2)
+* user can see if latest iaas config is used by which deployments (4)
+  - bosh deployment command changed
+  - still allow deployments not to reference any iaas config
+  - iaas config is associated by a deployment when `bosh deploy` runs
+  - show outdated when iaas config is not used
+  - show none is there is no iaas config
+* user can run `bosh deploy` with a deployment that references a disk pool, resource pool, network, compilation from iaas config (4)
+* user should see an error message if deployment manifest contains a disk pool, resource pool, network, compilation when iaas config exists on the director (2)
+* user should see usual error messages when iaas resources are not specified correctly (1)
+  - deployment references not found resources 
+
+* user does not have to specify cloud_properties on resource pool and default to empty Hash (1)
+* user does not have to specify cloud_properties on network subnet and default to empty Hash (1)
+* user does not have to specify cloud_properties on compilation and default to empty Hash (1)
+
+* user can deploy two deployments on a shared manual network and the Director picks next available IP for the second VM (8)
+* user should see an error message if two deployments try to request same static IP
+  - include name of the deployment that owns it
+* user can deploy a VM with a static IP once it is released from a different deployment
+  - so that to see static IPs are reused across deployments
+
+## TBD
+
+* validate cloud config before saving it
+* deprecate old style deployment manifest
+* view cloud config at some version
+* bosh deployment shows iaas-config?
+* clean up old cloud config (rollback?)
+* extract stemcell info from resource pool
