@@ -84,7 +84,11 @@ compilation:
 And to apply such configuration `update cloud-config` would be used:
 
 ```
+# saves cloud config to the Director
 $ bosh update cloud-config ./iaas.yml
+
+# outputs saved config to stdout
+$ bosh cloud-config
 ```
 
 Since IaaS configuration is in a separate file, deployment manifest will only include deployment specific configuration:
@@ -106,29 +110,16 @@ jobs:
 And to deploy it:
 
 ```
+# set current deployment
 $ bosh deployment ./my-deployment.yml
+
+# uses latest cloud config
 $ bosh deploy
 ```
 
-## Stories (see `cloud-config` label in Tracker)
+## Stories
 
-* user can save cloud config to the Director via `bosh update cloud-config` (2)
-* user can view cloud config uploaded to the Director via `bosh cloud-config` (2)
-* user can run bosh deploy and see that latest cloud config is referenced (2)
-* user can see if latest cloud config is used by which deployments (4)
-  - bosh deployment command changed
-  - still allow deployments not to reference any cloud config
-  - cloud config is associated by a deployment when `bosh deploy` runs
-  - show outdated when cloud config is not used
-  - show none is there is no cloud config
-* user can run `bosh deploy` with a deployment that references a disk pool, resource pool, network, compilation from cloud config (4)
-* user should see an error message if deployment manifest contains a disk pool, resource pool, network, compilation when cloud config exists on the director (2)
-* user should see usual error messages when iaas resources are not specified correctly (1)
-  - deployment references not found resources 
-
-* user does not have to specify cloud_properties on resource pool and default to empty Hash (1)
-* user does not have to specify cloud_properties on network subnet and default to empty Hash (1)
-* user does not have to specify cloud_properties on compilation and default to empty Hash (1)
+[see `cloud-config` label in Tracker for created stories]
 
 * user can deploy two deployments on a shared manual network and the Director picks next available IP for the second VM (8)
 * user should see an error message if two deployments try to request same static IP
