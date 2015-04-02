@@ -20,6 +20,10 @@ To simplify AZs configuration, here is the list of proposed changes to the BOSH 
 
 	TBD: how does `instances` value relates to `availability_zones` e.g. when there are multiple availability zones, does instances specify number of instances per AZ or total?
 
+5. expose availability zone information in deployment job templates during rendering
+
+  Similarly to how `name`, `index` and `networks` properties are exposed, we can have `availability_zone` property with an AZ name.
+
 Above changes result into something like this:
 
 ```yaml
@@ -97,4 +101,4 @@ jobs:
 
 * default AZ assigment
 * index assignment per AZ
-* striping of persistent disk
+* striping of persistent disks
