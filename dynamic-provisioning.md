@@ -41,7 +41,7 @@ Here is the list of proposed changes to the BOSH Director:
 
 	This allows service brokers to build IaaS agnostic deployment manifests and just reference specific resources by name. In addition to that it collapses variety of deployment manifests we have just because we have specific IaaS specific detials in them (e.g. cf-deployment-aws, cf-deployment-vsphere, etc.)
 
-- [make AZ a first class Director feature](azs.md)
+- [make AZ a first class Director feature](availability-zones.md)
 
 	This allows service brokers to easily configure deployment jobs spanning multiple AZs instead of creating same deployment job per AZ.
 
