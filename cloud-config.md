@@ -81,10 +81,10 @@ compilation:
   	instance_type: m1.small
 ```
 
-And to apply such configuration `update iaas-config` would be used:
+And to apply such configuration `update cloud-config` would be used:
 
 ```
-$ bosh update iaas-config ./iaas.yml
+$ bosh update cloud-config ./iaas.yml
 ```
 
 Since IaaS configuration is in a separate file, deployment manifest will only include deployment specific configuration:
@@ -110,19 +110,19 @@ $ bosh deployment ./my-deployment.yml
 $ bosh deploy
 ```
 
-## Stories (see cloud-config stories in Tracker)
+## Stories (see `cloud-config` label in Tracker)
 
-* user can save iaas config to the Director via `bosh update cloud-config` (2)
-* user can view iaas config uploaded to the Director via `bosh cloud-config` (2)
-* user can run bosh deploy and see that latest iaas config is referenced (2)
-* user can see if latest iaas config is used by which deployments (4)
+* user can save cloud config to the Director via `bosh update cloud-config` (2)
+* user can view cloud config uploaded to the Director via `bosh cloud-config` (2)
+* user can run bosh deploy and see that latest cloud config is referenced (2)
+* user can see if latest cloud config is used by which deployments (4)
   - bosh deployment command changed
-  - still allow deployments not to reference any iaas config
-  - iaas config is associated by a deployment when `bosh deploy` runs
-  - show outdated when iaas config is not used
-  - show none is there is no iaas config
-* user can run `bosh deploy` with a deployment that references a disk pool, resource pool, network, compilation from iaas config (4)
-* user should see an error message if deployment manifest contains a disk pool, resource pool, network, compilation when iaas config exists on the director (2)
+  - still allow deployments not to reference any cloud config
+  - cloud config is associated by a deployment when `bosh deploy` runs
+  - show outdated when cloud config is not used
+  - show none is there is no cloud config
+* user can run `bosh deploy` with a deployment that references a disk pool, resource pool, network, compilation from cloud config (4)
+* user should see an error message if deployment manifest contains a disk pool, resource pool, network, compilation when cloud config exists on the director (2)
 * user should see usual error messages when iaas resources are not specified correctly (1)
   - deployment references not found resources 
 
@@ -141,6 +141,6 @@ $ bosh deploy
 * validate cloud config before saving it
 * deprecate old style deployment manifest
 * view cloud config at some version
-* bosh deployment shows iaas-config?
+* `bosh deployments` shows cloud-config?
 * clean up old cloud config (rollback?)
 * extract stemcell info from resource pool
