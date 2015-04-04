@@ -122,7 +122,7 @@ $ bosh recreate dumjob/e464
 $ bosh recreate dumjob/e4644870-5df3-439f-872c-e3a5836d2dba
 ```
 
-Releases that require special bootstrapping node and currently they find it by checking `index==0`. Since indexing not be numerical, we will can introduce a first class feature such that release job can check if instance is a bootstrapping instance. In the job template `spec.bootstrap` would be `true`.
+Currently releases that require special bootstrapping node find it by checking `index==0`. Since indexing will not be numerical, a boolean can be introduced such that release jobs can check if an instance is a bootstrap instance. Job templates can use `spec.bootstrap==true`.
 
 ## Stories
 
