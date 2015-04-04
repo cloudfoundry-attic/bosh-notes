@@ -102,13 +102,13 @@ could be something like this:
 
 ```
 $ bosh vms
-+----------------+------+---------+---------------+-------------+
-| Job/index      | AZ   | State   | Resource Pool | IPs         |
-+----------------+------+---------+---------------+-------------+
-| dumjob/e464... | z1   | running | default       | 10.10.16.12 |
-| dumjob/b29f... | z1   | running | default       | 10.10.16.13 |
-| dumjob/27e5... | z2   | running | default       | 10.10.16.14 |
-+----------------+------+---------+---------------+-------------+
++-------------+------+---------+---------------+-------------+
+| Job/index   | AZ   | State   | Resource Pool | IPs         |
++------- -----+------+---------+---------------+-------------+
+| lol/e464... | z1   | running | default       | 10.10.16.12 |
+| lol/b29f... | z1   | running | default       | 10.10.16.13 |
+| lol/27e5... | z2   | running | default       | 10.10.16.14 |
++-------------+------+---------+---------------+-------------+
 ```
 
 Other CLI commands that take name of a job instance will have to be adjusted. Director can allow usage of shortened id as long as they are unique within a deployment job. For example:
