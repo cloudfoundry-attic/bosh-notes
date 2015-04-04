@@ -81,6 +81,49 @@ jobs:
   - name: my-net
 ```
 
+## CLI changes / Job Instance Indexing
+
+Currently job instances are referenced via `name/index`. With addition of AZs, some subset of deployment job instances are placed into one AZ and another subset is placed in another. When number of instances is scaled (either up or down), the Director should add/delete some number of instances to each AZ. Once new instances are added/deleted continious numeric indexing breaks down or becomes complicated. In addition to that user may increase/decreate number of AZs deployment job spans. 
+
+To make "naming" of deployment jobs easier across AZs, we can replace numeric indexing with unique id indexing. For example:
+
+```
+$ bosh vms
++-----------+---------+---------------+-------------+
+| Job/index | State   | Resource Pool | IPs         |
++-----------+---------+---------------+-------------+
+| lol_z1/0  | running | default       | 10.10.16.12 |
+| lol_z1/1  | running | default       | 10.10.16.13 |
+| lol_z2/0  | running | default       | 10.10.16.14 |
++-----------+---------+---------------+-------------+
+```
+
+could be something like this:
+
+```
+$ bosh vms
++----------------+------+---------+---------------+-------------+
+| Job/index      | AZ   | State   | Resource Pool | IPs         |
++----------------+------+---------+---------------+-------------+
+| dumjob/e464... | z1   | running | default       | 10.10.16.12 |
+| dumjob/b29f... | z1   | running | default       | 10.10.16.13 |
+| dumjob/27e5... | z2   | running | default       | 10.10.16.14 |
++----------------+------+---------+---------------+-------------+
+```
+
+Other CLI commands that take name of a job instance will have to be adjusted. Director can allow usage of shortened id as long as they are unique within a deployment job. For example:
+
+```
+$ bosh ssh dumjob/e464
+bash#
+
+# Following commands are equivalent
+$ bosh recreate dumjob/e464
+$ bosh recreate dumjob/e4644870-5df3-439f-872c-e3a5836d2dba
+```
+
+Releases that require special bootstrapping node and currently they find it by checking `index==0`. Since indexing not be numerical, we will can introduce a first class feature such that release job can check if instance is a bootstrapping instance. In the job template `spec.bootstrap` would be `true`.
+
 ## Stories
 
 * user can specify list of availability zones
