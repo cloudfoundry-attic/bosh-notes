@@ -131,8 +131,8 @@ Link information contains following:
 	  nats: nats-deployment.nats
 	```
 
-	TBD: do links at the deployment level merge into template level links?
-	TBD: fully qualified link name
+	- TBD: do links at the deployment level merge into template level links?
+	- TBD: fully qualified link name
 
 - custom provided links to external services (not controlled by the Director)
 
@@ -149,8 +149,8 @@ Link information contains following:
 	  	admin_user: ...
 	```
 
-	TBD: do links at the deployment level merge into template level links?
-	TBD: easier way to fill out link's nodes information for custom provided links
+	- TBD: do links at the deployment level merge into template level links?
+	- TBD: easier way to fill out link's nodes information for custom provided links
 
 - links that only require access to a single collocated deployment job
 
