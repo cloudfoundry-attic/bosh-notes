@@ -31,20 +31,20 @@ Proxy job requires information about all nodes and each node job provides it. Al
 
 To access information provided by the link, release author would modify their ERB template. For example MySQL proxy job may do the following:
 
-```
+```yaml
 nodes: <%= p("data-node.nodes") %> # todo pick out IPs in a network?
 
-// Link provided properties can be access like before: p, if_p, etc.
+# Link provided properties can be access like before: p, if_p, etc.
 admin_user: <%= p("data-node.admin_user") %>
 public_key: <%= p("data-node.public_key") %>
 ```
 
 Link information contains following:
 
-```json
+```yaml
 {
 	"nodes": [
-		// For each one of the deployment job instances
+		# For each one of the deployment job instances
 		{
 			"name": "data-node",
 			"index": 0,
@@ -65,7 +65,7 @@ Link information contains following:
 		}
 	],
 
-	// Link provided properties
+	# Link provided properties
 	"admin_user": "admin-user",
 	"admin_password": "some-secret",
 	"public_key": "..."
