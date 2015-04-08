@@ -76,12 +76,87 @@ Link information contains following:
 
 ### Link Resolution
 
-- multiple links types provided by different releases
+- multiple link types with the same name provided by different releases
+
+	If deployment manifest contains different deployment jobs from different releases that provide `nats` link. Operator has to explicitly specify how a deployment job's link is provided. For example, assuming that node job requires `nats` link:
+
+	```yaml
+	jobs:
+	- name: node
+	  templates:
+	  - name: node
+	    release: cf-mysql
+	    links: {nats: nats.nats} # ambigious cf's nats vs nats' natds job
+
+	- name: nats
+	  templates:
+	  - {name: nats, release: cf}
+
+	- name: other-nats
+	  templates:
+	  - {name: natsd, release: nats}
+	```
+
 - multiple links of the same type (primary_db and backup_db links)
+
+	Assuming that both links would require same type of link requires mechanism can be extended to support name vs type. For example:
+
+	```yaml
+	name: web
+	requires:
+	- {name: primary_db, type: db}
+	- {name: backup_db, type: db}
+	```
+
+	```yaml
+	name: mysql-server
+	provides: [db]
+	```
+
+	And to use link by name:
+
+	```yaml
+	primary_db: <%= p("primary_db.nodes") %>
+	```
+
 - links between deployments
-- custom provide links
+
+	```yaml
+	jobs:
+	- name: node
+	  templates:
+	  - {name: node, release: cf-mysql}
+
+	links:
+	  nats: nats-deployment.nats
+	```
+
+	TBD: do links at the deployment level merge into template level links?
+	TBD: fully qualified link name
+
+- custom provided links to external services (not controlled by the Director)
+
+	```yaml
+	jobs:
+	- name: node
+	  templates:
+	  - name: node
+	    release: cf-mysql
+
+	links:
+	  nats:
+	  	nodes: [{ ... }]
+	  	admin_user: ...
+	```
+
+	TBD: do links at the deployment level merge into template level links?
+	TBD: easier way to fill out link's nodes information for custom provided links
+
 - links that only require access to a single collocated deployment job
 
 ## Stories
 
 ## TBD
+
+- how to enforce singular node link (metadata, ERB?)
+- validation of exposed properties on the link
