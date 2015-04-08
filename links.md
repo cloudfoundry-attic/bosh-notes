@@ -154,6 +154,13 @@ Link information contains following:
 
 - links that only require access to a single collocated deployment job
 
+### Fully Qualified Links
+
+- `cluster.job`: within deployment, link type is unique
+- `cluster.job.link`: within deployment, link type is not unique in a job
+- `deployment.cluster.job`: across deployments but link type is unique
+- `deployment.cluster.job.link`: across deployments and link type is not unique in a job
+
 ## Stories
 
 ## TBD
