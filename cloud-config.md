@@ -8,7 +8,7 @@ Currently deployment manifests include all IaaS specific resource configuration 
 name: my-deployment
 
 networks:
-- name: default
+- name: my-net
   type: manual
   subnets:
   - range: 10.0.0.0/24
@@ -16,22 +16,22 @@ networks:
     cloud_properties: {subnet_id: subnet-27rh}
 
 resource_pools:
-- name: default
+- name: my-vms
   stemcell:
   	name: bosh-aws-xen-ubuntu-trusty
   	version: 2889
-  network: default
+  network: my-net
   cloud_properties:
   	availability_zone: us-east-1a
   	instance_type: m1.small
 
 disk_pools:
-- name: default
+- name: my-disks
   disk_size: 10_000
   cloud_properties: {type: gp2}
 
 compilation:
-  network: default
+  network: my-net
   cloud_properties:
   	availability_zone: us-east-1a
   	instance_type: m1.small
@@ -41,17 +41,17 @@ jobs:
   instances: 1
   templates:
   - name: web
-  resource_pool: default
-  persistent_disk_pool: default
+  resource_pool: my-vms
+  persistent_disk_pool: my-disks
   networks:
-  - name: default
+  - name: my-net
 ```
 
 For example, `iaas.yml` would look something like this:
 
 ```yaml
 networks:
-- name: default
+- name: my-net
   type: manual
   subnets:
   - range: 10.0.0.0/24
@@ -59,23 +59,23 @@ networks:
     cloud_properties: {subnet_id: subnet-27rh}
 
 resource_pools:
-- name: default
+- name: my-vms
   stemcell:
   	name: bosh-aws-xen-ubuntu-trusty
   	version: 2889
-  network: default
+  network: my-net
   cloud_properties:
   	availability_zone: us-east-1a
   	instance_type: m1.small
 
 disk_pools:
-- name: default
+- name: my-disks
   disk_size: 10_000
   cloud_properties: {type: gp2}
 
 compilation:
   workers: 5
-  network: default
+  network: my-net
   cloud_properties:
   	availability_zone: us-east-1a
   	instance_type: m1.small
@@ -101,10 +101,10 @@ jobs:
   instances: 1
   templates:
   - name: web
-  resource_pool: default
-  persistent_disk_pool: default
+  resource_pool: my-vms
+  persistent_disk_pool: my-disks
   networks:
-  - name: default
+  - name: my-net
 ```
 
 And to deploy it:
