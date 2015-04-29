@@ -135,3 +135,4 @@ $ bosh deploy
 * `bosh deployments` shows cloud-config?
 * clean up old cloud config (rollback?)
 * extract stemcell info from resource pool
+* show diff before deploying
