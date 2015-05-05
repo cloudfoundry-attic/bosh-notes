@@ -129,7 +129,6 @@ $ bosh deploy
 
 ## TBD
 
-* validate cloud config before saving it
 * deprecate old style deployment manifest
 * view cloud config at some version
 * `bosh deployments` shows cloud-config?
