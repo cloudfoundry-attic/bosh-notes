@@ -8,6 +8,7 @@ Deployment configuration:
 
 * [Dynamic Provisioning](dynamic-provisioning.md)
 * [Cloud Config](cloud-config.md)
+* [Global Networkins](global-networking.md)
 * [Availability Zones](availability-zones.md)
 * [Links](links.md)
 
