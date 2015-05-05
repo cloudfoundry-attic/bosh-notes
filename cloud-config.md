@@ -121,12 +121,6 @@ $ bosh deploy
 
 [see `cloud-config` label in Tracker for created stories]
 
-* user can deploy two deployments on a shared manual network and the Director picks next available IP for the second VM (8)
-* user should see an error message if two deployments try to request same static IP
-  - include name of the deployment that owns it
-* user can deploy a VM with a static IP once it is released from a different deployment
-  - so that to see static IPs are reused across deployments
-
 ## TBD
 
 * deprecate old style deployment manifest
