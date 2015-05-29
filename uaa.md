@@ -34,6 +34,7 @@ bosh-init repo contains [more details on how to configure UAA](https://github.co
 ### Authorization
 
 * User can modify everything (i.e. full admin)
+  - covered by `bosh.director.admin`
   - covered by `bosh.director.<DIRECTOR-UUID>.admin`
 
 * User can view everything (i.e. full read-only access)
@@ -42,3 +43,12 @@ bosh-init repo contains [more details on how to configure UAA](https://github.co
 * Users can modify certain deployments that already exist and new ones that they create (i.e. tagged deployments)
   - covered by `bosh.director.<DIRECTOR-UUID>.deployments-tag.<TAG>.admin`
   - Example: service broker is given a client id/secret and a tag. service broker will create deployments with tag X and would like to view and update it.
+
+## Stories
+
+See [BOSH & UAA Integration Tracker](https://www.pivotaltracker.com/n/projects/1285490).
+
+## TBD
+
+- ok to use director-uuid in the scope name?
+- do we need bosh.director.admin that provides global admin access?
