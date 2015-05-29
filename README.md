@@ -15,3 +15,7 @@ Deployment configuration:
 Developer workflow:
 
 * [Release Creation](release-creation.md)
+
+Other:
+
+* [Director UAA Integration](uaa.md)
