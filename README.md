@@ -18,4 +18,5 @@ Developer workflow:
 
 Other:
 
+* [Compiled Releases](compiled-releases.md)
 * [Director UAA Integration](uaa.md)
