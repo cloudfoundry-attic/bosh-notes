@@ -24,3 +24,6 @@ For VIP networks:
   - so that to see static IPs are reused across deployments
 
 ## TBD
+
+- moving static IPs
+- reassigning IP from one deployment to another due to it changing its type (auto -> static)
