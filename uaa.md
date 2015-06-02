@@ -34,14 +34,14 @@ bosh-init repo contains [more details on how to configure UAA](https://github.co
 ### Authorization
 
 * User can modify everything (i.e. full admin)
-  - covered by `bosh.director.admin`
-  - covered by `bosh.director.<DIRECTOR-UUID>.admin`
+  - covered by `bosh.admin`
+  - covered by `bosh.<DIRECTOR-UUID>.admin`
 
 * User can view everything (i.e. full read-only access)
-  - covered by `bosh.director.<DIRECTOR-UUID>.read`
+  - covered by `bosh.<DIRECTOR-UUID>.read`
 
 * Users can modify certain deployments that already exist and new ones that they create (i.e. tagged deployments)
-  - covered by `bosh.director.<DIRECTOR-UUID>.deployments-tag.<TAG>.admin`
+  - covered by `bosh.<DIRECTOR-UUID>.deployments-tag.<TAG>.admin`
   - Example: service broker is given a client id/secret and a tag. service broker will create deployments with tag X and would like to view and update it.
 
 ## Stories
@@ -51,4 +51,5 @@ See [BOSH & UAA Integration Tracker](https://www.pivotaltracker.com/n/projects/1
 ## TBD
 
 - ok to use director-uuid in the scope name?
-- do we need bosh.director.admin that provides global admin access?
+- do we need bosh.admin that provides global admin access?
+- should we be checking bosh. audience?
