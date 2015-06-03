@@ -39,6 +39,14 @@ bosh-init repo contains [more details on how to configure UAA](https://github.co
 
 * User can view everything (i.e. full read-only access)
   - covered by `bosh.<DIRECTOR-UUID>.read`
+  - Able to view:
+    - status: shows generic Director discovery info (not authed)
+    - deployments: shows list of all deployments and releases/stemcells used
+    - releases: releases and their versions
+    - stemcells: stemcells and their versions
+    - vms: job names, IPs, vitals, details, etc.
+    - tasks summary: list of tasks descriptions without access to debug/cpi info
+    - cloud-config: ??? (potentially problematic once CPI creds move there)
 
 * Users can modify certain deployments that already exist and new ones that they create (i.e. tagged deployments)
   - covered by `bosh.<DIRECTOR-UUID>.deployments-tag.<TAG>.admin`
