@@ -47,38 +47,50 @@ Stemcells would have to include additional metadata about their OS type, OS vers
 
 ## Stories
 
-- user can see OS in the stemcell metadata for all stemcells (e.g. centos-7, ubuntu-trusty)
+- user can see OS in the stemcell metadata for all stemcells (e.g. centos-7, ubuntu-trusty) [2]
 
-- user can see OS when running `bosh stemcells`
+- user can see OS when running `bosh stemcells` [4]
   - db migration: leave it as null
-  - on upload stemcell: leave it as null
+  - on upload stemcell: leave it as null if OS key not present
   - +-----------------------------------------+---------------+---------+--------------------+
 	| Name                                    | OS            | Version | CID                |
 	+-----------------------------------------+---------------+------------------------------+
 	| bosh-aws-xen-hvm-ubuntu-trusty-go_agent | ubuntu-trusty | 2972    | ami-f0544998 light |
-	| bosh-aws-xen-hvm-ubuntu-trusty-go_agent |               | 2971    | ami-f0544998 light |
+	| bosh-aws-xen-hvm-ubuntu-trusty-go_agent |               | 2971    | ami-f0544997 light |
+  - n/a consistencey? -dk
 
-- user can run export release command and see that args are validated and empty director task completes
+- user can run export release command and see that args are validated and empty director task completes [2]
   - `bosh export release release-name/release-version (os type)/stemcell-version`
-  - validate format of the args (string with a slash in the middle) on the cli
-  - validate asset presence on the director
-    - release combo must be present
-    - stemcell combo must be present
   - assumes that some deployment is targetted (for backwards compatibility / recovery)
 
-- user can run export release command and see that *all* non-compiled packages are going to be compiled and compile them
+- user sees an error before director task runs about the format of the release and stemcell refs [1]
+  - validate format of the args for the CLI command (string with a slash in the middle)
+
+- director task validates release presence on the director [2]
+  - user sees an error from director task
+
+- director task validates stemcell presence on the director [1]
+  - user sees an error from director task when there is no stemcell that matches os/version criteria
+  - DO NOT show error when there is more than one stemcell match
+
+- user can run export release command and see that *all* non-compiled packages are compiled [4]
   - based on the rules of the targetted deployment
   - pick up the locks for the deployment, release and selected stemcell
-  - select stemcell based on OS and stemcell version (fail unless *exactly* 1 stemcell matches)
+  - select first stemcell based on OS and stemcell version
+  - issue compile_package commands to the agent that were spawn up
   - does not aggregate anything into a tarball
 
-- user can run export release command and see that tarball is made for the compiled release
-  - save the compiled release into the blobstore as a tarball
-  - include blobstore_id in the export release task result
+- user sees an error if deployment is not set or deployment does not exist on the director [1]
 
-- user can run export release command and cli should automatically download exported release once director task completes
+- user can run export release command and see that tarball is made for the compiled release [4]
+  - build up release.MF
+  - save the compiled release into the blobstore as a tarball
+  - include blobstore_id and sha1 in the export release task result
+
+- user can run export release command and cli should automatically download exported release once director task completes [2]
   - look at the task result to find blobstore_id
   - use fetch_resource api call?
+  - save a file into a current working directory called release-name-version-"on"-os-stemcell-version.tgz
 
 ## TBD
 
