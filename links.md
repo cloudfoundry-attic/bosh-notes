@@ -201,3 +201,5 @@ Link information contains following:
 
 - how to enforce singular node link (metadata, ERB?)
 - validation of exposed properties on the link
+- optionality of link requires
+- do jobs with 0 instances provide empty nodes?
