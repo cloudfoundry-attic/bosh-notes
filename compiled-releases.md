@@ -63,6 +63,8 @@ Stemcells would have to include additional metadata about their OS type, OS vers
 
 * user can upload non-compiled release after uploading compiled release to backfill source packages so that release can be deployed on other stemcells 
 
+* user sees that re-uploading compiled release second time does not perform any expensive actions (upload, blobstore access, etc.)
+  - there is already some kind of matching going on via https://github.com/cloudfoundry/bosh/blob/master/bosh-director/lib/bosh/director/api/controllers/packages_controller.rb#L6
 
 ## TBD
 
