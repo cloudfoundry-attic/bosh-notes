@@ -27,6 +27,21 @@ requires: [data-node]
 provides: [data-node]
 ```
 
+OR
+
+```yaml
+name: node
+
+requires: [data-node]
+
+provides: 
+- name: data-node
+  properties:
+  - admin_user
+  - admin_password
+  - public_key
+```
+
 Proxy job requires information about all nodes and each node job provides it. Also each node needs to know about other nodes, hence, node job requires and provide node.
 
 To access information provided by the link, release author would modify their ERB template. For example MySQL proxy job may do the following:
