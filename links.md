@@ -163,6 +163,15 @@ Link information contains following:
 
 ## Stories
 
+* user can specify array of provides/requires names in the release
+  - if not array of strings raise an error
+
+* user sees an error if there is a release job require that is not satisfied by one of the other release jobs used in a deployment
+  - state which job (deployment.deployment-job.release-job) wants which require (mysql-node)
+
+* user can retrieve nodes of another release job via p(requires-name.nodes) in its templates
+  - array of hashes with each hash containing name, index, networks (with each network address)
+
 ## TBD
 
 - how to enforce singular node link (metadata, ERB?)
