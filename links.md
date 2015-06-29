@@ -178,14 +178,24 @@ Link information contains following:
 
 ## Stories
 
-* user can specify array of provides/requires names in the release
+* user can specify array of provides/requires names in the release [1]
   - if not array of strings raise an error
 
-* user sees an error if there is a release job require that is not satisfied by one of the other release jobs used in a deployment
-  - state which job (deployment.deployment-job.release-job) wants which require (mysql-node)
+* user must provide link source for each release job requirement as a string in the deployment manifest [2]
+  - where X is dpeloyment name, Y is deployment job, Z is release job, ZZ is link name
+  - e.g. {name: blah, release: blah, links: {db: X.Y.Z.ZZ}}
 
-* user can retrieve nodes of another release job via p(requires-name.nodes) in its templates
-  - array of hashes with each hash containing name, index, networks (with each network address)
+* user must provide findable link source [2]
+  - validate that link is in above format (X.Y.Z.ZZ)
+  - validate that link source exists within this deployment (so X is effectivly this deployments name)
+    - currently do not support cross deployment links
+
+* user can retrieve nodes of another release job via link(requires-name.nodes) in its templates [2]
+  - array of hashes with each hash containing name, index
+
+* user can retrieve network info about each release job instance
+  - for each network have a field called address (include either IP for manual or vip network, DNS name for dynamic network)
+
 
 ## TBD
 
