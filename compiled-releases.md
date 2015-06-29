@@ -47,50 +47,22 @@ Stemcells would have to include additional metadata about their OS type, OS vers
 
 ## Stories
 
-- user can see OS in the stemcell metadata for all stemcells (e.g. centos-7, ubuntu-trusty) [2]
+[see compiled-releases label in Tracker for created stories]
 
-- user can see OS when running `bosh stemcells` [4]
-  - db migration: leave it as null
-  - on upload stemcell: leave it as null if OS key not present
-  - +-----------------------------------------+---------------+---------+--------------------+
-	| Name                                    | OS            | Version | CID                |
-	+-----------------------------------------+---------------+------------------------------+
-	| bosh-aws-xen-hvm-ubuntu-trusty-go_agent | ubuntu-trusty | 2972    | ami-f0544998 light |
-	| bosh-aws-xen-hvm-ubuntu-trusty-go_agent |               | 2971    | ami-f0544997 light |
-  - n/a consistencey? -dk
+* user can use `upload release` command to import release jobs into the Director from a compiled release tarball
+  - jobs should be saved into the blobstore
+  - actions should be shown in the event log
 
-- user can run export release command and see that args are validated and empty director task completes [2]
-  - `bosh export release release-name/release-version (os type)/stemcell-version`
-  - assumes that some deployment is targetted (for backwards compatibility / recovery)
+* user can use `upload release` command to import compiled packages into the Director from a compiled release tarball, such that `deploy` command does not try to compile these packages during the deploy
+  - assumes that stemcell is already uploaded
+  - raise an error if no stemcell matched the criteria e.g. "No stemcell matches OS 'os-blah' version '3646'. Please upload stemcell matching this criteria and run this command again."
+  - make sure that uploading compiled release does not exit 1 because of validations (in CLI or Director)
 
-- user sees an error before director task runs about the format of the release and stemcell refs [1]
-  - validate format of the args for the CLI command (string with a slash in the middle)
+* user sees an error that there is no way to deploy release version X on stemcell X because it does not have source packages
+  - ideally without spinning up VMs up front
 
-- director task validates release presence on the director [2]
-  - user sees an error from director task
+* user can upload non-compiled release after uploading compiled release to backfill source packages so that release can be deployed on other stemcells 
 
-- director task validates stemcell presence on the director [1]
-  - user sees an error from director task when there is no stemcell that matches os/version criteria
-  - DO NOT show error when there is more than one stemcell match
-
-- user can run export release command and see that *all* non-compiled packages are compiled [4]
-  - based on the rules of the targetted deployment
-  - pick up the locks for the deployment, release and selected stemcell
-  - select first stemcell based on OS and stemcell version
-  - issue compile_package commands to the agent that were spawn up
-  - does not aggregate anything into a tarball
-
-- user sees an error if deployment is not set or deployment does not exist on the director [1]
-
-- user can run export release command and see that tarball is made for the compiled release [4]
-  - build up release.MF
-  - save the compiled release into the blobstore as a tarball
-  - include blobstore_id and sha1 in the export release task result
-
-- user can run export release command and cli should automatically download exported release once director task completes [2]
-  - look at the task result to find blobstore_id
-  - use fetch_resource api call?
-  - save a file into a current working directory called release-name-version-"on"-os-stemcell-version.tgz
 
 ## TBD
 
