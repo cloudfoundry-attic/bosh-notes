@@ -49,25 +49,6 @@ Stemcells would have to include additional metadata about their OS type, OS vers
 
 [see compiled-releases label in Tracker for created stories]
 
-* user can use `upload release` command to import release jobs into the Director from a compiled release tarball [2]
-  - jobs should be saved into the blobstore
-  - actions should be shown in the event log
-
-* user can use `upload release` command to import compiled packages into the Director from a compiled release tarball, such that `deploy` command does not try to compile these packages during the deploy [4]
-  - assumes that stemcell is already uploaded
-  - raise an error if no stemcell matched the criteria e.g. "No stemcell matches OS 'os-blah' version '3646'. Please upload stemcell matching this criteria and run this command again."
-  - populate compiled packages for all matching stemcells
-  - make sure that uploading compiled release does not exit 1 because of validations (in CLI or Director)
-
-* user sees an error that there is no way to deploy release version X on stemcell X because it does not have source packages [2]
-  - ideally without spinning up VMs up front
-
-* user can upload non-compiled release after uploading compiled release to backfill source packages so that release can be deployed on other stemcells [2]
-  - reverse should also work
-
-* user sees that re-uploading compiled release second time does not perform any expensive actions (upload, blobstore access, etc.) [4]
-  - there is already some kind of matching going on via https://github.com/cloudfoundry/bosh/blob/master/bosh-director/lib/bosh/director/api/controllers/packages_controller.rb#L6
-
 ## TBD
 
 - should the compiled release have the same version as final release?
