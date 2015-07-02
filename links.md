@@ -178,7 +178,7 @@ Link information contains following:
 
 ## Stories
 
-[see compiled-releases label in Tracker for created stories]
+[see links label in Tracker for created stories]
 
 ## TBD
 
