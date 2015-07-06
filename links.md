@@ -160,8 +160,8 @@ Link information contains following:
 
 	links:
 	  nats:
-	  	nodes: [{ ... }]
-	  	admin_user: ...
+	    nodes: [{ ... }]
+	    admin_user: ...
 	```
 
 	- TBD: do links at the deployment level merge into template level links?
@@ -179,6 +179,13 @@ Link information contains following:
 ## Stories
 
 [see links label in Tracker for created stories]
+
+- user should be able to specify `cluster.job` as a link source (relative to current deployment)
+- user should be able to specify `cluster.job.link-name` as a link source (relative to current deployment)
+- user should be able to specify `deployment.cluster.job` as a link source
+- user should be able to specify `deployment.cluster.job.link-name` as a link source
+  - make sure it's link-name and not link-type
+- user can specify multiple requires of the same type and satisfy them by name
 
 ## TBD
 
