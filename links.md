@@ -180,22 +180,6 @@ Link information contains following:
 
 [see links label in Tracker for created stories]
 
-- user can specify `cluster.job.link-name` as a link source (relative to current deployment) [2]
-
-- user can specify `deployment.cluster.job.link-name` as a link source [4]
-  - introduce name for links in addition to specifying type
-  - make sure it's link-name and not link-type
-  - if matches the name, use name
-  - do not match link types (but links without a name have implicit name that is their type)
-
-- user sees an error message if provided links are not uniquely named [2]
-  - during bosh upload release
-
-- user can deploy a manifest with a link source from a different deployment [8]
-  - take link info (only net so far) from DB and snapshot at the time of the deploy
-  - raise error if network information is not available
-  - no access to live running VMs in a different deployment should happen (dont call to agents)
-
 - user can reference another release job as link source even though it does not 'provide' anything []
   - naming for the link source?
   - only provide network information
