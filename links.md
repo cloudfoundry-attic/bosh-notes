@@ -180,11 +180,21 @@ Link information contains following:
 
 [see links label in Tracker for created stories]
 
-- user should be able to specify `cluster.job` as a link source (relative to current deployment)
-- user should be able to specify `cluster.job.link-name` as a link source (relative to current deployment)
-- user should be able to specify `deployment.cluster.job` as a link source
-- user should be able to specify `deployment.cluster.job.link-name` as a link source
+- user can specify `cluster.job` as a link source (relative to current deployment)
+- user can specify `cluster.job.link-name` as a link source (relative to current deployment)
+- user can specify `deployment.cluster.job` as a link source
+
+- user can specify `deployment.cluster.job.link-name` as a link source
   - make sure it's link-name and not link-type
+
+- user can reference another release job as link source even though it does not 'provide' anything
+  - naming for the link source?
+  - only provide network information
+
+- user can deploy a manifest with a link source from a different deployment
+  - take link info (only net so far) from DB and snapshot at the time of the deploy
+  - raise error if network information is not available
+
 - user can specify multiple requires of the same type and satisfy them by name
 
 ## TBD
