@@ -80,10 +80,11 @@ Link information contains following:
 		}
 	],
 
-	# Link provided properties
-	"admin_user": "admin-user",
-	"admin_password": "some-secret",
-	"public_key": "..."
+	"properties": {
+		"admin_user": "admin-user",
+		"admin_password": "some-secret",
+		"public_key": "..."
+	}
 }
 ```
 
