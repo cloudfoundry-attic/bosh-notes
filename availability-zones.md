@@ -124,6 +124,47 @@ $ bosh recreate dumjob/e4644870-5df3-439f-872c-e3a5836d2dba
 
 Currently releases that require special bootstrapping node find it by checking `index==0`. Since indexing will not be numerical, a boolean can be introduced such that release jobs can check if an instance is a bootstrap instance. Job templates can use `spec.bootstrap==true`.
 
+## Migrating data when collapsing deployment jobs
+
+Currently to use multiple AZs separate deployment jobs are configured which use different resource pools. For example:
+
+```
+jobs:
+- name: etcd_z1
+  instances: 1
+  templates:
+  - name: etcd
+  resource_pool: my-vms-z1
+  persistent_disk_pool: my-disks
+  networks:
+  - name: my-net-z1
+- name: etcd_z2
+  instances: 1
+  templates:
+  - name: etcd
+  resource_pool: my-vms-z2
+  persistent_disk_pool: my-disks
+  networks:
+  - name: my-net-z2
+```
+
+To collapse two deployment jobs into one without losing persistent disks new deployment job must reference previous jobs:
+
+```
+jobs:
+- name: etcd
+  instances: 2
+  templates:
+  - name: etcd
+  migrated_jobs:
+    z1: etcd_z1
+    z2: etcd_z2
+  resource_pool: my-vms
+  persistent_disk_pool: my-disks
+  networks:
+  - name: my-net
+```
+
 ## Stories
 
 * user can specify list of availability zones
@@ -141,7 +182,6 @@ Currently releases that require special bootstrapping node find it by checking `
 * user can specify availability zones on a deployment job
   - error if availability zone referenced is not found
 * user can see an error message when a deployment job in two AZs uses a network that does not have subnet in that AZ
-
 * user can see deployment job VMs get AZ assigned to them based on specific AZ
   - create_vm CPI call gets sum of AZ's cloud_properties and resource pool's cloud_properties
 * user can see deployment job VMs get IPs from AZ specific subnets of manual network
@@ -150,5 +190,5 @@ Currently releases that require special bootstrapping node find it by checking `
 ## TBD
 
 * default AZ assigment
-* index assignment per AZ
-* striping of persistent disks
+* index assignment per AZ?
+* striping of persistent disks during migration
