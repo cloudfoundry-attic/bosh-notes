@@ -129,16 +129,23 @@ Currently releases that require special bootstrapping node find it by checking `
 * user can specify list of availability zones
   - name is a required String
   - cloud_properties is a required Hash; with empty hash as a default
+  - keep available_zones key optional
 * user should see an error message if duplicate names are specified for AZs
 * user can specify availability zone for a manual network's subnets
   - error if availability zone referenced is not found
+  - keep available_zone key optional
+* user can specify availability zone for a dynamic network's subnets
+  - error if availability zone referenced is not found
+  - keep available_zone key optional
+* user can specify multiple availability_zones on a network subnets
 * user can specify availability zones on a deployment job
   - error if availability zone referenced is not found
-* user can see an error message when a deployment job in two AZs uses a manual network that does not have subnet in that AZ
+* user can see an error message when a deployment job in two AZs uses a network that does not have subnet in that AZ
 
 * user can see deployment job VMs get AZ assigned to them based on specific AZ
   - create_vm CPI call gets sum of AZ's cloud_properties and resource pool's cloud_properties
 * user can see deployment job VMs get IPs from AZ specific subnets of manual network
+* user can see deployment job VMs get IPs from AZ specific subnets of dynamic network
 
 ## TBD
 
