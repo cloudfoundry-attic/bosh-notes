@@ -167,25 +167,35 @@ jobs:
 
 ## Stories
 
-* user can specify list of availability zones
+* user can specify list of availability zones [2]
   - name is a required String
   - cloud_properties is a required Hash; with empty hash as a default
   - keep available_zones key optional
-* user should see an error message if duplicate names are specified for AZs
-* user can specify availability zone for a manual network's subnets
+* user should see an error message if duplicate names are specified for AZs [1]
+* user can specify availability zones key for a manual network's subnets [2]
   - error if availability zone referenced is not found
   - keep available_zone key optional
-* user can specify availability zone for a dynamic network's subnets
-  - error if availability zone referenced is not found
-  - keep available_zone key optional
-* user can specify multiple availability_zones on a network subnets
-* user can specify availability zones on a deployment job
-  - error if availability zone referenced is not found
-* user can see an error message when a deployment job in two AZs uses a network that does not have subnet in that AZ
-* user can see deployment job VMs get AZ assigned to them based on specific AZ
+* user can specify availability zones on a deployment job [2]
+  - error if availability zone referenced is not found at the top level az key
+  - availablity zones key on the job is optional
+* user can see an error message when a deployment job in two AZs uses a network that does not have subnet in that AZ [2]
+* user can see deployment job VMs get AZ assigned to them based on specific AZ [4]
   - create_vm CPI call gets sum of AZ's cloud_properties and resource pool's cloud_properties
-* user can see deployment job VMs get IPs from AZ specific subnets of manual network
-* user can see deployment job VMs get IPs from AZ specific subnets of dynamic network
+  - take AZ hash merged resource pool hash on top
+* user can delete az and scale down instances at the same time and see that left over instances did not change AZs [4]
+  - for now gap in index will be introduced
+* user can see deployment job VMs get IPs from AZ specific subnets of manual network [4]
+  - only applied to automatic IPs (not static IPs)
+* user can specify subnets on dynamic network [4]
+  - currently dir will just pick first subnet
+  - shorter syntax should still work
+  - dns should continue work
+* user can specify availability zones for a dynamic network's subnets [2]
+  - error if availability zone referenced is not found
+  - keep available_zone key optional
+* user can see deployment job VMs get IPs from AZ specific subnets of dynamic network [2]
+
+
 
 ## TBD
 
