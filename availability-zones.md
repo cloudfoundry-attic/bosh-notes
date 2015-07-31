@@ -169,14 +169,6 @@ jobs:
 
 [see `az` label in Tracker for created stories]
 
-* spec.id (string) should be available in the job templates
-  - id is a uniquely picked identifier for all instances in the director
-  - id must not change for the duration of an instance
-* spec.bootstrap (bool) should be set to true in the job templates for exactly one instance in the cluster
-  - pick instance with 0th index
-* spec.bootstrap should be re-picked if one AZ is removed
-  - if job was in [z1, z2] and z1 is removed first instance of the z2 should be picked as bootstrap
-
 ## TBD
 
 * default AZ assigment
