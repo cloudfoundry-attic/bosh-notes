@@ -174,3 +174,4 @@ jobs:
 * default AZ assigment
 * index assignment per AZ?
 * striping of persistent disks during migration
+* should resurrector fall back to diff AZs for non-stateful nodes?
