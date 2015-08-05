@@ -20,3 +20,4 @@ Other:
 
 * [Compiled Releases](compiled-releases.md)
 * [Director UAA Integration](uaa.md)
+* [Deployment Resources shown in CLI](cli-deployment-resources.md)
