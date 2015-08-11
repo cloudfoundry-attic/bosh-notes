@@ -21,7 +21,7 @@ Presence of `--failing` flag results in only showing instances that do not have 
 `--ps` includes detailed process information for each one of the instances. State for the instance is an aggregate. State of each process will be pulled directly from monit.
 
 ```
-$ bosh instance --ps
+$ bosh instances --ps
 
 +------------------------------------+---------+----+---------------+-------------+
 | Instance                           | State   | AZ | Resource Pool | IPs         |
@@ -41,7 +41,7 @@ $ bosh instance --ps
 Presence of both `--ps` and `--failing` flags results in only showing instances and processes that do not have `running` state.
 
 ```
-$ bosh instance --ps --failing
+$ bosh instances --ps --failing
 
 +------------------------------------+------------------+---------------+-------------+
 | Instance                           | State            | Resource Pool | IPs         |
