@@ -83,7 +83,7 @@ jobs:
 
 ## CLI changes / Job Instance Indexing
 
-Currently job instances are referenced via `name/index`. With addition of AZs, some subset of deployment job instances are placed into one AZ and another subset is placed in another. When number of instances is scaled (either up or down), the Director should add/delete some number of instances to each AZ. Once new instances are added/deleted continious numeric indexing breaks down or becomes complicated. In addition to that user may increase/decreate number of AZs deployment job spans. 
+Currently job instances are referenced via `name/index`. With addition of AZs, some subset of deployment job instances are placed into one AZ and another subset is placed in another. When number of instances is scaled (either up or down), the Director should add/delete some number of instances to each AZ. Once new instances are added/deleted continious numeric indexing breaks down or becomes complicated. In addition to that user may increase/decrease number of AZs deployment job spans. 
 
 To make "naming" of deployment jobs easier across AZs, we can replace numeric indexing with unique id indexing. For example:
 
