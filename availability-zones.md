@@ -175,3 +175,4 @@ jobs:
 * index assignment per AZ?
 * striping of persistent disks during migration
 * should resurrector fall back to diff AZs for non-stateful nodes?
+* static ips ordering when spanning multiple AZs
