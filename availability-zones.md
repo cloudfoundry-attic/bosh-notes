@@ -83,7 +83,7 @@ jobs:
 
 ## CLI changes / Job Instance Indexing
 
-Currently job instances are referenced via `name/index`. With addition of AZs, some subset of deployment job instances are placed into one AZ and another subset is placed in another. When number of instances is scaled (either up or down), the Director should add/delete some number of instances to each AZ. Once new instances are added/deleted continious numeric indexing breaks down or becomes complicated. In addition to that user may increase/decrease number of AZs deployment job spans. 
+Currently job instances are referenced via `name/index`. With addition of AZs, some subset of deployment job instances are placed into one AZ and another subset is placed in another. When number of instances is scaled (either up or down), the Director should add/delete some number of instances to each AZ. Once new instances are added/deleted continious numeric indexing breaks down or becomes complicated. In addition to that user may increase/decrease number of AZs deployment job spans.
 
 To make "naming" of deployment jobs easier across AZs, we can replace numeric indexing with unique id indexing. For example:
 
@@ -168,6 +168,34 @@ jobs:
 ## Stories
 
 [see `az` label in Tracker for created stories]
+
+### ID vs Index
+
+- show job/id [index] in bosh vms
+- determine if we should allow shorthand format
+- support specifying id instead of index for getting details about specific vm
+  - used where?
+- user can change state of the vm when vm is referenced by id
+  - put '/:deployment/jobs/:job/:index'
+- user can fetch logs of the vm when vm is referenced by id
+  - get '/:deployment/jobs/:job/:index/logs'
+- user can list snapshots of the vm when vm is referenced by id
+  -  get '/:deployment/jobs/:job/:index/snapshots' do
+- user can set resurrection state of the vm when vm is referenced by id
+  - put '/:deployment/jobs/:job/:index/resurrection'
+- user can take a snapshot of the vm when vm is referenced by id
+  - post '/:deployment/jobs/:job/:index/snapshots'
+- user can cloudcheck and resolve problems when vms are referenced by ids
+  - put '/:deployment/scan_and_fix'
+- remove rename job functionality (which removes index reconcilation)
+- show inactive disk label with job/id [index]
+- user can use bosh ssh with job/id in addition to job/index
+- bosh cck should compare vms by id and index
+  - https://github.com/cloudfoundry/bosh/blob/master/bosh-director/lib/bosh/director/problem_scanner/vm_scan_stage.rb
+- out of sync detection should compare vms by id and index
+  - https://github.com/cloudfoundry/bosh/blob/master/bosh-director/lib/bosh/director/problem_handlers/out_of_sync_vm.rb
+- deprecate exposing index in a link (now?)
+- deprecate index (X months out)
 
 ## TBD
 
