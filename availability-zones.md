@@ -171,11 +171,14 @@ jobs:
 
 ### ID vs Index
 
-- show job/id [index] in bosh vms
+- show job/id in bosh vms
+- shw job/id while doing bosh deploy
+  - recreate, start, stop?
 - determine if we should allow shorthand format
 - support specifying id instead of index for getting details about specific vm
   - used where?
 - user can change state of the vm when vm is referenced by id
+  - start/stop?
   - put '/:deployment/jobs/:job/:index'
 - user can fetch logs of the vm when vm is referenced by id
   - get '/:deployment/jobs/:job/:index/logs'
