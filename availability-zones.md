@@ -194,6 +194,7 @@ jobs:
   - https://github.com/cloudfoundry/bosh/blob/master/bosh-director/lib/bosh/director/problem_scanner/vm_scan_stage.rb
 - out of sync detection should compare vms by id and index
   - https://github.com/cloudfoundry/bosh/blob/master/bosh-director/lib/bosh/director/problem_handlers/out_of_sync_vm.rb
+- bosh should add dns records with id for each instance
 - deprecate exposing index in a link (now?)
 - deprecate index (X months out)
 
