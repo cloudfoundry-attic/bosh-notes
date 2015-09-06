@@ -172,8 +172,10 @@ jobs:
 ### ID vs Index
 
 - show job/id in bosh vms
-- shw job/id while doing bosh deploy
+- show job/id while doing bosh deploy
   - recreate, start, stop?
+- include id in vm metadata
+  - via set_vm_metadata
 - determine if we should allow shorthand format
 - support specifying id instead of index for getting details about specific vm
   - used where?
