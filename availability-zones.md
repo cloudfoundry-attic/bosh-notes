@@ -171,37 +171,41 @@ jobs:
 
 ### ID vs Index
 
-- show job/id in bosh vms
-- show job/id while doing bosh deploy
+- show job/id while doing bosh deploy (2)
   - recreate, start, stop?
-- include id in vm metadata
+- include id in vm metadata (1)
   - via set_vm_metadata
+  - stll include index
 - determine if we should allow shorthand format
 - support specifying id instead of index for getting details about specific vm
   - used where?
-- user can change state of the vm when vm is referenced by id
+- user can change state of the vm when vm is referenced by id (2)
   - start/stop?
   - put '/:deployment/jobs/:job/:index'
-- user can fetch logs of the vm when vm is referenced by id
+  - convert index to id
+  - if id is not found, raise an error
+- user can fetch logs of the vm when vm is referenced by id (2)
   - get '/:deployment/jobs/:job/:index/logs'
-- user can list snapshots of the vm when vm is referenced by id
+- user can list snapshots of the vm when vm is referenced by id (1)
   -  get '/:deployment/jobs/:job/:index/snapshots' do
-- user can set resurrection state of the vm when vm is referenced by id
+- user can set resurrection state of the vm when vm is referenced by id (1)
   - put '/:deployment/jobs/:job/:index/resurrection'
-- user can take a snapshot of the vm when vm is referenced by id
+- user can take a snapshot of the vm when vm is referenced by id (1)
   - post '/:deployment/jobs/:job/:index/snapshots'
-- user can cloudcheck and resolve problems when vms are referenced by ids
+- user can cloudcheck and resolve problems when vms are referenced by ids (1)
   - put '/:deployment/scan_and_fix'
-- remove rename job functionality (which removes index reconcilation)
-- show inactive disk label with job/id [index]
-- user can use bosh ssh with job/id in addition to job/index
-- bosh cck should compare vms by id and index
+- user can use bosh ssh with job/id in addition to job/index (1)
+- remove rename job functionality (which removes index reconcilation) (1)
+  - cli command
+  - director support
+- show inactive disk label with "job/id (index)" (1)
+- bosh cck should compare vms by id and index for out of sync problem (2)
   - https://github.com/cloudfoundry/bosh/blob/master/bosh-director/lib/bosh/director/problem_scanner/vm_scan_stage.rb
-- out of sync detection should compare vms by id and index
   - https://github.com/cloudfoundry/bosh/blob/master/bosh-director/lib/bosh/director/problem_handlers/out_of_sync_vm.rb
-- bosh should add dns records with id for each instance
-- deprecate exposing index in a link (now?)
+  - check by index if id is not available from the agent
+- deprecate exposing index in a link (now?) (1)
 - deprecate index (X months out)
+- depreacte release fixing on upload release
 
 ## TBD
 
