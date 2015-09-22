@@ -16,7 +16,7 @@ networks:
     cloud_properties: {subnet_id: subnet-27rh}
 
 resource_pools:
-- name: my-vms
+- name: small
   stemcell:
   	name: bosh-aws-xen-ubuntu-trusty
   	version: 2889
@@ -26,7 +26,7 @@ resource_pools:
   	instance_type: m1.small
 
 disk_pools:
-- name: my-disks
+- name: small
   disk_size: 10_000
   cloud_properties: {type: gp2}
 
@@ -41,8 +41,8 @@ jobs:
   instances: 1
   templates:
   - name: web
-  resource_pool: my-vms
-  persistent_disk_pool: my-disks
+  resource_pool: small
+  persistent_disk_pool: small
   networks:
   - name: my-net
 ```
@@ -58,18 +58,14 @@ networks:
     gateway: 10.0.0.1
     cloud_properties: {subnet_id: subnet-27rh}
 
-resource_pools:
-- name: my-vms
-  stemcell:
-  	name: bosh-aws-xen-ubuntu-trusty
-  	version: 2889
-  network: my-net
+vm_types:
+- name: small
   cloud_properties:
   	availability_zone: us-east-1a
   	instance_type: m1.small
 
-disk_pools:
-- name: my-disks
+disk_type:
+- name: small
   disk_size: 10_000
   cloud_properties: {type: gp2}
 
@@ -96,13 +92,22 @@ Since IaaS configuration is in a separate file, deployment manifest will only in
 ```yaml
 name: my-deployment
 
+releases:
+- {name: web, version: 20}
+
+stemcells:
+- alias: default
+  os: ubuntu-trusty
+  version: 3072
+
 jobs:
 - name: web
   instances: 1
   templates:
-  - name: web
-  resource_pool: my-vms
-  persistent_disk_pool: my-disks
+  - {name: web, release: web}
+  vm_type: small
+  stemcell: default
+  persistent_disk_type: small
   networks:
   - name: my-net
 ```
@@ -117,9 +122,47 @@ $ bosh deployment ./my-deployment.yml
 $ bosh deploy
 ```
 
+## Stemcells
+
+Stemcell is picked automatically based on an OS and version provided. If none of the uploaded stemcells match, error is raised during a deploy.
+
+```yaml
+stemcells:
+- alias: default
+  os: ubuntu-trusty
+  version: 3074
+```
+
+You can specify `name` instead of an OS for an exact stemcell match:
+
+```yaml
+stemcells:
+- alias: default
+  name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
+  version: 3074
+```
+
 ## Stories
 
 [see `cloud-config` label in Tracker for created stories]
+
+- user can specify disk_pools as disk_types
+  - keep supporting disk_pools
+  - persistent_disk_pool on a job can be specified as persistent_disk_type
+- user can specify stemcells in deployment manifest with a unique alias
+  - error if alias is duplicate
+  - required: alias, version, os|name
+- user can see error message if os/version combo does not match uploaded stemcell
+  - pick first stemcell just like during export release
+- user can specify exact stemcell name to match
+  - error if name/version does not match uploaded stemcell
+- user can use version=latest in stemcells section
+  - resolved in CLI just like for releases
+- user can specify vm_types+stemcells instead of resource_pools
+  - keep supporting resource_pools
+  - vm_types in cloud_config
+  - stemcells in deployment manifest
+- VMs should be recreated if either stemcell or vm_type changes
 
 ## TBD
 
@@ -129,3 +172,4 @@ $ bosh deploy
 * clean up old cloud config (rollback?)
 * extract stemcell info from resource pool
 * show diff before deploying
+* use vm_type for compilation
