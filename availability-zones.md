@@ -169,7 +169,8 @@ jobs:
 
 [see `az` label in Tracker for created stories]
 
-- dynamic/static subnets can belong to multiple availability zones
+- dynamic/static subnets can belong to multiple azs
+- specifying static ips on a job spanning multiple azs should reflect on placement of instances into azs
 
 ### ID vs Index
 
