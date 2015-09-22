@@ -169,6 +169,8 @@ jobs:
 
 [see `az` label in Tracker for created stories]
 
+- dynamic/static subnets can belong to multiple availability zones
+
 ### ID vs Index
 
 - show job/id while doing bosh deploy (2)
