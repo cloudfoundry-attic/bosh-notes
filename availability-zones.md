@@ -169,44 +169,11 @@ jobs:
 
 [see `az` label in Tracker for created stories]
 
-- dynamic/static subnets can belong to multiple azs
-- specifying static ips on a job spanning multiple azs should reflect on placement of instances into azs
-
 ### ID vs Index
 
-- show job/id while doing bosh deploy (2)
-  - recreate, start, stop?
-- include id in vm metadata (1)
-  - via set_vm_metadata
-  - stll include index
 - determine if we should allow shorthand format
 - support specifying id instead of index for getting details about specific vm
   - used where?
-- user can change state of the vm when vm is referenced by id (2)
-  - start/stop?
-  - put '/:deployment/jobs/:job/:index'
-  - convert index to id
-  - if id is not found, raise an error
-- user can fetch logs of the vm when vm is referenced by id (2)
-  - get '/:deployment/jobs/:job/:index/logs'
-- user can list snapshots of the vm when vm is referenced by id (1)
-  -  get '/:deployment/jobs/:job/:index/snapshots' do
-- user can set resurrection state of the vm when vm is referenced by id (1)
-  - put '/:deployment/jobs/:job/:index/resurrection'
-- user can take a snapshot of the vm when vm is referenced by id (1)
-  - post '/:deployment/jobs/:job/:index/snapshots'
-- user can cloudcheck and resolve problems when vms are referenced by ids (1)
-  - put '/:deployment/scan_and_fix'
-- user can use bosh ssh with job/id in addition to job/index (1)
-- remove rename job functionality (which removes index reconcilation) (1)
-  - cli command
-  - director support
-- show inactive disk label with "job/id (index)" (1)
-- bosh cck should compare vms by id and index for out of sync problem (2)
-  - https://github.com/cloudfoundry/bosh/blob/master/bosh-director/lib/bosh/director/problem_scanner/vm_scan_stage.rb
-  - https://github.com/cloudfoundry/bosh/blob/master/bosh-director/lib/bosh/director/problem_handlers/out_of_sync_vm.rb
-  - check by index if id is not available from the agent
-- deprecate exposing index in a link (now?) (1)
 - deprecate index (X months out)
 - depreacte release fixing on upload release
 
