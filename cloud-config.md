@@ -24,6 +24,9 @@ resource_pools:
   cloud_properties:
   	availability_zone: us-east-1a
   	instance_type: m1.small
+  env:
+    bosh:
+      password: ...
 
 disk_pools:
 - name: small
