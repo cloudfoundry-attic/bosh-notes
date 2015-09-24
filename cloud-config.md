@@ -64,7 +64,7 @@ vm_types:
   	availability_zone: us-east-1a
   	instance_type: m1.small
 
-disk_type:
+disk_types:
 - name: small
   disk_size: 10_000
   cloud_properties: {type: gp2}
@@ -146,23 +146,32 @@ stemcells:
 
 [see `cloud-config` label in Tracker for created stories]
 
-- user can specify disk_pools as disk_types
+- user can specify disk_pools as disk_types (2)
   - keep supporting disk_pools
   - persistent_disk_pool on a job can be specified as persistent_disk_type
-- user can specify stemcells in deployment manifest with a unique alias
+- user can specify stemcells in deployment manifest with a unique alias (2)
   - error if alias is duplicate
   - required: alias, version, os|name
-- user can see error message if os/version combo does not match uploaded stemcell
+- user can see error message if os/version combo does not match any uploaded stemcell (2)
   - pick first stemcell just like during export release
-- user can specify exact stemcell name to match
+  - during bosh deploy (in binding stemcells stage)
+- user can specify exact stemcell name to match (2)
   - error if name/version does not match uploaded stemcell
-- user can use version=latest in stemcells section
+- user can use version=latest in stemcells section (4)
   - resolved in CLI just like for releases
-- user can specify vm_types+stemcells instead of resource_pools
-  - keep supporting resource_pools
-  - vm_types in cloud_config
-  - stemcells in deployment manifest
-- VMs should be recreated if either stemcell or vm_type changes
+- user can specify vm_types in cloud config (1)
+  - error if name is duplicate
+  - cloud_properties is optional
+- user can specify vm_type+stemcell instead of resource_pool on job (2)
+  - keep supporting resource_pool
+  - vm_types+stemcell must be found
+- user can only specify either resource_pools or vm_types+stemcells (1)
+  - existence of a resource pool in cloud-config or dep man should raise an error when vm_types/stemcells are specified
+- VMs should be recreated if either stemcell or vm_type changes (4)
+  - for vm_types rely on cloud_properties (if names change, do not do anything)
+  - if stemcell changes
+  - switching between stemcell name vs os should not recreate if stemcell is the same
+  - transition between res_pool -> vm_type/stemcell may result in recreation
 
 ## TBD
 
