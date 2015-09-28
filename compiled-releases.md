@@ -1,4 +1,4 @@
-# Compiled Releases
+# Compiled Releases [FINISHED]
 
 Currently a release consists of two parts: jobs and packages. Each job contains all the necessary metadata on how to start, stop, configure a process. Each package contains all the necessary *source code* needed to compile binaries and/or prepare source code to be used for running the process.
 

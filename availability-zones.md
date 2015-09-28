@@ -1,4 +1,4 @@
-# Availability Zones
+# Availability Zones [IN PROGRESS]
 
 Currently to have a single deployment job span multiple AZs, one has to create multiple resource pools with slightly different cloud properties and also create multiple deployment jobs with slightly different names (e.g. web_z1, web_z2). Current approach works; however, it does introduce extra complexity in the deployment manifest which is not ideal for service brokers to deal when creating a deployment manifest.
 

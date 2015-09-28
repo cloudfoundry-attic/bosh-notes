@@ -1,4 +1,4 @@
-# Links
+# Links [IN PROGRESS]
 
 To configure non-simplistic deployment where at least one deployment job knows about another, operators have to either assign static IPs or DNS names to one job and pass it via properties to the other. This configuration is error-prone and unnecessary. It is also hard to automate for the case of service brokers creating deployments on demand.
 
@@ -34,7 +34,7 @@ name: node
 
 requires: [data-node]
 
-provides: 
+provides:
 - name: data-node
   properties:
   - admin_user

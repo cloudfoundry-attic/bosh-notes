@@ -1,4 +1,4 @@
-## Dynamic Provisioning (for Services)
+## Dynamic Provisioning (for Services) [IN PROGRESS]
 
 Many CF service teams have requested for an easier way to provision dedicated service instances on demand. For example when developer issues `cf create-service mysql` command with certain configuration, they want to get access to a dedicated MySQL instance. Proposed way to implement such behavior is to have a service broker request a new deployment from the BOSH Director and wait for the Director to deploy required software with requested configuration. People have tried and succeeded created a service broker that does this before; however, IP allocation, AZ and job configuration, and few other problems make it hard for a service broker to build a deployment manifest.
 
