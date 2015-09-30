@@ -174,3 +174,7 @@ $ bosh disks
 | api/qt45k  | vol-dc2bla | 10gb | yes      | yes    |
 +------------+------------+------+----------+--------+
 ```
+
+## TBD
+
+- should bosh disks do what bosh vms does (go through each deployment)
