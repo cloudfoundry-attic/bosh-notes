@@ -54,7 +54,37 @@ The Director will garbage collect orphaned disks after 5 days by default (config
 
 ## Stories
 
--
+- user sees that persistent disks are not deleted during bosh deploy
+  - can check in iaas that disks are still there
+  - no delete_disk cpi call should be made
+- user can list orphaned disk
+  - bosh disks --orphaned
+  - disks that were not deleted should be in this list
+  - show disk cid, size, deployment, instance, orphaned at
+  - only admin
+- user can run attach disk to attach a disk an existing instance
+  - stop, drain, detach, attach, pre-start, start flow for chosen instance
+  - orphan previous attached disk
+  - unorphan attached disk
+  - allow to attach disk that is in the IaaS but is not in the orphaned list
+  - in a deployment context
+  - only admin
+- user can run delete disk command
+  - only allow deleting disks in the orphaned list
+  - not in a deployment context
+  - only admin
+- user can cleanup all orphaned disks by running a command
+  - should not remove disks that are being orphaned as command runs
+  - delete in parallel
+  - only admin
+- user sees that orphaned disks are deleted after 5 days regularly
+  - add `director.disks.max_orphaned_age_in_days` configurable as a director property in days
+    - default to 5 days
+    - allow 0 days to delete asap
+  - add `director.disks.cleanup_interval` configurable as a director property (cron format)
+    - we have other interval; let's keep them consistent
+    - default to 30min
+- when attaching a disk to an instance raise an error if instance is not meant to have a persistent disk
 
 ## TBD
 
