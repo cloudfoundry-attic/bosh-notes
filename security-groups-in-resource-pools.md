@@ -89,10 +89,14 @@ jobs:
 ```
 
 # Stories
-- user can specify `security_groups` array in `resource_pool.cloud_properties`
+- user can specify `security_groups` array in `resource_pool.cloud_properties` (4)
 	- if security_groups are in networks and resource_pools, blow up
 	- security_groups from resource_pool are used during create_vm, if specified
 	- old manifests should continue to work: if there are no security_groups on the resource_pool, get them from the network
   - don't change anything in regards to default security groups
-- user can update vm network settings, and security_groups stay the same on the vm
-  - hard, because `configure_networks` currently checks if security groups have changed compared to the current VM configuration
+- user can update vm network settings, and security_groups stay the same on the vm (2)
+  - `configure_networks` currently checks if security groups have changed compared to the current VM configuration
+  - introduce new configuration property for the CPI to use security groups on resource_pools.
+  - if new property is set, don't diff the security groups on `configure_networks`
+- exploration: how often is `configure_networks` even done?
+  - The only use-case seems to be to change Floating IP attachment. Can we afford just to drop support for re-configuring Floating IPs on running VMs and just have them re-created instead?
