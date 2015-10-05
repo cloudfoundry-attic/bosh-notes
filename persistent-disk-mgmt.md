@@ -8,7 +8,6 @@ Currently persistent disks are deleted upon instance deletion which happens when
 $ bosh deploy
 
 # Shows the diff showing that job will be deleted
-
 ```
 
 Deploy command will no longer delete persistent disks but rather mark them orphaned. Disks should be marked as orphaned when:
