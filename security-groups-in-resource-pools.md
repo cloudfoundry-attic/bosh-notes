@@ -89,6 +89,7 @@ jobs:
 ```
 
 # Stories
+
 - user can specify `security_groups` array in `resource_pool.cloud_properties` (4)
 	- if security_groups are in networks and resource_pools, blow up
 	- security_groups from resource_pool are used during create_vm, if specified
