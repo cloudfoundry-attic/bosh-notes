@@ -18,9 +18,13 @@ Developer workflow:
 
 Other:
 
-* [Compiled Releases](compiled-releases.md)
-* [Director UAA Integration](uaa.md)
 * [Deployment Resources shown in CLI](cli-deployment-resources.md)
 * [Asset Fetching](asset-fetching.md)
 * [Deployment Naming](deployment-naming.md)
 * [To Be Deprecated](to-be-deprecated.md)
+
+Finished:
+
+* [Compiled Releases](finished/compiled-releases.md)
+* [Director UAA Integration](finished/uaa.md)
+* [Security Groups in Resource Pools](finished/security-groups-in-resource-pools.md)

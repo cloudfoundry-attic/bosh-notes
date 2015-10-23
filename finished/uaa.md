@@ -1,4 +1,4 @@
-# Director UAA Integration
+# Director UAA Integration [FINISHED]
 
 Director authentication and authorization can be configured in two different ways: with and without [UAA](https://github.com/cloudfoundry/uaa). Non-UAA mode is used to provide an extremely simple, built-in way of authenticating. UAA mode is used for more rich, interactive configuration i.e. local dynamic users, LDAP integration, password, lockout policies, etc.
 

@@ -1,4 +1,5 @@
-# Security Groups on resource pools instead of networks
+# Security Groups on resource pools instead of networks [FINISHED]
+
 Allows having machines in the same network, but with different incoming/outgoing rules. Example: only the runners/DEAs of a CF deployment should be able to access some service VMs in a different network.
 
 Right now, security group configuration work on the `network` property. To have two jobs in the same network but with different security groups, you'd have to define two networks, like this:
