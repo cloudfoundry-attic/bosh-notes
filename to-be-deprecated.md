@@ -5,3 +5,4 @@
   - remove users database table
 - `template` key on deployment job
 - old-style dev version suffix in Bosh::Common::Version::ReleaseVersion
+- `prepare_network_change`, `configure_networks`, `prepare_configure_networks` from agent actions
