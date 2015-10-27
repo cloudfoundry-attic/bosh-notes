@@ -4,3 +4,4 @@
 - `bosh create/delete user` CLI commands
   - remove users database table
 - `template` key on deployment job
+- old-style dev version suffix in Bosh::Common::Version::ReleaseVersion
