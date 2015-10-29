@@ -14,6 +14,7 @@ The CPI used to get and set settings in the registry. To remove the registry the
 The following API methods read from and write to the registry and need to be adapted:
 
 - `create_vm`
+- `set_vm_metadata`
 - `configure_networks`
 - `attach_disk`
 - `detach_disk`
@@ -28,6 +29,8 @@ resource_pool_properties [Hash]: Cloud properties hash specified in the deployme
 - networks_settings [Hash]: Networks hash that specifies which VM networks must be configured.
 - disk_cids [Array of strings] Array of disk cloud IDs for each disk that created VM will most likely be attached; they could be used to optimize VM placement so that disks are located nearby.
 - environment [Hash]: Resource pool’s env hash specified in deployment manifest.
+- metadata [Hash]: VM metadata
+
 Example
 
 Note: CPIs and the Director will duplicate code (simple merge) for merging agent_bootstrap_settings + network_settings + disk_settings.
@@ -59,7 +62,8 @@ Note: CPIs and the Director will duplicate code (simple merge) for merging agent
         }
     },
     [ "vol-3475945" ],
-    {}
+    {},
+    { "name": "job/1m834jkn2", "id": "1m834jkn2" }
 ]
 ```
 
@@ -94,6 +98,12 @@ Returned
     }
 ]
 ```
+
+## set_vm_metadata
+
+Remove this method entirely from the API.
+
+Note: create_vm will accept metadata for the VM created.
 
 ## configure_networks(server_id, network_agent_settings)
 
@@ -155,3 +165,8 @@ Returned
 - some parts of the agent_settings are only modified by the CPI and therefore never passed in, only returned: disk_settings, ???
 - some parts are only modified by the director and therefore never returned from the CPI: cert&key settings,
 - some parts are only passed from director to agent, without the CPI knowing about them: ntp settings, blobstore, env
+
+# TBD
+
+- arguments format (positional vs keyed)
+- rename "vm" to "machine"
