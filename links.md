@@ -191,3 +191,4 @@ Link information contains following:
 - validation of exposed properties on the link
 - optionality of link requires
 - do jobs with 0 instances provide empty nodes?
+- metron style linking (each instance point to local metron)
