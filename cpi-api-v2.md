@@ -18,6 +18,7 @@ The following API methods read from and write to the registry and need to be ada
 - `configure_networks`
 - `attach_disk`
 - `detach_disk`
+- `current_vm_id`
 
 ## create_vm(...)
 
@@ -157,6 +158,10 @@ Returned
 }
 ```
 
+## current_vm_id
+
+Remove this method entirely from the API.
+
 # Modifications to agent_settings
 
 - add SSL certificates and rootCA chain
@@ -170,3 +175,4 @@ Returned
 
 - arguments format (positional vs keyed)
 - rename "vm" to "machine"
+- make disk snapshot methods naming more consistent
