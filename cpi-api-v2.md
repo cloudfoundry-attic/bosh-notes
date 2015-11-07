@@ -176,5 +176,6 @@ Remove this method entirely from the API.
 - arguments format (positional vs keyed)
 - rename "vm" to "machine"
 - make disk snapshot methods naming more consistent
+  - create_snapshot, delete_snapshot, restore_snapshot
 - consider director handling registry updates???
   - cpi returns info about server keys
