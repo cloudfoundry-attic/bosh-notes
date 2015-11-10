@@ -177,5 +177,10 @@ Remove this method entirely from the API.
 - rename "vm" to "machine"
 - make disk snapshot methods naming more consistent
   - create_snapshot, delete_snapshot, restore_snapshot
+  - decide what to do about Director making it safe to create snapshot (e.g stopping running jobs)
 - consider director handling registry updates???
   - cpi returns info about server keys
+  - cpi has explicit `update_machine_settings` method which handles registry updates for agents which cannot
+    be updated directly by Director. Registry updates move out of all other CPI methods.
+- how to handle CPI version info
+- addition of an `import_stemcell` command to create light stemcells with the CPI
