@@ -7,10 +7,12 @@ Backup:
 
 Restore:
 * create snapshot (to have a point to jump back to)
-* `monit stop` the process
+* `monit stop` all data nodes to prevent election of a new leader when the master goes down
+* `monit stop` the leader node
 * Create disk from snapshot
 * Attach disk to job and replace current disk (or copy contents, whatever is easier)
-* `monit start` the process
+* `monit start` the leader node
+* `monit start` all data nodes
 
 ## Command Workflow
 
@@ -62,7 +64,9 @@ pro replace:
 * ???
 
 ## TBD
-* Main challenge: finding the appropriate snapshot for a point in time. If e.g. the `redis_leader_z1` went down at some point in time, one of the `redis_data_z1` nodes might have been elected leader. This should be the disk you want to restore a master node with!
+* Main challenge: Finding out which instance is 'leader' and which instances are 'data'. This is service-specific knowledge, so bosh probably can't help you here.
+  * In which order should instances be brought down and then up again?
+  * Which snapshot is the one you want to restore? If e.g. the `redis_leader_z1` went down at some point in time, one of the `redis_data_z1` nodes might have been elected leader. This should be the disk you want to restore a master node with!
 * Annotations for snapshots? E.g. triggered manually, triggered before deploy, triggered by cron, triggered before restore.
 * What about processes that keep a bunch of state in memory. Do we need to call the `drain` script before taking an IaaS snapshot? Currently this is only guaranteed for snapshots taken before a `bosh deploy`
 * Are there services which need to call a script to import state written to disk by the `drain` script? Should this go into `pre_start` or is this something different?
