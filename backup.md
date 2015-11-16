@@ -45,6 +45,13 @@ $ bosh stop redis_data_z1 4
 $ bosh stop redis_leader_z1 0
 $ bosh restore snapshot redis_leader_z1/0 fb2fce2f-bc73-4798-95fb-50c4acf3927e
 
+# optional: restore the same snapshot for all other nodes as well, if your service allows for it.
+$ bosh restore snapshot redis_data_z1/0 fb2fce2f-bc73-4798-95fb-50c4acf3927e
+$ bosh restore snapshot redis_data_z1/1 fb2fce2f-bc73-4798-95fb-50c4acf3927e
+$ bosh restore snapshot redis_data_z1/2 fb2fce2f-bc73-4798-95fb-50c4acf3927e
+$ bosh restore snapshot redis_data_z1/3 fb2fce2f-bc73-4798-95fb-50c4acf3927e
+$ bosh restore snapshot redis_data_z1/4 fb2fce2f-bc73-4798-95fb-50c4acf3927e
+
 $ bosh start redis_leader_z1 0
 $ bosh start redis_data_z1 0
 ...
@@ -64,11 +71,14 @@ pro replace:
 * ???
 
 ## TBD
-* Main challenge: Finding out which instance is 'leader' and which instances are 'data'. This is service-specific knowledge, so bosh probably can't help you here.
+* Main challenges which seem to be service-specific knowledge, so bosh probably can't help you here:
+  * Finding out which instance is 'leader' and which instances are 'data'.
   * In which order should instances be brought down and then up again?
   * Which snapshot is the one you want to restore? If e.g. the `redis_leader_z1` went down at some point in time, one of the `redis_data_z1` nodes might have been elected leader. This should be the disk you want to restore a master node with!
+  * On how many nodes do you want to restore?
 * Annotations for snapshots? E.g. triggered manually, triggered before deploy, triggered by cron, triggered before restore.
-* What about processes that keep a bunch of state in memory. Do we need to call the `drain` script before taking an IaaS snapshot? Currently this is only guaranteed for snapshots taken before a `bosh deploy`
+* IaaSes have quota for snapshots. Do we just fail or have some kind of 'logrotate' style or rotating snapshots?
+* What about processes that keep a bunch of state in memory. Do we need to call the `drain` script before taking an IaaS snapshot? Currently this is only guaranteed for snapshots taken before a `bosh deploy`. Or do we just lose some more data?
 * Are there services which need to call a script to import state written to disk by the `drain` script? Should this go into `pre_start` or is this something different?
 * Snapshots are no backup, it's just a means to jump back in time! If your disk goes belly-up the snapshots are worthless. Can/should we trigger a real backup for that disk as well? (e.g. cinder `backup-create`)
 * Are there services which need the replicas in a consistent state? Do we need something like consistent snapshots across VMs, as e.g. provided by `cinder cg-snapshot` which snapshots disks at the same time?
