@@ -30,39 +30,40 @@ Process: Actual implementation of a Job. One or more processes may be needed to 
 
 ## Alternatives
 
+- cluster and node
+- cluster and machine
 - group and member
-	- con: not necessarily specific? groups of what?
+  - con: not necessarily specific? groups of what?
 - service and instance
-	- con: job groupings do not represent logical groups but rather machine locations
-- machine_groups and machine
+  - con: job groupings do not represent logical groups but rather machine locations
 
 ## Example Manifest
 
 ```yaml
 releases:
 - name: loggregator
-	version: latest
+  version: latest
 - name: web
-	version: latest
+  version: latest
 - name: postgres
-	version: latest
+  version: latest
 
 stemcells:
 - alias: default
-	os: ubuntu-trusty
-	version: latest
+  os: ubuntu-trusty
+  version: latest
 
-groups:
+clusters:
 - name: db
-	members: 1
-	stemcell: default
+  nodes: 1
+  stemcell: default
   vm_type: default
   persistent_disk_type: small
   jobs:
   - {name: postgres, release: postgres}
   - {name: metron_agent, release: loggregator}
 - name: web
-	members: 1
+  nodes: 1
   stemcell: default
   vm_type: default
   jobs:
