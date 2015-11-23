@@ -1,6 +1,6 @@
-# Layers* [PLANNING]
+# Addons* [PLANNING]
 
-* Name to be changed
+* Name suggestions welcome
 
 Majority of operators want to make sure that *all* VMs that BOSH creates and starts have some software installed.
 
@@ -18,14 +18,13 @@ Here are few examples of such software:
 
 ## Proposal
 
-Define a separate configuration file e.g. `layers.yml`:
+Define a separate configuration file e.g. `config.yml`:
 
-```
-$ cat ./layers.yml
+```yaml
 releases:
 - {name: ipsec, version: latest}
 
-layers:
+addons:
 - name: ipsec
   tags:
     include_on: all
@@ -43,11 +42,14 @@ layers:
       syslog_drain: 0.public.syslog_ingestor.logsearch_release
       # resolves to something like this. Can links do ports as well?!?
       # syslog_drain: 155.234.155.234:5514
+```
 
-$ bosh update layers ./layers.yml
-
+```
+$ bosh update config ./config.yml
 $ bosh deploy my-redis-cluster-v1.yml
 ```
+
+Note: This is somewhat similar to `update cloud-config` command but in this case config contains generic properties.
 
 Given above configuration the following jobs will be colocated on all your VMs including redis VMs:
 
@@ -55,15 +57,19 @@ Given above configuration the following jobs will be colocated on all your VMs i
 - ipsec_agent
 - ipsec_openswan
 
-## Links
+## Resolutions
+
+When release versions are resolved:
+
+- when running update config command
 
 When links are resolved:
 
-- when updating layers.yml
+- when updating config command
   - problem with bootstrapping?
-  - updating: update logsearch, update layers.yml, update all other deployments.
+  - updating: update logsearch, update config.yml, update all other deployments.
 - when deploying
- - updating: update logsearch, update all other deployments (just like normal links)
+  - updating: update logsearch, update all other deployments (just like normal links)
 
 # TBD
 
