@@ -27,3 +27,44 @@ Member: Part of a pool doing a specific thing. Each instance in a cluster is con
 Job: Represents a specific thing to do on an Member. Could be placed with other jobs on a instance to cooperate. Typically is long running.
 
 Process: Actual implementation of a Job. One or more processes may be needed to perform a Job. Processes are monitored and restarted.
+
+## Alternatives
+
+- group and member
+	- con: not necessarily specific? groups of what?
+- service and instance
+	- con: job groupings do not represent logical groups but rather machine locations
+
+## Example Manifest
+
+```yaml
+releases:
+- name: loggregator
+	version: latest
+- name: web
+	version: latest
+- name: postgres
+	version: latest
+
+stemcells:
+- alias: default
+	os: ubuntu-trusty
+	version: latest
+
+groups:
+- name: db
+	members: 1
+	stemcell: default
+  vm_type: default
+  persistent_disk_type: small
+  jobs:
+  - {name: postgres, release: postgres}
+  - {name: metron_agent, release: loggregator}
+- name: web
+	members: 1
+  stemcell: default
+  vm_type: default
+  jobs:
+  - {name: web, release: web}
+  - {name: metron_agent, release: loggregator}
+```
