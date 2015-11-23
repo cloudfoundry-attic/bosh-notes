@@ -8,6 +8,7 @@ Links provide a solution to the above problem and abstract away manual vs dynami
 
 From the operator perspective introduction of links removes tedious cross-referencing of IPs and in future other properties.
 
+---
 ## Changes to Releases
 
 To take advantage of links in releases, extra metadata needs to be specified: `requires` and `provides` directives. Each deployment job that needs information about another job has to specify `requires` with the name of the link type it requires. Each deployment job that can satisfy link type has to specify `provides`. For example, in the MySQL release:
@@ -16,15 +17,21 @@ MySQL proxy job `spec`:
 
 ```yaml
 name: proxy
-requires: [data-node]
+
+requires:
+- {name: data-node, type: data-node}
 ```
 
 MySQL node job `spec`:
 
 ```yaml
 name: node
-requires: [data-node]
-provides: [data-node]
+
+requires:
+- {name: data-node, type: data-node}
+
+provides:
+- {name: data-node, type: data-node}
 ```
 
 OR
@@ -32,10 +39,12 @@ OR
 ```yaml
 name: node
 
-requires: [data-node]
+requires:
+- {name: data-node, type: data-node}
 
 provides:
 - name: data-node
+	type: data-node
   properties:
   - admin_user
   - admin_password
@@ -47,11 +56,11 @@ Proxy job requires information about all nodes and each node job provides it. Al
 To access information provided by the link, release author would modify their ERB template. For example MySQL proxy job may do the following:
 
 ```yaml
-nodes: <%= p("data-node.nodes") %> # todo pick out IPs in a network?
+nodes: <%= link("data-node").nodes %> # todo pick out IPs in a network?
 
 # Link provided properties can be access like before: p, if_p, etc.
-admin_user: <%= p("data-node.admin_user") %>
-public_key: <%= p("data-node.public_key") %>
+admin_user: <%= link("data-node").p("admin_user") %>
+public_key: <%= link("data-node").p("public_key") %>
 ```
 
 Link information contains following:
@@ -62,21 +71,17 @@ Link information contains following:
 		# For each one of the deployment job instances
 		{
 			"name": "data-node",
+			"id": "4c213d80-05c1-429f-996f-8911854991a0",
 			"index": 0,
-			"availability_zone": "z1",
-			"networks": {
-				"private": { "address": "10.0.0.44" || "0.private.data-node.deployment" || "IPv6" },
-				"external": { "address": "56.34.78.101" || "0.external.data-node.deployment" || "IPv6" }
-			}
+			"az": "z1",
+			"address": "10.0.0.44" || "0.private.data-node.deployment" || "IPv6"
 		},
 		{
 			"name": "data-node",
+			"id": "76009006-20c7-4cc0-b17d-134cf61226d2",
 			"index": 1,
-			"availability_zone": "z1",
-			"networks": {
-				"private": { "address": "10.0.0.45" || "1.private.data-node.deployment" || "IPv6" },
-				"external": { "address": "101.34.78.10" || "1.external.data-node.deployment" || "IPv6" }
-			}
+			"az": "z1",
+			"address": "10.0.0.45" || "1.private.data-node.deployment" || "IPv6"
 		}
 	],
 
@@ -88,6 +93,66 @@ Link information contains following:
 }
 ```
 
+### Per-instance Links
+
+Certain jobs expected to be colocated and the link information should only provide information about colocated jobs.
+
+Given release configuration:
+
+metron job `spec`:
+
+```yaml
+name: metron
+
+provides:
+- {name: metron, type: metron}
+```
+
+MySQL node job `spec`:
+
+```yaml
+name: node
+
+requires:
+- name: metron
+	type: metron
+	colocated: true
+```
+
+And deployment manifest:
+
+```yaml
+jobs:
+- name: node
+  templates:
+  - name: node
+    release: cf-mysql
+    links: {metron: node.metron.mentron}
+ 	- name: metron
+    release: loggregator
+```
+
+metron link information will contain following:
+
+```yaml
+{
+	"node": {
+		"name": "data-node",
+		"id": "bc82e8f9-3fcb-4728-a7d3-cfb3e6d94124",
+		"index": 0,
+		"az": "z1",
+		"address": "10.0.0.44" || "0.private.data-node.deployment" || "IPv6"
+	},
+
+	"properties": {
+		"admin_user": "admin-user",
+		"admin_password": "some-secret",
+		"public_key": "..."
+	}
+}
+```
+
+---
 ## Changes to Deployment Manifests
 
 ### Link Resolution
@@ -102,7 +167,8 @@ Link information contains following:
 	  templates:
 	  - name: node
 	    release: cf-mysql
-	    links: {nats: nats.nats} # ambigious cf's nats vs nats' natds job
+	    # ambigious cf's nats vs nats' natds job
+	    links: {nats: nats.nats}
 
 	- name: nats
 	  templates:
@@ -126,13 +192,14 @@ Link information contains following:
 
 	```yaml
 	name: mysql-server
-	provides: [db]
+	provides:
+	- {name: db, type: db}
 	```
 
 	And to use link by name:
 
 	```yaml
-	primary_db: <%= p("primary_db.nodes") %>
+	primary_db: <%= link("primary_db").nodes %>
 	```
 
 - links between deployments
@@ -170,11 +237,40 @@ Link information contains following:
 
 - links that only require access to a single collocated deployment job
 
+### Address Resolution
+
+- nodes are on a single network
+
+	Since there is only one network, it's chosen as a default.
+
+  ```yaml
+	jobs:
+	- name: node
+	  templates:
+	  - name: node
+	    release: cf-mysql
+	    links: {nats: nats.nats}
+	```
+
+- nodes are on multiple networks
+
+	Consumer of the link picks which network to use for addresses. If network identifier is not specified error should be raised to indicate that multiple networks are present and one must be chosen.
+
+	```yaml
+	jobs:
+	- name: node
+	  templates:
+	  - name: node
+	    release: cf-mysql
+	    # will pick addresses from private network
+	    links: {nats: nats.nats@private}
+	    # alternatively specified...
+	    links: {nats: {path: nats.nats, network: private}}
+	```
+
 ### Fully Qualified Links
 
-- `cluster.job`: within deployment, link type is unique
 - `cluster.job.link`: within deployment, link type is not unique in a job
-- `deployment.cluster.job`: across deployments but link type is unique
 - `deployment.cluster.job.link`: across deployments and link type is not unique in a job
 
 ## Stories
@@ -187,8 +283,8 @@ Link information contains following:
 
 ## TBD
 
-- how to enforce singular node link (metadata, ERB?)
+- consumes vs requires naming
 - validation of exposed properties on the link
 - optionality of link requires
 - do jobs with 0 instances provide empty nodes?
-- metron style linking (each instance point to local metron)
+- how to enforce singular node link (metadata, ERB?)

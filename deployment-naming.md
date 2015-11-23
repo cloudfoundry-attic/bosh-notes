@@ -34,6 +34,7 @@ Process: Actual implementation of a Job. One or more processes may be needed to 
 	- con: not necessarily specific? groups of what?
 - service and instance
 	- con: job groupings do not represent logical groups but rather machine locations
+- machine_groups and machine
 
 ## Example Manifest
 
