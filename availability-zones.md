@@ -128,7 +128,7 @@ Currently releases that require special bootstrapping node find it by checking `
 
 Currently to use multiple AZs separate deployment jobs are configured which use different resource pools. For example:
 
-```
+```yaml
 jobs:
 - name: etcd_z1
   instances: 1
@@ -150,7 +150,7 @@ jobs:
 
 To collapse two deployment jobs into one without losing persistent disks new deployment job must reference previous jobs:
 
-```
+```yaml
 jobs:
 - name: etcd
   instances: 2
