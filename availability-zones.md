@@ -156,13 +156,16 @@ jobs:
   instances: 2
   templates:
   - name: etcd
-  migrated_jobs:
-    z1: etcd_z1
-    z2: etcd_z2
+  migrated_from:
+  - name: etcd_z1
+    az: z1  # this property is optional
+  - name: etcd_z2
+    az: z2  # this property is optional
   resource_pool: my-vms
   persistent_disk_pool: my-disks
   networks:
   - name: my-net
+  availability_zones: [z1, z2]
 ```
 
 ## Stories
