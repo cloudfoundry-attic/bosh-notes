@@ -18,16 +18,16 @@ To simplify AZs configuration, here is the list of proposed changes to the BOSH 
 
 4. each deployment job specifies availability zones to be in
 
-	TBD: how does `instances` value relates to `availability_zones` e.g. when there are multiple availability zones, does instances specify number of instances per AZ or total?
+	TBD: how does `instances` value relates to `azs` e.g. when there are multiple availability zones, does instances specify number of instances per AZ or total?
 
 5. expose availability zone information in deployment job templates during rendering
 
-  Similarly to how `name`, `index` and `networks` properties are exposed, we can have `availability_zone` property with an AZ name.
+  Similarly to how `name`, `index` and `networks` properties are exposed, we can have `az` property with an AZ name.
 
 Above changes result into something like this:
 
 ```yaml
-availability_zones: # <----- #1
+azs: # <----- #1
 - name: z1
   cloud_properties: {availability_zone: us-east-1a}
 - name: z2
@@ -39,15 +39,15 @@ networks:
   subnets:
   - range: 10.0.0.0/24
     gateway: 10.0.0.1
-    availability_zone: z1 # <----- #2
+    az: z1 # <----- #2
     cloud_properties: {subnet_id: subnet-27rh}
   - range: 10.0.1.0/24
     gateway: 10.0.1.1
-    availability_zone: z1
+    az: z1
     cloud_properties: {subnet_id: subnet-28fj}
   - range: 10.1.0.0/20
     gateway: 10.1.0.1
-    availability_zone: z2
+    az: z2
     cloud_properties: {subnet_id: subnet-14kh}
 
 resource_pools:
@@ -74,7 +74,7 @@ jobs:
   instances: 3
   templates:
   - name: web
-  availability_zones: [z1, z2] # <----- #4
+  azs: [z1, z2] # <----- #4
   resource_pool: my-vms
   persistent_disk_pool: my-disks
   networks:
@@ -165,7 +165,7 @@ jobs:
   persistent_disk_pool: my-disks
   networks:
   - name: my-net
-  availability_zones: [z1, z2]
+  azs: [z1, z2]
 ```
 
 ## Stories
