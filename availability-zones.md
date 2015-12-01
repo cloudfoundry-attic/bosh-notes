@@ -6,7 +6,7 @@ To simplify AZs configuration, here is the list of proposed changes to the BOSH 
 
 1. pull out AZs configuration into their own section
 
-	Each availability zone specifies cloud_properties that include reference IaaS defined AZ (only placement information). For example on AWS it's `availability_zone` and vSphere it may be `cluster`.
+	Each availability zone specifies cloud_properties that include reference IaaS defined AZ (only placement information). For example on AWS its `availability_zone` and vSphere it may be `cluster`.
 
 2. have subnets of each network define which AZ they belong
 
@@ -18,7 +18,7 @@ To simplify AZs configuration, here is the list of proposed changes to the BOSH 
 
 4. each deployment job specifies availability zones to be in
 
-	TBD: how does `instances` value relates to `azs` e.g. when there are multiple availability zones, does instances specify number of instances per AZ or total?
+	TBD: how does `instances` value relates to `azs` e.g. when there are multiple availability zones, does `instances` specify number of instances per AZ or total?
 
 5. expose availability zone information in deployment job templates during rendering
 
