@@ -19,6 +19,7 @@ The following API methods read from and write to the registry and need to be ada
 - `attach_disk`
 - `detach_disk`
 - `current_vm_id`
+- `info`
 
 ## create_vm(...)
 
@@ -158,9 +159,56 @@ Returned
 }
 ```
 
+## info
+
+Arguments: None
+
+Returned
+
+- info [Hash]: Info about CPI
+
+```
+{
+    "version": "1.1"
+}
+```
+
 ## current_vm_id
 
 Remove this method entirely from the API.
+
+## Stories
+
+- cpi should be able to return version information in info call
+- bosh-init can call create_machine if CPI is version 2
+  - fail eventually since there is no create_machine
+  - if error is returned assume version 1
+- rename vm to machine in aws cpi
+  - new lifecycle tests that shell to cpi and call create_machine with some configuration
+  - new lifecycle tests will be able to work with other cpis
+- remove current_vm_id
+- remove configure_networks
+- change to keyed args
+  - change bosh-init to do so as well
+- bosh-init can create a machine with proper metadata via create_machine
+  - remove set_vm_metadata
+  - accept it in the create_machine call
+- new CPI can take create_machine and return net setting and disk settings
+  - takes in agent bootstrap settings
+  - rip out registry at this point from create machine stuff
+  - acceptance: call cpi directly
+- new bosh-init sends in initial bootstrap settings to create_machine call
+- new CPI can take in disk settings and return updated disk settings for attach_disk/detach_disk
+  - rip out registry at this point from disk stuff
+  - acceptance: call cpi directly
+- new bosh-init can use new aws cpi and old stemcell to attach a persistent disk
+  - bosh-init calls update_machine_settings(vm_id, settings, connection_info) to set registry stuff instead of CPI knowing about registry, blobstore
+- rename snapshots methods
+  - create_snapshot, delete_snapshot, restore_snapshot
+
+## Other stories
+
+- pass in vm id into director.self_vm_id
 
 # Modifications to agent_settings
 
@@ -173,14 +221,5 @@ Remove this method entirely from the API.
 
 # TBD
 
-- arguments format (positional vs keyed)
-- rename "vm" to "machine"
-- make disk snapshot methods naming more consistent
-  - create_snapshot, delete_snapshot, restore_snapshot
-  - decide what to do about Director making it safe to create snapshot (e.g stopping running jobs)
-- consider director handling registry updates???
-  - cpi returns info about server keys
-  - cpi has explicit `update_machine_settings` method which handles registry updates for agents which cannot
-    be updated directly by Director. Registry updates move out of all other CPI methods.
-- how to handle CPI version info
-- addition of an `import_stemcell` command to create light stemcells with the CPI
+- how to handle CPI release versioning
+- bosh-init backwards compat
