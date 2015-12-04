@@ -7,3 +7,4 @@
 - old-style dev version suffix in Bosh::Common::Version::ReleaseVersion
 - `prepare_network_change`, `configure_networks`, `prepare_configure_networks` from agent actions
 - `bosh cleanup` should not fall back to old director delete stemcell and delete release endpoints when old director is encounterd with new cli
+- resource pool
