@@ -44,7 +44,7 @@ requires:
 
 provides:
 - name: data-node
-	type: data-node
+  type: data-node
   properties:
   - admin_user
   - admin_password
@@ -115,8 +115,8 @@ name: node
 
 requires:
 - name: metron
-	type: metron
-	colocated: true
+  type: metron
+  colocated: true
 ```
 
 And deployment manifest:
@@ -128,7 +128,7 @@ jobs:
   - name: node
     release: cf-mysql
     links: {metron: node.metron.mentron}
- 	- name: metron
+  - name: metron
     release: loggregator
 ```
 
