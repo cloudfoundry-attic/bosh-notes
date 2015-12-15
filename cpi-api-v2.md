@@ -223,3 +223,4 @@ Remove this method entirely from the API.
 
 - how to handle CPI release versioning
 - bosh-init backwards compat
+- create_disk/create_snapshot should take metadata?
