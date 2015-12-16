@@ -28,6 +28,7 @@ Arguments:
 - stemcell_cid [String]: Cloud ID of the stemcell to use as a base image for new VM.
 resource_pool_properties [Hash]: Cloud properties hash specified in the deployment manifest under VM’s resource pool.
 - agent_bootstrap_settings [Hash]: Initial agent settings.
+- cloud_properties [Hash]: CP for VM
 - networks_settings [Hash]: Networks hash that specifies which VM networks must be configured.
 - disk_cids [Array of strings] Array of disk cloud IDs for each disk that created VM will most likely be attached; they could be used to optimize VM placement so that disks are located nearby.
 - environment [Hash]: Resource pool’s env hash specified in deployment manifest.
@@ -44,6 +45,7 @@ Note: CPIs and the Director will duplicate code (simple merge) for merging agent
     {
         ...
     },
+    { "availability_zone": "z1" },
     {
         "private": {
             "type": "manual",
