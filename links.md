@@ -9,16 +9,63 @@ Links provide a solution to the above problem and abstract away manual vs dynami
 From the operator perspective introduction of links removes tedious cross-referencing of IPs and in future other properties.
 
 ---
+### Release schema for job specs
+
+```yaml
+name: proxy 					# String, non-empty
+
+consumes: 						# Array or nil/not-specified
+- name: data-node 		# String, non-empty, unique within requires
+  type: data-node 		# String, non-empty, non-unique
+
+provides: 						# Array or nil/not-specified
+- name: data-node 		# String, non-empty, unique within requires
+  type: data-node 		# String, non-empty, non-unique
+```
+
+### Deployment manifest schema
+
+```yaml
+name: proxy 								# String, non-empty
+
+jobs:
+- name: proxy
+  templates:
+  - name: proxy 						# String, non-empty, unique within templates, must exist within release
+    release: cf-mysql 			# String, non-empty
+  	consumes:               # Hash, optional
+  	  data-node:            # String, non-empty, must exist within release job's consumes section
+  	    from: my-data-node 	# String, non-empty, see link quilifiers
+  	provides:               # Hash, optional
+  	  data-node:            # String, non-empty, must exist within release job's consumes section
+  	    as: my-data-node 		# String, non-empty, see link quilifiers
+  	    shared: false 			# Bool, optional, defaults to false
+```
+
+### Link Qualifiers
+
+Each link provided by a release job has a name. If the name is unique within a deployment it can be accessed by just `from: name`. Deployment operator can also specify `as: alt-name` in a provides section so that it can be accessed via `from: alt-name`.
+
+Each provided link can be marked with shared: true or false. By default links are not shared so that consumers from other deployments cannot access other deployments' links. To allow other deployment to access link information, shared: true can be specified.
+
+From field can be one of the following:
+
+- `name` or `alt-name` can be used within deployment the same deployment
+- `deployment.name` or `deployment.alt-name` can be used across deployments when link is shared
+
+Once alt name is set via `as`, link can no longer be accessed via its name.
+
+---
 ## Changes to Releases
 
-To take advantage of links in releases, extra metadata needs to be specified: `requires` and `provides` directives. Each deployment job that needs information about another job has to specify `requires` with the name of the link type it requires. Each deployment job that can satisfy link type has to specify `provides`. For example, in the MySQL release:
+To take advantage of links in releases, extra metadata needs to be specified: `consumes` and `provides` directives. Each deployment job that needs information about another job has to specify `consumes` with the name of the link type it consumes. Each deployment job that can satisfy link type has to specify `provides`. For example, in the MySQL release:
 
 MySQL proxy job `spec`:
 
 ```yaml
 name: proxy
 
-requires:
+consumes:
 - {name: data-node, type: data-node}
 ```
 
@@ -27,7 +74,7 @@ MySQL node job `spec`:
 ```yaml
 name: node
 
-requires:
+consumes:
 - {name: data-node, type: data-node}
 
 provides:
@@ -39,7 +86,7 @@ OR
 ```yaml
 name: node
 
-requires:
+consumes:
 - {name: data-node, type: data-node}
 
 provides:
@@ -51,7 +98,7 @@ provides:
   - public_key
 ```
 
-Proxy job requires information about all nodes and each node job provides it. Also each node needs to know about other nodes, hence, node job requires and provide node.
+Proxy job consumes information about all nodes and each node job provides it. Also each node needs to know about other nodes, hence, node job consumes and provides node.
 
 To access information provided by the link, release author would modify their ERB template. For example MySQL proxy job may do the following:
 
@@ -113,7 +160,7 @@ MySQL node job `spec`:
 ```yaml
 name: node
 
-requires:
+consumes:
 - name: metron
   type: metron
   colocated: true
@@ -127,9 +174,12 @@ jobs:
   templates:
   - name: node
     release: cf-mysql
-    links: {metron: node.metron.mentron}
-  - name: metron
+    consumes:
+    	metron: {from: node_metron}
+ 	- name: metron
     release: loggregator
+    provides:
+    	metron: {as: node_metron}
 ```
 
 metron link information will contain following:
@@ -159,7 +209,7 @@ metron link information will contain following:
 
 - multiple link types with the same name provided by different releases
 
-	If deployment manifest contains different deployment jobs from different releases that provide `nats` link. Operator has to explicitly specify how a deployment job's link is provided. For example, assuming that node job requires `nats` link:
+	If deployment manifest contains different deployment jobs from different releases that provide `nats` link. Operator has to explicitly specify how a deployment job's link is provided. For example, assuming that node job consumes `nats` link:
 
 	```yaml
 	jobs:
@@ -167,25 +217,29 @@ metron link information will contain following:
 	  templates:
 	  - name: node
 	    release: cf-mysql
-	    # ambigious cf's nats vs nats' natds job
-	    links: {nats: nats.nats}
+	    consumes:
+	    	nats: {from: other-nats} # ambigious cf's nats vs nats' natds job
 
 	- name: nats
 	  templates:
-	  - {name: nats, release: cf}
+	  - name: nats
+	    release: cf
 
 	- name: other-nats
 	  templates:
-	  - {name: natsd, release: nats}
+	  - name: natsd
+	    release: nats
+	    provides:
+	    	nats: {as: other-nats}
 	```
 
 - multiple links of the same type (primary_db and backup_db links)
 
-	Assuming that both links would require same type of link requires mechanism can be extended to support name vs type. For example:
+	Assuming that both links would consume same type of link consumes mechanism can be extended to support name vs type. For example:
 
 	```yaml
 	name: web
-	requires:
+	consumes:
 	- {name: primary_db, type: db}
 	- {name: backup_db, type: db}
 	```
@@ -202,20 +256,17 @@ metron link information will contain following:
 	primary_db: <%= link("primary_db").nodes %>
 	```
 
-- links between deployments
+- links between deployments, assuming that shared: true is specified
 
 	```yaml
 	jobs:
 	- name: node
 	  templates:
-	  - {name: node, release: cf-mysql}
-
-	links:
-	  nats: nats-deployment.nats
+	  - name: node
+	    release: cf-mysql
+	    consumes:
+	      nats: {from: other-dep.nats}
 	```
-
-	- TBD: do links at the deployment level merge into template level links?
-	- TBD: fully qualified link name
 
 - custom provided links to external services (not controlled by the Director)
 
@@ -225,19 +276,19 @@ metron link information will contain following:
 	  templates:
 	  - name: node
 	    release: cf-mysql
-
-	links:
-	  nats:
-	    nodes: [{ ... }]
-	    admin_user: ...
+	    consumes:
+	      nats:
+	      	nodes: [{ ... }]
+		    	properties: { ... }
 	```
 
-	- TBD: do links at the deployment level merge into template level links?
-	- TBD: easier way to fill out link's nodes information for custom provided links
+	- TBD: easier way to fill out link's nodes information for custom provided links (addresses: [...])
 
 - links that only require access to a single collocated deployment job
 
 ### Address Resolution
+
+Consumer of the link picks which network to use for addresses. If network is specified but cannot be found on the provider, error should be raised. Defaults exist for the following cases:
 
 - nodes are on a single network
 
@@ -245,33 +296,44 @@ metron link information will contain following:
 
   ```yaml
 	jobs:
+	- name: nats
+	  templates:
+	  - name: node
+	    release: nats
+	  networks:
+	  - name: private
 	- name: node
 	  templates:
 	  - name: node
 	    release: cf-mysql
-	    links: {nats: nats.nats}
+	    consumes:
+	    	nats: {from: nats} # "private" network is picked
+    networks:
+	  - name: other-private
 	```
 
 - nodes are on multiple networks
 
-	Consumer of the link picks which network to use for addresses. If network identifier is not specified error should be raised to indicate that multiple networks are present and one must be chosen.
+	By default network marked with default=gateway is chosen.
 
 	```yaml
 	jobs:
+	- name: nats
+	  templates:
+	  - name: node
+	    release: nats
+	  networks:
+	  - {name: private, default: [dns]}
+	  - {name: vip, default: [gateway]}
 	- name: node
 	  templates:
 	  - name: node
 	    release: cf-mysql
-	    # will pick addresses from private network
-	    links: {nats: nats.nats@private}
-	    # alternatively specified...
-	    links: {nats: {path: nats.nats, network: private}}
+	    consumes:
+	    	nats: {from: nats} # "private" network is picked since it's marked as default-for-gateway
+    networks:
+	  - name: other-private
 	```
-
-### Fully Qualified Links
-
-- `cluster.job.link`: within deployment, link type is not unique in a job
-- `deployment.cluster.job.link`: across deployments and link type is not unique in a job
 
 ## Stories
 
@@ -283,7 +345,6 @@ metron link information will contain following:
 
 ## TBD
 
-- consumes vs requires naming
 - validation of exposed properties on the link
 - optionality of link requires
 - do jobs with 0 instances provide empty nodes?
