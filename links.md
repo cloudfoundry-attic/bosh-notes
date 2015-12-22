@@ -12,34 +12,35 @@ From the operator perspective introduction of links removes tedious cross-refere
 ### Release schema for job specs
 
 ```yaml
-name: proxy 					# String, required
+name: proxy           # String, required
 
-consumes: 						# Array or nil/not-specified
-- name: data-node 		# String, required, unique within requires
-  type: data-node 		# String, required, non-unique
+consumes:             # Array or nil/not-specified
+- name: data-node     # String, required, unique within requires
+  type: data-node     # String, required, non-unique
 
-provides: 						# Array or nil/not-specified
-- name: data-node 		# String, required, unique within requires
-  type: data-node 		# String, required, non-unique
+provides:             # Array or nil/not-specified
+- name: data-node     # String, required, unique within requires
+  type: data-node     # String, required, non-unique
 ```
 
 ### Deployment manifest schema
 
 ```yaml
-name: proxy 								# String, required
+name: proxy                 # String, required
 
 jobs:
 - name: proxy
   templates:
-  - name: proxy 						# String, required, unique within templates, must exist within release
-    release: cf-mysql 			# String, required
-  	consumes:               # Hash, optional
-  	  data-node:            # String, optional, must exist within release job's consumes section
-  	    from: my-data-node 	# String, required, see link quilifiers
-  	provides:               # Hash, optional
-  	  data-node:            # String, optional, must exist within release job's consumes section
-  	    as: my-data-node 		# String, optional, non-empty, see link quilifiers
-  	    shared: false 			# Bool, optional, defaults to false
+  - name: proxy             # String, required, unique within templates, must exist within release
+    release: cf-mysql       # String, required
+    consumes:               # Hash, optional
+      data-node:            # String, optional, must exist within release job's consumes section
+        from: my-data-node  # String, required, see Link Qualifiers
+        network: other-net  # String, optional, see Address Resolution
+    provides:               # Hash, optional
+      data-node:            # String, optional, must exist within release job's consumes section
+        as: my-data-node    # String, optional, non-empty, see Link Qualifiers
+        shared: false       # Bool, optional, defaults to false
 ```
 
 ### Link Qualifiers
@@ -114,29 +115,29 @@ Link information contains following:
 
 ```yaml
 {
-	"nodes": [
-		# For each one of the deployment job instances
-		{
-			"name": "data-node",
-			"id": "4c213d80-05c1-429f-996f-8911854991a0",
-			"index": 0,
-			"az": "z1",
-			"address": "10.0.0.44" || "0.private.data-node.deployment" || "IPv6"
-		},
-		{
-			"name": "data-node",
-			"id": "76009006-20c7-4cc0-b17d-134cf61226d2",
-			"index": 1,
-			"az": "z1",
-			"address": "10.0.0.45" || "1.private.data-node.deployment" || "IPv6"
-		}
-	],
+  "nodes": [
+    # For each one of the deployment job instances
+    {
+      "name": "data-node",
+      "id": "4c213d80-05c1-429f-996f-8911854991a0",
+      "index": 0,
+      "az": "z1",
+      "address": "10.0.0.44" || "0.private.data-node.deployment" || "IPv6"
+    },
+    {
+      "name": "data-node",
+      "id": "76009006-20c7-4cc0-b17d-134cf61226d2",
+      "index": 1,
+      "az": "z1",
+      "address": "10.0.0.45" || "1.private.data-node.deployment" || "IPv6"
+    }
+  ],
 
-	"properties": {
-		"admin_user": "admin-user",
-		"admin_password": "some-secret",
-		"public_key": "..."
-	}
+  "properties": {
+    "admin_user": "admin-user",
+    "admin_password": "some-secret",
+    "public_key": "..."
+  }
 }
 ```
 
@@ -175,30 +176,30 @@ jobs:
   - name: node
     release: cf-mysql
     consumes:
-    	metron: {from: node_metron}
- 	- name: metron
+      metron: {from: node_metron}
+  - name: metron
     release: loggregator
     provides:
-    	metron: {as: node_metron}
+      metron: {as: node_metron}
 ```
 
 metron link information will contain following:
 
 ```yaml
 {
-	"node": {
-		"name": "data-node",
-		"id": "bc82e8f9-3fcb-4728-a7d3-cfb3e6d94124",
-		"index": 0,
-		"az": "z1",
-		"address": "10.0.0.44" || "0.private.data-node.deployment" || "IPv6"
-	},
+  "node": {
+    "name": "data-node",
+    "id": "bc82e8f9-3fcb-4728-a7d3-cfb3e6d94124",
+    "index": 0,
+    "az": "z1",
+    "address": "10.0.0.44" || "0.private.data-node.deployment" || "IPv6"
+  },
 
-	"properties": {
-		"admin_user": "admin-user",
-		"admin_password": "some-secret",
-		"public_key": "..."
-	}
+  "properties": {
+    "admin_user": "admin-user",
+    "admin_password": "some-secret",
+    "public_key": "..."
+  }
 }
 ```
 
@@ -209,80 +210,80 @@ metron link information will contain following:
 
 - multiple link types with the same name provided by different releases
 
-	If deployment manifest contains different deployment jobs from different releases that provide `nats` link. Operator has to explicitly specify how a deployment job's link is provided. For example, assuming that node job consumes `nats` link:
+  If deployment manifest contains different deployment jobs from different releases that provide `nats` link. Operator has to explicitly specify how a deployment job's link is provided. For example, assuming that node job consumes `nats` link:
 
-	```yaml
-	jobs:
-	- name: node
-	  templates:
-	  - name: node
-	    release: cf-mysql
-	    consumes:
-	    	nats: {from: other-nats} # ambigious cf's nats vs nats' natds job
+  ```yaml
+  jobs:
+  - name: node
+    templates:
+    - name: node
+      release: cf-mysql
+      consumes:
+        nats: {from: other-nats} # ambigious cf's nats vs nats' natds job
 
-	- name: nats
-	  templates:
-	  - name: nats
-	    release: cf
+  - name: nats
+    templates:
+    - name: nats
+      release: cf
 
-	- name: other-nats
-	  templates:
-	  - name: natsd
-	    release: nats
-	    provides:
-	    	nats: {as: other-nats}
-	```
+  - name: other-nats
+    templates:
+    - name: natsd
+      release: nats
+      provides:
+        nats: {as: other-nats}
+  ```
 
 - multiple links of the same type (primary_db and backup_db links)
 
-	Assuming that both links would consume same type of link consumes mechanism can be extended to support name vs type. For example:
+  Assuming that both links would consume same type of link consumes mechanism can be extended to support name vs type. For example:
 
-	```yaml
-	name: web
-	consumes:
-	- {name: primary_db, type: db}
-	- {name: backup_db, type: db}
-	```
+  ```yaml
+  name: web
+  consumes:
+  - {name: primary_db, type: db}
+  - {name: backup_db, type: db}
+  ```
 
-	```yaml
-	name: mysql-server
-	provides:
-	- {name: db, type: db}
-	```
+  ```yaml
+  name: mysql-server
+  provides:
+  - {name: db, type: db}
+  ```
 
-	And to use link by name:
+  And to use link by name:
 
-	```yaml
-	primary_db: <%= link("primary_db").nodes %>
-	```
+  ```yaml
+  primary_db: <%= link("primary_db").nodes %>
+  ```
 
 - links between deployments, assuming that shared: true is specified
 
-	```yaml
-	jobs:
-	- name: node
-	  templates:
-	  - name: node
-	    release: cf-mysql
-	    consumes:
-	      nats: {from: other-dep.nats}
-	```
+  ```yaml
+  jobs:
+  - name: node
+    templates:
+    - name: node
+      release: cf-mysql
+      consumes:
+        nats: {from: other-dep.nats}
+  ```
 
 - custom provided links to external services (not controlled by the Director)
 
-	```yaml
-	jobs:
-	- name: node
-	  templates:
-	  - name: node
-	    release: cf-mysql
-	    consumes:
-	      nats:
-	      	nodes: [{ ... }]
-		    	properties: { ... }
-	```
+  ```yaml
+  jobs:
+  - name: node
+    templates:
+    - name: node
+      release: cf-mysql
+      consumes:
+        nats:
+          nodes: [{ ... }]
+          properties: { ... }
+  ```
 
-	- TBD: easier way to fill out link's nodes information for custom provided links (addresses: [...])
+  - TBD: easier way to fill out link's nodes information for custom provided links (addresses: [...])
 
 - links that only require access to a single collocated deployment job
 
@@ -292,48 +293,48 @@ Consumer of the link picks which network to use for addresses. If network is spe
 
 - nodes are on a single network
 
-	Since there is only one network, it's chosen as a default.
+  Since there is only one network, it's chosen as a default.
 
   ```yaml
-	jobs:
-	- name: nats
-	  templates:
-	  - name: node
-	    release: nats
-	  networks:
-	  - name: private
-	- name: node
-	  templates:
-	  - name: node
-	    release: cf-mysql
-	    consumes:
-	    	nats: {from: nats} # "private" network is picked
+  jobs:
+  - name: nats
+    templates:
+    - name: node
+      release: nats
     networks:
-	  - name: other-private
-	```
+    - name: private
+  - name: node
+    templates:
+    - name: node
+      release: cf-mysql
+      consumes:
+        nats: {from: nats} # "private" network is picked
+    networks:
+    - name: other-private
+  ```
 
 - nodes are on multiple networks
 
-	By default network marked with default=gateway is chosen.
+  By default network marked with default=gateway is chosen.
 
-	```yaml
-	jobs:
-	- name: nats
-	  templates:
-	  - name: node
-	    release: nats
-	  networks:
-	  - {name: private, default: [dns]}
-	  - {name: vip, default: [gateway]}
-	- name: node
-	  templates:
-	  - name: node
-	    release: cf-mysql
-	    consumes:
-	    	nats: {from: nats} # "private" network is picked since it's marked as default-for-gateway
+  ```yaml
+  jobs:
+  - name: nats
+    templates:
+    - name: node
+      release: nats
     networks:
-	  - name: other-private
-	```
+    - {name: private, default: [dns]}
+    - {name: vip, default: [gateway]}
+  - name: node
+    templates:
+    - name: node
+      release: cf-mysql
+      consumes:
+        nats: {from: nats} # "private" network is picked since it's marked as default-for-gateway
+    networks:
+    - name: other-private
+  ```
 
 ## Stories
 
