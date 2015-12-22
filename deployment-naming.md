@@ -70,3 +70,12 @@ clusters:
   - {name: web, release: web}
   - {name: metron_agent, release: loggregator}
 ```
+
+## Stories
+
+- rename deployment jobs to cluster
+  - must be backwards compatible so allow `jobs:` in the manifest
+  - raise an error if both jobs and clusters keys are specified
+- rename templates to jobs
+  - must be backwards compatible so allow `templates:` in the manifest
+  - raise an error if both templates and jobs keys are specified

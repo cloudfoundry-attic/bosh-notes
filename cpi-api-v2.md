@@ -171,7 +171,7 @@ Returned
 
 ```
 {
-    "version": "1.1"
+    "api_version": "2.0"
 }
 ```
 
