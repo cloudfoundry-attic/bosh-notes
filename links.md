@@ -12,33 +12,33 @@ From the operator perspective introduction of links removes tedious cross-refere
 ### Release schema for job specs
 
 ```yaml
-name: proxy 					# String, non-empty
+name: proxy 					# String, required
 
 consumes: 						# Array or nil/not-specified
-- name: data-node 		# String, non-empty, unique within requires
-  type: data-node 		# String, non-empty, non-unique
+- name: data-node 		# String, required, unique within requires
+  type: data-node 		# String, required, non-unique
 
 provides: 						# Array or nil/not-specified
-- name: data-node 		# String, non-empty, unique within requires
-  type: data-node 		# String, non-empty, non-unique
+- name: data-node 		# String, required, unique within requires
+  type: data-node 		# String, required, non-unique
 ```
 
 ### Deployment manifest schema
 
 ```yaml
-name: proxy 								# String, non-empty
+name: proxy 								# String, required
 
 jobs:
 - name: proxy
   templates:
-  - name: proxy 						# String, non-empty, unique within templates, must exist within release
-    release: cf-mysql 			# String, non-empty
+  - name: proxy 						# String, required, unique within templates, must exist within release
+    release: cf-mysql 			# String, required
   	consumes:               # Hash, optional
-  	  data-node:            # String, non-empty, must exist within release job's consumes section
-  	    from: my-data-node 	# String, non-empty, see link quilifiers
+  	  data-node:            # String, optional, must exist within release job's consumes section
+  	    from: my-data-node 	# String, required, see link quilifiers
   	provides:               # Hash, optional
-  	  data-node:            # String, non-empty, must exist within release job's consumes section
-  	    as: my-data-node 		# String, non-empty, see link quilifiers
+  	  data-node:            # String, optional, must exist within release job's consumes section
+  	    as: my-data-node 		# String, optional, non-empty, see link quilifiers
   	    shared: false 			# Bool, optional, defaults to false
 ```
 
