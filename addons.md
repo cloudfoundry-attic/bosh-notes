@@ -45,7 +45,7 @@ addons:
 ```
 
 ```
-$ bosh update config ./config.yml
+$ bosh update runtime-config ./config.yml
 $ bosh deploy my-redis-cluster-v1.yml
 ```
 
@@ -70,6 +70,19 @@ When links are resolved:
   - updating: update logsearch, update config.yml, update all other deployments.
 - when deploying
   - updating: update logsearch, update all other deployments (just like normal links)
+
+## Stories
+
+* user can successfully save/get runtime config via 'bosh update runtime-config' and 'bosh runtime-config'
+  * same as cloud-config
+* raise an erorr if duplicate addon name is provided
+* raise an error if latest version is specified (only support explicit values)
+* raise an error if releases section does not have necessary release used as an addon
+* user can see that each vm in each deployment have all addons collocated
+  * use release job that doesnt have any links for now
+* user can see that addon properties are evaluated
+  * only support properties on the addon (no global properties section)
+* user can see that addon links are resolved and validated during bosh deploy
 
 # TBD
 
