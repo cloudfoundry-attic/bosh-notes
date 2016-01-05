@@ -78,11 +78,13 @@ When links are resolved:
   * sync http response
 * raise an error if latest version is specified (only support explicit values) (2)
 * raise an error if releases section does not have necessary release used as an addon (2)
-* user can see that each vm in each deployment have all addons collocated
+* user can see that each vm in each deployment have all addons collocated (4)
   * use release job that doesnt have any links or properties for now
-* user can see that addon properties are evaluated
+  * addon jobs should be compiled for that stemcell properly
+* user can see that addon properties are evaluated (2)
   * only support properties on the addon (no global properties section)
-* user can see that addon links are resolved and validated during bosh deploy
+* user can see that addon links are resolved and validated during bosh deploy (4)
+* user can deploy deployment manifest with 0 tmeplates (1)
 
 # TBD
 
