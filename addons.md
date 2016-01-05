@@ -22,20 +22,20 @@ Define a separate configuration file e.g. `config.yml`:
 
 ```yaml
 releases:
-- {name: ipsec, version: latest}
+- {name: ipsec, version: 29}
 
 addons:
 - name: ipsec
   tags:
     include_on: all
     exclude_on: loggregator
-  templates:
+  jobs:
   - {name: ipsec_agent, release: ipsec}
   - {name: ipsec_openswan, release: ipsec}
   properties:
     ipsec: {shared_key: UYasbvh872f}
 - name: metron
-  templates:
+  jobs:
   - {name: metron_agent, release: loggregator}
   properties:
     metron_agent:
@@ -73,13 +73,13 @@ When links are resolved:
 
 ## Stories
 
-* user can successfully save/get runtime config via 'bosh update runtime-config' and 'bosh runtime-config'
+* user can successfully save/get runtime config via 'bosh update runtime-config .blah.yml' and 'bosh runtime-config' (4)
   * same as cloud-config
-* raise an erorr if duplicate addon name is provided
-* raise an error if latest version is specified (only support explicit values)
-* raise an error if releases section does not have necessary release used as an addon
+  * sync http response
+* raise an error if latest version is specified (only support explicit values) (2)
+* raise an error if releases section does not have necessary release used as an addon (2)
 * user can see that each vm in each deployment have all addons collocated
-  * use release job that doesnt have any links for now
+  * use release job that doesnt have any links or properties for now
 * user can see that addon properties are evaluated
   * only support properties on the addon (no global properties section)
 * user can see that addon links are resolved and validated during bosh deploy
