@@ -73,18 +73,7 @@ When links are resolved:
 
 ## Stories
 
-* user can successfully save/get runtime config via 'bosh update runtime-config .blah.yml' and 'bosh runtime-config' (4)
-  * same as cloud-config
-  * sync http response
-* raise an error if latest version is specified (only support explicit values) (2)
-* raise an error if releases section does not have necessary release used as an addon (2)
-* user can see that each vm in each deployment have all addons collocated (4)
-  * use release job that doesnt have any links or properties for now
-  * addon jobs should be compiled for that stemcell properly
-* user can see that addon properties are evaluated (2)
-  * only support properties on the addon (no global properties section)
-* user can see that addon links are resolved and validated during bosh deploy (4)
-* user can deploy deployment manifest with 0 tmeplates (1)
+[see `addons` label in Tracker]
 
 # TBD
 
