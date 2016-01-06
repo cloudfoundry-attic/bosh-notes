@@ -75,9 +75,7 @@ When links are resolved:
 
 # TBD
 
-- latest???
 - persistent disk
-- show in diff?
 - networks?
   - especially security group settings might be a problem? What if your co-located thing needs ports which are locked down?
 - ways to exlude co-location or limit co-location to certain vms?
