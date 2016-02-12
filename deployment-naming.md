@@ -7,7 +7,7 @@ Director (prod)
  |
  +-- Deployment (cf1)
       |
-      +-- Group (cell-linux) *new*
+      +-- Instance group (cell-linux) *new*
            |
            +-- Instance (2f66d0c7-b182-4f3e-96dd-a09ebaef2ae4) *new*
                 |
@@ -20,9 +20,9 @@ Director: Main orchestration components which is accessed by multiple users.
 
 Deployment: Logically wraps together allocated cloud resources, saved configurations, used release versions, ACLs, etc. Typically user operates on a deployment which ties multiple releases and stemcells.
 
-Group: Collection of X number of Members tasked to do same thing.
+Instance Group: Collection of X number of Instances tasked to do same thing.
 
-Instance: Part of a pool doing a specific thing. Each instance in a cluster is configured in a similar way in regards to machine size, disk size, OS, configuration values, etc.
+Instance: Part of an instance group doing a specific thing. Each instance in an instance group is configured in a similar way in regards to machine size, disk size, OS, configuration values, etc.
 
 Job: Represents a specific thing to do on an Instance. Could be placed with other jobs on a instance to cooperate. Typically is long running.
 
