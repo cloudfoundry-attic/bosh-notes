@@ -50,7 +50,7 @@ jobs:
   - name: my-net
 ```
 
-For example, `iaas.yml` would look something like this:
+Using the new cloud configuration feature, this information is split into an IaaS config and a deployment manifest. For the above example, `iaas.yml` would look something like this:
 
 ```yaml
 networks:
