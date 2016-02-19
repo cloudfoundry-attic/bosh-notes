@@ -19,6 +19,9 @@ The BOSH Director could take care of the flow, improving on the above drawbacks:
 * user can download root CA certificate from the director to validate VMs certificates when connecting
 
 
+## Requirements
+* An additional helper function (such as the above example `<%= certificate() %>`) or another way to define a 'certificate' type for templates needs to be available. This could look similar to [link types](https://github.com/cloudfoundry/bosh-notes/blob/master/links.md) 
+
 ## Details
 During Director startup use openssl to generate root CA key and cert
 
