@@ -1,4 +1,4 @@
-# Naming
+# Naming [IN PROGRESS]
 
 Currently multiple things are named jobs which is confusing in code or in operation. Below diagram shows new proposed naming hierarchy:
 
@@ -28,15 +28,6 @@ Job: Represents a specific thing to do on an Instance. Could be placed with othe
 
 Process: Actual implementation of a Job. One or more processes may be needed to perform a Job. Processes are monitored and restarted.
 
-## Alternatives
-
-- cluster and node
-- cluster and machine
-- group and member
-  - con: not necessarily specific? groups of what?
-- service and instance
-  - con: job groupings do not represent logical groups but rather machine locations
-
 ## Example Manifest
 
 ```yaml
@@ -53,9 +44,9 @@ stemcells:
   os: ubuntu-trusty
   version: latest
 
-clusters:
+instance_groups:
 - name: db
-  nodes: 1
+  instances: 1
   stemcell: default
   vm_type: default
   persistent_disk_type: small
@@ -63,7 +54,7 @@ clusters:
   - {name: postgres, release: postgres}
   - {name: metron_agent, release: loggregator}
 - name: web
-  nodes: 1
+  instances: 1
   stemcell: default
   vm_type: default
   jobs:
@@ -79,3 +70,12 @@ clusters:
 - rename templates to jobs
   - must be backwards compatible so allow `templates:` in the manifest
   - raise an error if both templates and jobs keys are specified
+
+## Considered Alternatives
+
+- cluster and node
+- cluster and machine
+- group and member
+  - con: not necessarily specific? groups of what?
+- service and instance
+  - con: job groupings do not represent logical groups but rather machine locations

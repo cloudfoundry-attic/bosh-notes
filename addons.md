@@ -1,4 +1,4 @@
-# Addons [IN PROGRESS]
+# Addons [FINISHED]
 
 Majority of operators want to make sure that *all* VMs that BOSH creates and starts have some software installed.
 

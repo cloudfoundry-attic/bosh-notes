@@ -14,9 +14,6 @@ You can also find currently in progress work in the Epics view in each Tracker:
 Deployment configuration:
 
 * [Dynamic Provisioning](dynamic-provisioning.md)
-* [Cloud Config](cloud-config.md)
-* [Global Networkins](global-networking.md)
-* [Availability Zones](availability-zones.md)
 * [Links](links.md)
 
 Developer workflow:
@@ -35,3 +32,6 @@ Finished:
 * [Compiled Releases](finished/compiled-releases.md)
 * [Director UAA Integration](finished/uaa.md)
 * [Security Groups in Resource Pools](finished/security-groups-in-resource-pools.md)
+* [Cloud Config](finished/cloud-config.md)
+* [Availability Zones](finished/availability-zones.md)
+* [Global Networking](finished/global-networking.md)

@@ -1,4 +1,4 @@
-# Availability Zones [IN PROGRESS]
+# Availability Zones [FINISHED]
 
 Currently to have a single deployment job span multiple AZs, one has to create multiple resource pools with slightly different cloud properties and also create multiple deployment jobs with slightly different names (e.g. web_z1, web_z2). Current approach works; however, it does introduce extra complexity in the deployment manifest which is not ideal for service brokers to deal when creating a deployment manifest.
 
@@ -177,7 +177,6 @@ jobs:
 - determine if we should allow shorthand format
 - support specifying id instead of index for getting details about specific vm
   - used where?
-- deprecate index (X months out)
 - depreacte release fixing on upload release
 
 ## TBD
@@ -186,4 +185,3 @@ jobs:
 * index assignment per AZ?
 * striping of persistent disks during migration
 * should resurrector fall back to diff AZs for non-stateful nodes?
-* static ips ordering when spanning multiple AZs

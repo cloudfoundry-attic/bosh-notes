@@ -1,4 +1,4 @@
-# Events
+# Events [PLANNING]
 
 ```
 $ bosh events
