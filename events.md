@@ -103,11 +103,11 @@ release
 - actions: [create, delete]
 
 cloud-config
-- object_id: "name"
+- object_id: null
 - single actions: [update]
 
 runtime-config
-- object_id: "name"
+- object_id: null
 - single actions: [update]
 
 deployment
@@ -127,12 +127,12 @@ errand
 - ending actions: [run]
 
 vm
-- object_id: "cid"
+- object_id: null|"cid"
 - ending actions: [create, delete]
 - single actions: [lose]
 
 disk
-- object_id: "cid"
+- object_id: null|"cid"
 - ending actions: [create, delete, attach, detach]
 - single actions: [orphan, unorphan]
 
