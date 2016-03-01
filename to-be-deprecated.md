@@ -9,3 +9,4 @@
 - `bosh cleanup` should not fall back to old director delete stemcell and delete release endpoints when old director is encounterd with new cli
 - resource pool
 - networks['network_name']['dns_record_name'] in job templates 
+- remove dependency key munging inside update_release
