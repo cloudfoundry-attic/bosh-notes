@@ -1,4 +1,4 @@
-# Naming [IN PROGRESS]
+# Naming [FINISHED]
 
 Currently multiple things are named jobs which is confusing in code or in operation. Below diagram shows new proposed naming hierarchy:
 

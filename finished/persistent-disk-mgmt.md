@@ -1,4 +1,4 @@
-# Persistent Disk Management (Orphaned Disks, etc.) [IN PROGRESS]
+# Persistent Disk Management (Orphaned Disks, etc.) [FINISHED]
 
 Currently persistent disks are deleted upon instance deletion which happens when deployment jobs are scaled down, completely removed from the manifest or deployment is deleted. In all of these cases (may except deployment deletion) it's very easy to accidently delete the persistent data. Additionally we are adding a feature that would allow deployment job rename and merge to migrate users to new AZ functionality, and this feature may also trigger instance deletion during a migration. To avoid accidental data loss we want to avoid immediately deleting persistent disks on instance deletion. Instead the Director will keep the disks and provide means to re-attach them to existing Instances. Disks which are no longer needed will eventually be garbage collected.
 
