@@ -26,7 +26,7 @@ This shouldn't affect load time of `bosh_cli`.
 
 Ports:
 
-```
+```yaml
 properties:
   web_ui.port:
     description: Port that web_ui app listens on
@@ -38,23 +38,31 @@ properties:
 
 Other validations:
 
-```
+```yaml
 properties:
+  web_ui.support.enabled:
+    description: "Support service is enabled."
+    type: bool
   web_ui.support.email:
     description: "Support email address."
-    regexp: /\A(.*)@(.*)\.(.*)\z/
+    regexp: "/\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i"
     type: string
+    when: web_ui.support.enabled      # run validations only if
+                                      # web_ui.support.enabled is set to true
 ```
-
 
 ## Possible implimentation (step by step)
 
 Here is a scope of work devided by steps:
 
-1. _Job spec should be saved to bosh director database_, when BOSH release is uploaded. At this moment
-spec is already present in bosh release in job artifact (in `job.MF` file) without changes, this means
-we can pass meta data together with bosh release archive to bosh director. On `bosh-director` side
-we need to create model for release properties and store them during `POST / `. This is processed by
-`ReleasesController`.
-1. Add possibility to `bosh-director` to get BOSH release specs via BOSH director API. Changes to ReleasesController controller to return meta data on `GET /releases/:name/spec` request.
+1. Job spec should be saved to bosh director database, when BOSH release is
+uploaded. At this moment custom properties are already present in bosh release
+as job artifact (in `job.MF` file) without changes, this means we can pass
+meta data together with bosh release archive to bosh director. Still it would
+be nice to add an integration test for this case.
+1. On `bosh-director` side we need to create model for release properties and
+store them while creating release. Release properties model can contain
+properties as yaml string (like it is done for cloud config model). Release properties model should have many-to-one relation with release and many-to-many with release versions.
+1. Add endpoint to `bosh-director` to get BOSH release spec properties via
+BOSH director API. For instance on `GET /releases/:name/spec` request.
 1. Add possibility to `bosh_cli` to run built-in and custom validators.
