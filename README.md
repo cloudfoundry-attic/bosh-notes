@@ -15,6 +15,8 @@ Deployment configuration:
 
 * [Dynamic Provisioning](dynamic-provisioning.md)
 * [Links](links.md)
+* [Config server](config-server.md)
+* [Property validation](property-validation.md)
 
 Developer workflow:
 
