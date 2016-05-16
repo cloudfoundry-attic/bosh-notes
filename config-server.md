@@ -49,36 +49,47 @@ Client side replacement of "{{...}}" will not be affected.
 
 ## Stories
 
-- create a release with a simple config server that has a single GET endpoint for fetching value a dummy value
+- create a release with a simple config server that has a single GET endpoint for fetching a "dummy" (key; /v1/config/dummy) value (2)
   - return dummy value right now
   - write config server in go
-  - return 404 if value doesnt exist
-- add PUT endpoint that saves value such that GET endpoint returns it
+  - return 404 if value doesnt exist (non-dummy path)
+- add PUT endpoint that saves value such that GET endpoint returns it (2)
   - in memory configuration
-- allow config server to fetch value from a database table
-  - add necessary database configuration to the release job
-  - keep in-memory configuration as a possibility
+- allow config server to *fetch* value from a database table (4)
+  - add necessary database configuration to the release job (connection url or 2-3 props split out)
+  - keep in-memory configuration as a possibility (backend config)
   - assume that a table in the database exists
   - GET endpoint should return a value written to a DB
-- allow config server to write value to a database table
-- automatically create DB table on config server start
+  - see what concourse does for its db
+- allow config server to write value to a database table (1)
+  - implement PUT to save into db
+  - hopefully we have a little go interface for storing/getting things
+- automatically create DB table on config server start (2)
   - value should be text
+  - dont create table if already exists
+  - see what concourse does
 
 ---
 
-- director should parse manifest values looking for {{...}}
+- director should parse manifest values looking for {{...}} (2)
   - feature flag it as director.parse_config_values
   - only evaluate properties and env sections
-- director should return errors for each key in the manifest
-  - at this point director is not configured with any config server
   - return one error per key in the manifest
-- director should return errors when config server doesnt have keys
-  - return error since config server returns 404
-- director should replace keys in the manifest with found values from the config server
+- director should return errors when config server doesnt have keys (2)
+  - hook it up to the config server (https url, ca_cert field, always validate https)
+  - return error in the Director task since config server returns 404
+- director should replace keys in the manifest with found values from the config server (2)
   - ensure that ERB templates could access replaced info via p and its friends
-- dont show config values when diffing manifest
-- ensure that director doesnt print interpolated manifest to the log
-- director should evaluate link information
+- dont show config values when diffing manifest (4)
+  - even when it's --no-redact
+  - show curlies in non redacted case
+  - still show lines for changed values
+- ensure that director doesnt print interpolated manifest to the debug log (4)
+  - download manifest should have curlies as input
+  - audit where passwords might be saved into the db
+- director should evaluate link information (4)
+  - do same as parsing manifest
+- director should evaluate runtime config for referenced props during bosh deploy (2)
 
 ---
 
