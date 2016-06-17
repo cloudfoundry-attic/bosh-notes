@@ -18,8 +18,8 @@ The config-server API for create, read and delete is as follows:
   - {"path": "some-key-path", "value": "...", "version": "..."}
 
 - PUT /v1/config/&lt;some-key-path>
-  - whenever Director generates a value it will be saved into the config server
-  - {"value": "..."}
+  - {"value": "...", "type": "..."}
+  - adds value as new latest version of the configuration value
 
 - DELETE /v1/config/&lt;some-key-path>[?retain-versions=[2,4..6]]
   - if `retain-versions` is specified, all other versions are removed
@@ -63,6 +63,11 @@ Client side replacement of "{{...}}" will not be affected.
 ### Configuration versions
 
 Configuration values can exist in multiple versions. The director always uses the latest version during deployment and stores the relation between deployment/instance_group/property and the configuration/version in the database.
+
+
+### Generation of values
+
+When Director can't find a value via GET it will issue a PUT action with a 'type' (omitting a value) to let the config-server generate a value.
 
 ## Stories
 
