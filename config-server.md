@@ -30,6 +30,14 @@ Values could be any valid JSON object.
 
 Director will use UAA for authentication with the config server. The Director will be configured with a UAA client and secret (similarly to how HM is configured).
 
+## CLI
+Go CLI should support the following commands:
+- `config login <user> [<password>]` - Get a UAA token for the user. If no &lt;password> is specified it is requested interactively.
+- `config set <key> <value>` - Add a new version of &lt;key> with the &lt;value>.
+- `config get <key> [<version>]` - Get the value for &lt;key> in &lt;version>. If no version is specified the latest version of &lt;key> is returned.
+- `config delete <key> [--retain-versions=<retain-versions>]` - Delete a key. &lt;retain-versions> is a comma separated list of versions and version ranges. It can be used to keep certain versions around, e.g. 2,4..6 to keep versions 2, 4, 5 and 6.
+- `config logout` - Drop current UAA token.
+
 ## Director integration
 
 ### Manifest configuration
@@ -112,6 +120,40 @@ Configuration values can exist in multiple versions. The director always uses th
 - DELETE endpoint should delete a configuration value from the datastore
 
 - DELETE endpoint should allow to specify versions to be retained
+
+- Create simple config-server CLI (e.g. `config`) to hide UAA token handling
+
+```bash
+$ config set cf.cc.admin c1oudc0w
+Saved value for 'cf.cc.admin'
+$ config get cf.cc.admin
+c1oudc0w
+```
+
+- The config-server CLI should read values from stdin so that secrets don't have to be persisted anywhere
+
+```bash
+$ generate_password | config set cf.cc.admin
+Saved value for 'cf.cc.admin'
+```
+
+- The config-server should keep old versions of my configuration values so that I can access systems that were not re-deployed yet
+  - versions are immutable, i.e. you cannot overwrite the value in a particular version
+  - if no particular version is requested the latest version is returned
+
+```bash
+$ config set cf.cc.admin a
+Saved value for 'cf.cc.admin'
+$ config set cf.cc.admin b
+Saved value for 'cf.cc.admin'
+
+$ config get cf.cc.admin
+b
+$ config get cf.cc.admin.2
+b
+$ config get cf.cc.admin.1
+a
+```
 
 - `bosh deploy` should use the latest version of the configuration so that all my deployments converge on the newest configuration values
    - if I re-deploy everything after a configuration change only the latest versions of configuration values will be used
