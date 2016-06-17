@@ -64,6 +64,38 @@ Client side replacement of "{{...}}" will not be affected.
 
 Configuration values can exist in multiple versions. The director always uses the latest version during deployment and stores the relation between deployment/instance_group/property and the configuration/version in the database.
 
+### CLI
+
+The BOSH CLI should make the relation between configuration and deployments available to the user so he can find out which configuration versions are used by a certain deployment and which configuration versions are still in use.
+
+1. `bosh list config <deployment>`
+```bash
+$ bosh list config cf
++-----+-------------+---------+
+| Job | Key         | Version |
++-----+-------------+---------+
+| cc  | cf.cc.admin | 12      |
+|     | ...         |         |
++-----+-------------+---------+
+| ... |             |         |
++-----+-------------+---------+
+```
+
+2. `bosh get config <deployment> <key>`
+```bash
+$ bosh get config cf cf.cc.admin
+cf.cc.admin.12
+```
+
+3. `bosh search config <key>`
+```bash
+$ bosh search config cf.cc.admin
++------------+-----+---------+
+| Deployment | Job | Version |
++------------+-----+---------+
+| cf         | cc  | 12      |
++------------+-----+---------+
+```
 
 ### Generation of values
 
@@ -158,6 +190,35 @@ $ config get cf.cc.admin.2
 b
 $ config get cf.cc.admin.1
 a
+```
+
+- The BOSH director / CLI should provide a list of configuration key (versions) that are used by my deployments
+  - I need to know the configuration keys and versions for all the instance groups in my deployment
+
+```bash
+$ bosh list config cf
++-----+-------------+---------+
+| Job | Key         | Version |
++-----+-------------+---------+
+| cc  | cf.cc.admin | 12      |
+|     | ...         |         |
++-----+-------------+---------+
+| ... |             |         |
++-----+-------------+---------+
+
+$ bosh get config cf cf.cc.admin
+cf.cc.admin.12
+```
+
+- The BOSH director / CLI should provide a list of deployments that use a particular configuration key so that I can trigger a re-deploy
+
+```bash
+$ bosh search config cf.cc.admin
++------------+-----+---------+
+| Deployment | Job | Version |
++------------+-----+---------+
+| cf         | cc  | 12      |
++------------+-----+---------+
 ```
 
 - `bosh deploy` should use the latest version of the configuration so that all my deployments converge on the newest configuration values
