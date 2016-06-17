@@ -11,7 +11,7 @@ Proposal: Introduce optional config API in the Director to fetch property values
 
 ## API
 
-Following public API will be used by the Director to contact config server:
+The config-server API for create, read and delete is as follows:
 
 - GET /v1/config/&lt;some-key-path>
   - whenever Director needs to retrieve a value it will use GET action
@@ -20,6 +20,8 @@ Following public API will be used by the Director to contact config server:
 - PUT /v1/config/&lt;some-key-path>
   - whenever Director generates a value it will be saved into the config server
   - {"value": "..."}
+
+- DELETE /v1/config/&lt;some-key-path>
 
 Values could be any valid JSON object.
 
@@ -98,6 +100,9 @@ Client side replacement of "{{...}}" will not be affected.
 - director should include UAA token when making a request to the config server
   - show error from the config server when token is not valid
 
+---
+
+- DELETE endpoint should delete a configuration value from the datastore
 ## TBD
 
 - should links point to specific version of the config value?
