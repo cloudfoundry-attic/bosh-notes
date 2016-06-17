@@ -13,15 +13,16 @@ Proposal: Introduce optional config API in the Director to fetch property values
 
 The config-server API for create, read and delete is as follows:
 
-- GET /v1/config/&lt;some-key-path>
-  - whenever Director needs to retrieve a value it will use GET action
-  - {"path": "some-key-path", "value": "..."}
+- GET /v1/config/&lt;some-key-path>[?version=&lt;version>]
+  - returns the configuration value in the specified `version`. If none is specified, the latest version is returned.
+  - {"path": "some-key-path", "value": "...", "version": "..."}
 
 - PUT /v1/config/&lt;some-key-path>
   - whenever Director generates a value it will be saved into the config server
   - {"value": "..."}
 
-- DELETE /v1/config/&lt;some-key-path>
+- DELETE /v1/config/&lt;some-key-path>[?retain-versions=[2,4..6]]
+  - if `retain-versions` is specified, all other versions are removed
 
 Values could be any valid JSON object.
 
@@ -29,7 +30,9 @@ Values could be any valid JSON object.
 
 Director will use UAA for authentication with the config server. The Director will be configured with a UAA client and secret (similarly to how HM is configured).
 
-## Manifest configuration
+## Director integration
+
+### Manifest configuration
 
 When manifest includes "{{key-name}}" directive it will be parsed out by the Director and value associated with "key-name" will be retrieved from the config server. This should happen before manifest is used for determining if instances need an update.
 
@@ -48,6 +51,10 @@ instance_groups:
 Note that the Director should first parse YAML manifest and only then replace leaf values using curly braces. This does not allow to do something like this: "https://api.{{domain}}".
 
 Client side replacement of "{{...}}" will not be affected.
+
+### Configuration versions
+
+Configuration values can exist in multiple versions. The director always uses the latest version during deployment and stores the relation between deployment/instance_group/property and the configuration/version in the database.
 
 ## Stories
 
@@ -103,6 +110,12 @@ Client side replacement of "{{...}}" will not be affected.
 ---
 
 - DELETE endpoint should delete a configuration value from the datastore
+
+- DELETE endpoint should allow to specify versions to be retained
+
+- `bosh deploy` should use the latest version of the configuration so that all my deployments converge on the newest configuration values
+   - if I re-deploy everything after a configuration change only the latest versions of configuration values will be used
+
 ## TBD
 
 - should links point to specific version of the config value?
