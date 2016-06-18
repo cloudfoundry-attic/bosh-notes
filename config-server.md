@@ -11,15 +11,18 @@ Proposal: Introduce optional config API in the Director to fetch property values
 
 ## API
 
-Following public API will be used by the Director to contact config server:
+The config-server API for create, read and delete is as follows:
 
-- GET /v1/config/&lt;some-key-path>
-  - whenever Director needs to retrieve a value it will use GET action
-  - {"path": "some-key-path", "value": "..."}
+- GET /v1/config/&lt;some-key-path>[?version=&lt;version>]
+  - returns the configuration value in the specified `version`. If none is specified, the latest version is returned.
+  - {"path": "some-key-path", "value": "...", "version": "..."}
 
 - PUT /v1/config/&lt;some-key-path>
-  - whenever Director generates a value it will be saved into the config server
-  - {"value": "..."}
+  - {"value": "...", "type": "..."}
+  - adds value as new latest version of the configuration value
+
+- DELETE /v1/config/&lt;some-key-path>[?retain-versions=[2,4..6]]
+  - if `retain-versions` is specified, all other versions are removed
 
 Values could be any valid JSON object.
 
@@ -27,7 +30,17 @@ Values could be any valid JSON object.
 
 Director will use UAA for authentication with the config server. The Director will be configured with a UAA client and secret (similarly to how HM is configured).
 
-## Manifest configuration
+## CLI
+Go CLI should support the following commands:
+- `config login <user> [<password>]` - Get a UAA token for the user. If no &lt;password> is specified it is requested interactively.
+- `config set <key> <value>` - Add a new version of &lt;key> with the &lt;value>.
+- `config get <key> [<version>]` - Get the value for &lt;key> in &lt;version>. If no version is specified the latest version of &lt;key> is returned.
+- `config delete <key> [--retain-versions=<retain-versions>]` - Delete a key. &lt;retain-versions> is a comma separated list of versions and version ranges. It can be used to keep certain versions around, e.g. 2,4..6 to keep versions 2, 4, 5 and 6.
+- `config logout` - Drop current UAA token.
+
+## Director integration
+
+### Manifest configuration
 
 When manifest includes "{{key-name}}" directive it will be parsed out by the Director and value associated with "key-name" will be retrieved from the config server. This should happen before manifest is used for determining if instances need an update.
 
@@ -46,6 +59,47 @@ instance_groups:
 Note that the Director should first parse YAML manifest and only then replace leaf values using curly braces. This does not allow to do something like this: "https://api.{{domain}}".
 
 Client side replacement of "{{...}}" will not be affected.
+
+### Configuration versions
+
+Configuration values can exist in multiple versions. The director always uses the latest version during deployment and stores the relation between deployment/instance_group/property and the configuration/version in the database.
+
+### CLI
+
+The BOSH CLI should make the relation between configuration and deployments available to the user so he can find out which configuration versions are used by a certain deployment and which configuration versions are still in use.
+
+1. `bosh list config <deployment>`
+```bash
+$ bosh list config cf
++-----+-------------+---------+
+| Job | Key         | Version |
++-----+-------------+---------+
+| cc  | cf.cc.admin | 12      |
+|     | ...         |         |
++-----+-------------+---------+
+| ... |             |         |
++-----+-------------+---------+
+```
+
+2. `bosh get config <deployment> <key>`
+```bash
+$ bosh get config cf cf.cc.admin
+cf.cc.admin.12
+```
+
+3. `bosh search config <key>`
+```bash
+$ bosh search config cf.cc.admin
++------------+-----+---------+
+| Deployment | Job | Version |
++------------+-----+---------+
+| cf         | cc  | 12      |
++------------+-----+---------+
+```
+
+### Generation of values
+
+When Director can't find a value via GET it will issue a PUT action with a 'type' (omitting a value) to let the config-server generate a value.
 
 ## Stories
 
@@ -97,6 +151,78 @@ Client side replacement of "{{...}}" will not be affected.
   - only allow "config-server.admin" scope?
 - director should include UAA token when making a request to the config server
   - show error from the config server when token is not valid
+
+---
+
+- DELETE endpoint should delete a configuration value from the datastore
+
+- DELETE endpoint should allow to specify versions to be retained
+
+- Create simple config-server CLI (e.g. `config`) to hide UAA token handling
+
+```bash
+$ config set cf.cc.admin c1oudc0w
+Saved value for 'cf.cc.admin'
+$ config get cf.cc.admin
+c1oudc0w
+```
+
+- The config-server CLI should read values from stdin so that secrets don't have to be persisted anywhere
+
+```bash
+$ generate_password | config set cf.cc.admin
+Saved value for 'cf.cc.admin'
+```
+
+- The config-server should keep old versions of my configuration values so that I can access systems that were not re-deployed yet
+  - versions are immutable, i.e. you cannot overwrite the value in a particular version
+  - if no particular version is requested the latest version is returned
+
+```bash
+$ config set cf.cc.admin a
+Saved value for 'cf.cc.admin'
+$ config set cf.cc.admin b
+Saved value for 'cf.cc.admin'
+
+$ config get cf.cc.admin
+b
+$ config get cf.cc.admin.2
+b
+$ config get cf.cc.admin.1
+a
+```
+
+- The BOSH director / CLI should provide a list of configuration key (versions) that are used by my deployments
+  - I need to know the configuration keys and versions for all the instance groups in my deployment
+
+```bash
+$ bosh list config cf
++-----+-------------+---------+
+| Job | Key         | Version |
++-----+-------------+---------+
+| cc  | cf.cc.admin | 12      |
+|     | ...         |         |
++-----+-------------+---------+
+| ... |             |         |
++-----+-------------+---------+
+
+$ bosh get config cf cf.cc.admin
+cf.cc.admin.12
+```
+
+- The BOSH director / CLI should provide a list of deployments that use a particular configuration key so that I can trigger a re-deploy
+
+```bash
+$ bosh search config cf.cc.admin
++------------+-----+---------+
+| Deployment | Job | Version |
++------------+-----+---------+
+| cf         | cc  | 12      |
++------------+-----+---------+
+```
+
+- `bosh deploy` should use the latest version of the configuration so that all my deployments converge on the newest configuration values
+   - if I re-deploy everything after a configuration change only the latest versions of configuration values will be used
 
 ## TBD
 
