@@ -13,13 +13,45 @@ Proposal: Introduce optional config API in the Director to fetch property values
 
 Following public API will be used by the Director to contact config server:
 
-- GET /v1/config/&lt;some-key-path>
+- GET /v1/data/&lt;some-key-path>
   - whenever Director needs to retrieve a value it will use GET action
-  - {"path": "some-key-path", "value": "..."}
+  - { "type": "value", "value": <any json value> }
 
-- PUT /v1/config/&lt;some-key-path>
+- PUT /v1/data/&lt;some-key-path>
+  - manual config value update
+  - { "type": "certificate", "value": <any json value> }
+
+- POST /v1/data/&lt;some-key-path>
   - whenever Director generates a value it will be saved into the config server
-  - {"value": "..."}
+  - {
+      "type": "value",
+      "parameters": { <opaque> }
+    }
+
+### Generic value generation parameters
+
+The Director will not include any params when generating generic value.
+
+### Certificate generation parameters
+
+The Director will include following params when generating certificates.
+
+```
+{
+  type": "certificate",
+  parameters": {
+    "common_name": "bosh.io",
+    "alternative_name": ["blah.bosh.io", "10.10.10.1"],
+    "organization": "Blah",
+    "organization_unit": "Blah Dev",
+    "locality": "San Francisco",
+    "state": "CA",
+    "country": "US"
+  }
+}
+```
+
+name: { ... }
 
 Values could be any valid JSON object.
 
@@ -49,7 +81,7 @@ Client side replacement of "{{...}}" will not be affected.
 
 ## Stories
 
-- create a release with a simple config server that has a single GET endpoint for fetching a "dummy" (key; /v1/config/dummy) value (2)
+- create a release with a simple config server that has a single GET endpoint for fetching a "dummy" (key; /v1/data/dummy) value (2)
   - return dummy value right now
   - write config server in go
   - return 404 if value doesnt exist (non-dummy path)
