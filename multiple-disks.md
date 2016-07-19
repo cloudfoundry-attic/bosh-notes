@@ -1,10 +1,13 @@
 # Multiple Disks [PLANNING]
 
 Wanted:
+
 - multiple raw disks
 - multiple partitioned/formatted disks
-- custom filesystem options
--
+- different disk configurations (size and types)
+- custom filesystem and options
+
+---
 
 Cloud config definition does not change:
 
