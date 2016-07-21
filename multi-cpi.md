@@ -47,10 +47,15 @@ cpis:
 $ bosh update cpi-config cpi.yml
 ```
 
-- add a new table
+- add a new table (similar to cloud config endpoints)
+- CPI type is "type" + _cpi
 - CPI config isn't versioned like cloud config so that credentials etc could be updated at any time
 - will work with config-server API to store creds once we implement for cloud config
 - info method for CPIs
+- POST /cpi-configs/latest would validate YAML
+  - validate cpis array: name, type presence, properties defaults to {} 
+- POST /cloud-config/latest
+  - dont validate anything
 
 ```
 $ cat cloud.yml
@@ -100,6 +105,7 @@ $ bosh upload stemcell ~/.tgz
   - change uniqueness constraint from name+version to name+version+cpi
   - default value for cpi column is NULL
     - backwards compatible
+    - migration unit tests are helpful
   - `bosh upload stemcell .tgz --fix` should continue work and replace stemcell for all matching CPIs
 
 ```
@@ -124,7 +130,9 @@ $ bosh deploy
 - start sending in associated CPI properties (defined in cpis.yml) to CPI at the time of the call
   - CPI should be able to accept properties in context key and use them instead of its job properties /cc Marco from SAP
   - see context key in https://bosh.io/docs/build-cpi.html#request
-- propose to have DeploymentPLan::Instance not expose stemcell
+- have OpenStack CPI accept properties and merge into "openstack"
+  - https://github.com/cloudfoundry-incubator/bosh-openstack-cpi-release/blob/master/src/bosh_openstack_cpi/lib/cloud/openstack/cloud.rb#L921
+- propose to have DeploymentPlan::Instance not expose stemcell
   - .. so that it only exposes `stemcell_cid` that internally looks at correct stemcell model based on instance AZ... eg
 
       def stemcell_cid
@@ -164,7 +172,7 @@ Following assumes:
 
 - Disk management
   - create_disk: pick CPI based on instance's AZ; pick default CPI if there is AZ=nil
-  - delete_disk: pick CPI based on instance's AZ; for orphaned disks pick CPI based on saved AZ, if CPI returns disk is found, try all other CPIs
+  - delete_disk: pick CPI based on instance's AZ; for orphaned disks pick CPI based on saved AZ, if CPI returns disk is not  found, try all other CPIs
   - has_disk: pick CPI based on instance's AZ
   - attach_disk: (same as above)
   - detach_disk: (same as above)
