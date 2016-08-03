@@ -22,10 +22,11 @@ disk_types:
 
 Deployment manifest has a new configuration to specify multiple persistent disks:
 
-```
+```yaml
 instance_groups:
 - name: postgres
   instances: 3
+
   jobs:
   - name: postgres
     release: postgres
@@ -49,6 +50,7 @@ instance_groups:
     release: fs-tools
     properties:
       fs_id: fs-0357964a
+
   persistent_disks:
   - name: data-files-disk                         # provides type=disk link
     type: 400gb
