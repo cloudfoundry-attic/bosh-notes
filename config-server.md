@@ -13,20 +13,28 @@ Proposal: Introduce optional config API in the Director to fetch property values
 
 Following public API will be used by the Director to contact config server:
 
-- GET /v1/data/&lt;some-key-path>
+- GET /v1/data/\<some-key-path>
   - whenever Director needs to retrieve a value it will use GET action
-  - { "type": "value", "value": <any json value> }
+  - Request: \<nothing>
+  - Response: 200 OK { "type": "value", "value": \<any json value> }
 
-- PUT /v1/data/&lt;some-key-path>
+- DELETE /v1/data/\<some-key-path>
+  - user can delete config values
+  - Request: \<nothing>
+  - Response: 200 OK
+
+- PUT /v1/data/\<some-key-path>
   - manual config value update
-  - { "type": "certificate", "value": <any json value> }
+  - Request: { "type": "certificate", "value": \<any json value> }
+  - Response: 200 OK
 
-- POST /v1/data/&lt;some-key-path>
+- POST /v1/data/\<some-key-path>
   - whenever Director generates a value it will be saved into the config server
-  - {
+  - Request: {
       "type": "value",
-      "parameters": { <opaque> }
+      "parameters": { \<opaque> }
     }
+  - Response: 200 OK
 
 ### Generic value generation parameters
 
@@ -42,16 +50,9 @@ The Director will include following params when generating certificates.
   parameters": {
     "common_name": "bosh.io",
     "alternative_name": ["blah.bosh.io", "10.10.10.1"],
-    "organization": "Blah",
-    "organization_unit": "Blah Dev",
-    "locality": "San Francisco",
-    "state": "CA",
-    "country": "US"
   }
 }
 ```
-
-name: { ... }
 
 Values could be any valid JSON object.
 
@@ -61,7 +62,7 @@ Director will use UAA for authentication with the config server. The Director wi
 
 ## Manifest configuration
 
-When manifest includes "{{key-name}}" directive it will be parsed out by the Director and value associated with "key-name" will be retrieved from the config server. This should happen before manifest is used for determining if instances need an update.
+When manifest includes "((key-name))" directive it will be parsed out by the Director and value associated with "key-name" will be retrieved from the config server. This should happen before manifest is used for determining if instances need an update.
 
 Example how manifest may reference values:
 
@@ -72,12 +73,12 @@ instance_groups:
   - name: nats
     release: nats
     properties:
-    	password: {{nats.password}}
+    	password: ((nats.password))
 ```
 
 Note that the Director should first parse YAML manifest and only then replace leaf values using curly braces. This does not allow to do something like this: "https://api.{{domain}}".
 
-Client side replacement of "{{...}}" will not be affected.
+Client side replacement of "((...))" will not be affected.
 
 ## Stories
 
@@ -103,7 +104,7 @@ Client side replacement of "{{...}}" will not be affected.
 
 ---
 
-- director should parse manifest values looking for {{...}} (2)
+- director should parse manifest values looking for ((...)) (2)
   - feature flag it as director.parse_config_values
   - only evaluate properties and env sections
   - return one error per key in the manifest
