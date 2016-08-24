@@ -46,8 +46,8 @@ The Director will include following params when generating certificates.
 
 ```
 {
-  type": "certificate",
-  parameters": {
+  "type": "certificate",
+  "parameters": {
     "common_name": "bosh.io",
     "alternative_name": ["blah.bosh.io", "10.10.10.1"],
   }
