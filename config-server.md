@@ -13,24 +13,25 @@ Proposal: Introduce optional config API in the Director to fetch property values
 
 Following public API will be used by the Director to contact config server:
 
-- GET /v1/data/\<some-key-path>
+- GET /v1/data/\<some-id>
   - whenever Director needs to retrieve a value it will use GET action
   - Request: \<nothing>
-  - Response: 200 OK { "type": "value", "value": \<any json value> }
+  - Response: 200 OK { "name": "\<some-key-name>", "type": "value", "value": \<any json value> }
 
-- DELETE /v1/data/\<some-key-path>
+- DELETE /v1/data/?name=\<some-key-name>
   - user can delete config values
   - Request: \<nothing>
   - Response: 200 OK
 
-- PUT /v1/data/\<some-key-path>
+- PUT /v1/data/\<some-id>
   - manual config value update
   - Request: { "type": "certificate", "value": \<any json value> }
   - Response: 200 OK
 
-- POST /v1/data/\<some-key-path>
+- POST /v1/data
   - whenever Director generates a value it will be saved into the config server
   - Request: {
+      "name": "<some-key-name>",
       "type": "value",
       "parameters": { \<opaque> }
     }
@@ -79,6 +80,48 @@ instance_groups:
 Note that the Director should first parse YAML manifest and only then replace leaf values using curly braces. This does not allow to do something like this: "https://api.{{domain}}".
 
 Client side replacement of "((...))" will not be affected.
+
+## Director ID management
+
+It's useful for some Director clients to know which config server IDs are still in use anywhere within a Director and/or a deployment. These clients may use that information to determine when it's ok to delete a config server entry, or to update it for rotation.
+
+Following is a proposed endpoint for Director wide check:
+
+GET /vars/var1-id?include-value=false
+
+- 404 Not Found if ID is not used by the Director in any of the deployments.
+- 200 OK if it's used
+- supports only `include-value=false`
+
+```json
+{
+  "id": "var1-id",
+  "name": "/director/dep1/var1"
+}
+```
+
+GET /deployments/dep1/vars?include-value=true
+
+- Returns all config server values used by that deployment
+
+```json
+[
+  {
+    "id": "var1-id",
+    "name": "/director/dep1/var1",
+    "value": \<any json value>
+  },
+  {
+    "id": "var2-id",
+    "name": "/director/dep1/var2",
+    "value": \<any json value>
+  }
+]
+```
+
+TBD:
+- how to deal with multiple versions
+- how to deal with namespacing? (keep it or not?)
 
 ## Stories
 
