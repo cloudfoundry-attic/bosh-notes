@@ -51,7 +51,7 @@ Each provided link can be marked with shared: true or false. By default links ar
 
 From field can be one of the following:
 
-- `name` or `alt-name` can be used within deployment the same deployment
+- `name` or `alt-name` can be used within the same deployment
 - `deployment.name` or `deployment.alt-name` can be used across deployments when link is shared
 
 Once alt name is set via `as`, link can no longer be accessed via its name.
