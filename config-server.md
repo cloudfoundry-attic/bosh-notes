@@ -1,4 +1,4 @@
-# Config Server [PLANNING]
+# Config Server [IN PROGRESS]
 
 Goals:
 
