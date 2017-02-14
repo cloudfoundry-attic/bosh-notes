@@ -1,4 +1,4 @@
-# Release Creation
+# Release Creation [FINISHED]
 
 Focus of this document is to streamline scripting and usage of BOSH CLI and releases in the CI environments.
 
