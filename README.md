@@ -36,4 +36,7 @@ Finished:
 * [Cloud Config](finished/cloud-config.md)
 * [Availability Zones](finished/availability-zones.md)
 * [Global Networking](finished/global-networking.md)
-* [Deployment Naming](deployment-naming.md)
+* [Deployment Naming](finished/deployment-naming.md)
+* [Asset Fetching](finished/asset-fetching.md)
+* [Release Creation](finished/release-creation.md)
+* [CLI Deployment Resources](finished/cli-deployment-resources.md)
