@@ -1,4 +1,4 @@
-# CLI: `bosh instances` [IN PROGRESS]
+# CLI: `bosh instances` [FINISHED]
 
 ## Instances
 

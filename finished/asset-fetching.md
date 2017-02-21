@@ -1,4 +1,4 @@
-# Asset Fetching
+# Asset Fetching [FINISHED]
 
 It's inconvenient to have to manually issue commands to the Director to download releases and stemcells before doing a deploy. Similarly to how bosh-init automatically fetches necessary assets, the CLI/Director should be able to perform the same thing.
 
