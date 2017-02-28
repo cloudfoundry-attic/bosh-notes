@@ -2,7 +2,7 @@
 
 This repository contains collection of *proposals/ideas* for [BOSH](https://github.com/cloudfoundry/bosh).
 
-For actually implemented features, please see [bosh.io/docs](https://bosh.io/docs).
+*** For actually implemented features and documentation, please see [bosh.io/docs](https://bosh.io/docs) ***
 
 You can also find currently in progress work in the Epics view in each Tracker:
 - [BOSH Core](https://www.pivotaltracker.com/n/projects/956238)
