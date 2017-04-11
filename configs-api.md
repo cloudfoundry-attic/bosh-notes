@@ -74,3 +74,7 @@ We'll still provide common commands for cloud-config, cpi-config, etc but we wil
 $ bosh update-config type file.yml --name ...
 $ bosh configs       type [--name ... --version ...]
 ```
+
+## TBD
+
+- bosh cloud-config shows collapsed view?
