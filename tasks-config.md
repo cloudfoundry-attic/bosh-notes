@@ -13,6 +13,8 @@ tasks:
   include:
     deployment:
       - some-name
+    jobs: [...]
+    teams: [...]
   exclude:
     deployment:
       - ads
@@ -22,3 +24,7 @@ tasks:
 
 - include: ...
 ```
+
+## TBD
+
+- Director API rate limiting outside of tasks
