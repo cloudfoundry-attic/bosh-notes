@@ -3,6 +3,8 @@
 - Pausing -> rate_limit: 0 workers
 - Rate limiting -> X workers at a time
 - Priority -> prefer one team over another
+- Time sharing between teams (or X)
+- Prioritize based on type of task (vms, ssh, etc.)
 
 ```
 $ bosh tasks-config
