@@ -176,7 +176,7 @@ name: generic-broker
 
 provides:
 - name: generic
-  type: service-broker
+  type: servicebroker
   properties:
   - url
   - username
