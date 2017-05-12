@@ -181,7 +181,7 @@ provides:
   - url
   - username
   - password
-  - certificate
+  - certificate.ca
 
 properties: {...}
 ```
