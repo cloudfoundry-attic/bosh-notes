@@ -93,7 +93,7 @@ instance_groups:
         from: db
         deployment: mysql
         options:
-        	asdf
+          key: value
 
       # potential spec for consuming brokered link from a remote service broker
       primary_db:
@@ -138,35 +138,37 @@ instance_groups:
 
 Example of an ops file that opts into a DB link:
 
+```
 $ bosh deploy wordpress.yml -o custom-elephant-db.yml
+```
 
 ```
 - type: replace
-  path: /instnace_gorups/name=app/jobs/name=app/consumes/primary_db
-  value:
-	  service_broker:
-      api:
-  	    url: ...
-  	    ca: ...
-  	    creds:
-	  service_instance:
-      service:
-      plan:
-      name: /lol
-	    parameters:
-        ...
-  	service_binding:
-      parameters:
-  	    max_connections: 100
-
-- type: replace
-  path: /instnace_gorups/name=app/jobs/name=app/consumes/primary_db
+  path: /instance_groups/name=app/jobs/name=app/consumes/primary_db
   value:
     service_broker:
-	    from: db
-	    deployment: mysql
-  	  instance:
-  	    name: foo
+      api:
+  	url: ...
+  	ca: ...
+  	creds:
+    service_instance:
+      service:
+        plan:
+        name: lol
+        parameters:
+          ...
+    service_binding:
+      parameters:
+        max_connections: 100
+
+- type: replace
+  path: /instance_groups/name=app/jobs/name=app/consumes/primary_db
+  value:
+    service_broker:
+      from: db
+      deployment: mysql
+    instance:
+      name: foo
 ```
 
 ## Generic broker
