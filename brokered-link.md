@@ -1,6 +1,15 @@
 # [Service] Brokered Links
 
-- https://github.com/openservicebrokerapi/servicebroker
+In some cases link consumers want to get unique link "binding" to the provider. A good example of this is a MySQL job that provides a link. Consumer of such link typically would want a unique username/password pointing to potentially a dedicated database. Our current implementation of links only allows a single configuration by the provider.
+
+Some examples:
+
+- unique UAA client per consumtion of a UAA link
+- unique database with username/password per consumption of MySQL link
+- unique CredHub ACL-ed namespace per consumption of CredHub link
+- (any other service in CF land)
+
+One way to add such dynamic functionality is to broker links via Open Service Broker API: https://github.com/openservicebrokerapi/servicebroker.
 
 Link consumption definition:
 
