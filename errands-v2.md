@@ -34,24 +34,31 @@ instance_groups:
 ## Director
 
 $ bosh errands
-# lists errands
+
+lists errands
+
 - list of errand jobs
 - list of instance groups that have lifecycle=errand for backwards compatibility
 
 $ bosh run-errand backup
-# runs errand of multiple errands
+
+runs errand of multiple errands
+
 - may be ambigious between and instance group and a job
   - prefer job instead of an instance group
 - runs all errands by name of backup in the deployment
 
 $ bosh run-errand backup --instance name
-# run on all instances of an instance group
+
+run on all instances of an instance group
 
 $ bosh run-errand backup --instance name/id
-# run on particular instance
+
+run on particular instance
 
 $ bosh run-errand backup --instance name/any
-# run on one of the instances
+
+run on one of the instances
 
 ## Agent API
 
