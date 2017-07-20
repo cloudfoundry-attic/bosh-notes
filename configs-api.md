@@ -60,7 +60,7 @@ POST /configs
   resp: { id: "138748", type: asdf, name: asdf, content: "asdf\nasdf" }
   - name and type are always required
 
-POST /configs/diffs
+POST /config_diffs
   req: { from: { ... }, to: { type: asdf, name: asdf, content: "asdf\nasdf" } }
   req: { from: { id: "1" }, to: { "2" } }
   resp: { diff: [...], error: "" }
