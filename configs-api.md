@@ -49,7 +49,7 @@ There is also desire to have multiple "branches" of configs (named) so that not 
 Following API endpoints would replace current ones (in a backwards compatible):
 
 ```
-GET /configs?[name=asdf][&type=asdf][&latest=true]&content=false
+GET /configs?[name=asdf][&type=asdf][&latest=true]
   resp: [{ id: "138748", type: asdf, name: asdf, content: "asdf\nasdf" }]
 
 GET /configs/:id
