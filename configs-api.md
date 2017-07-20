@@ -51,6 +51,7 @@ Following API endpoints would replace current ones (in a backwards compatible):
 ```
 GET /configs?[name=asdf][&type=asdf][&latest=true]
   resp: [{ id: "138748", type: asdf, name: asdf, content: "asdf\nasdf" }]
+  - any combination of name, type, latest is allowed
 
 GET /configs/:id
   resp: { id: "138748", type: asdf, name: asdf, content: "asdf\nasdf" }
@@ -59,6 +60,9 @@ POST /configs
   req: { type: asdf, name: asdf, content: "asdf\nasdf" }
   resp: { id: "138748", type: asdf, name: asdf, content: "asdf\nasdf" }
   - name and type are always required
+
+DELETE /configs?[name=asdf][&type=asdf]
+  resp: 200 OK
 
 POST /config_diffs
   req: { from: { ... }, to: { type: asdf, name: asdf, content: "asdf\nasdf" } }
