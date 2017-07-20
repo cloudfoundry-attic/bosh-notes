@@ -49,24 +49,26 @@ There is also desire to have multiple "branches" of configs (named) so that not 
 Following API endpoints would replace current ones (in a backwards compatible):
 
 ```
-GET  /configs/:type
-	[{ id: "138748", name: asdf, config: "asdf\nasdf" }]
+GET /configs?[name=asdf][&type=asdf][&latest=true]&content=false
+  resp: [{ id: "138748", type: asdf, name: asdf, content: "asdf\nasdf" }]
 
-GET  /configs/:type?name=...&id=x
-  { id: "138748", name: asdf, config: "asdf\nasdf" }
+GET /configs/:id
+  resp: { id: "138748", type: asdf, name: asdf, content: "asdf\nasdf" }
 
-POST /configs/:type?...&name=...
-  - no name -> name="" (default)
-  { id: "138748", name: asdf, config: "asdf\nasdf" }
+POST /configs
+  req: { type: asdf, name: asdf, content: "asdf\nasdf" }
+  resp: { id: "138748", type: asdf, name: asdf, content: "asdf\nasdf" }
+  - name and type are always required
 
-POST /configs/:type/diff[?id=x[&id2=x]]
-  { diff: [...], error: "" }
-
-POST /configs/:type/authorization
-  ?
+POST /configs/diffs
+  req: { from: { ... }, to: { type: asdf, name: asdf, content: "asdf\nasdf" } }
+  req: { from: { id: "1" }, to: { "2" } }
+  resp: { diff: [...], error: "" }
+  - if from is not specified pick last based on type/name specified in to
+  - to is required
 ```
 
-Note: IDs are unique within a "type".
+Note: IDs are unique across everything.
 
 We'll still provide common commands for cloud-config, cpi-config, etc but we will also provide generic commands:
 
