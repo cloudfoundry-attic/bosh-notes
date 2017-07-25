@@ -22,6 +22,12 @@ instance_groups:
   - name: credhub-rekey # <------- errand on service instance
     properties:
       ...
+  - name: credhub-rekey-1 # <------- errand on service instance
+    properties:
+      ...
+  - name: credhub-rekey-2 # <------- errand on service instance
+    properties:
+      ...
 
 - name: credub
   lifecycle: errand
@@ -48,11 +54,11 @@ runs errand of multiple errands
   - prefer job instead of an instance group
 - runs all errands by name of backup in the deployment
 
-$ bosh run-errand backup --instance name
+$ bosh run-errand backup --instance group
 
 run on all instances of an instance group
 
-$ bosh run-errand backup --instance name/id
+$ bosh run-errand backup --instance group/id
 
 run on particular instance
 
