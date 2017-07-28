@@ -107,3 +107,9 @@ Possible workflow for a visualizer (CLI/Web):
   - Cross reference by link_consumer/provider_ids
 - Show consumers and providers not used in links
 - Show location info for each? (job, instance group ...)
+
+Other possible uses:
+
+- cross director linking
+- link rotation (to rotate creds)
+- operator consumed links
