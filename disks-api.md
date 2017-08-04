@@ -1,5 +1,6 @@
 # Disk API consistency WIP
 
+```
 GET /vms
 
 GET /orphan_vms
@@ -9,8 +10,10 @@ DELETE /vms/:vm_cid
 bosh delete-vm vm_cid
 - delete VM permanently
 
-DELETE /disks/:disk_cid -> error (cannot just delete)
-DELETE /disks/:disk_cid?orphan=true -> orphans persistent disk?
+DELETE /disks/:disk_cid
+- error (cannot just delete)
+
+DELETE /disks/:disk_cid?orphan=true
 bosh orphan-disk disk_cid
 - orphan disk from instance (db flip)
 
@@ -18,16 +21,17 @@ PUT /disks/:disk_cid/attachments?deployment=foo&job=dea&instance_id=17f01a35-bf9
 bosh attach-disk instance disk_cid
 - removed orphaned copy
 
-bosh disks
 GET /disks
+bosh disks
 {cid:...}
 - list disks used by deployments
 
+GET /orphan_disks
 bosh disks --orphaned
-GET /orphaned_disks
-{orphaned_at}
+{orphaned_at...}
 - list orphaned disks
 
 DELETE /orphan_disks/:cid
-bosh delete-orphaned-disk disk_cid
-- deletes disk from iaas
+bosh delete-orphan-disk disk_cid
+- deletes disk from iaas permanently
+```
