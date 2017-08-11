@@ -66,7 +66,7 @@ DELETE /configs?[name=asdf][&type=asdf]
 
 POST /config_diffs
   req: { from: { ... }, to: { type: asdf, name: asdf, content: "asdf\nasdf" } }
-  req: { from: { id: "1" }, to: { "2" } }
+  req: { from: { id: "1" }, to: { id: "2" } }
   resp: { diff: [...], error: "" }
   - if from is not specified pick last based on type/name specified in to
   - to is required
