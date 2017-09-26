@@ -17,14 +17,14 @@ resources:
   provide:
     lbs: {as: my-lb}
 
-# - name: my-kafka-broker
-#   type: service-broker
-#   options:
-#     url: ...
-#     client_id:
-#     client_secret: ...
-#   provides:
-#     broker: {as: my-kafka-broker}  # service-broker type
+ - name: my-kafka-broker
+   type: service-broker
+   options:
+     url: ...
+     client_id:
+     client_secret: ...
+   provides:
+     broker: {as: my-kafka-broker}  # service-broker type
 
 - name: my-kafka-server
   type: service-instance
@@ -51,7 +51,9 @@ resources:
   options:
     readonly: true
   consumes:
-    binding: {from: my-kafka-instance} # kafka type?
+    instance: {from: my-kafka-instance} # kafka type?
+  provides:
+    binding: {as: my-kafka-creds}
 
 - name: rds
   type: manual
@@ -68,7 +70,7 @@ resources:
 jobs:
 - name: foo
   consumes:
-     kafka-instance: {from: my-kafka-instance} 
+     kafka: {from: my-kafka-creds} 
   provides:
      ...
 
