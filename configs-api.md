@@ -1,4 +1,4 @@
-# Common configs API
+# Common configs API [IN PROGRESS]
 
 Director now (or in upcoming releases) manages multiple types of configs:
 
