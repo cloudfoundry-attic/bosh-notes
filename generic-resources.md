@@ -2,21 +2,6 @@
 
 ```
 resources:
-- name: foo
-  type: service-broker
-  ...
-
-- name: foo
-  type: director
-  ...
-
-- name: foo
-  type: service-instance
-  options:
-    service_id: elb
-  provide:
-    lbs: {as: my-lb}
-
  - name: my-kafka-broker
    type: service-broker
    options:
@@ -46,15 +31,6 @@ resources:
   provides:
     kafka-topic: {as: my-kafka-topic} # service-instance type
 
-- name: my-kafka-creds
-  type: service-binding
-  options:
-    readonly: true
-  consumes:
-    instance: {from: my-kafka-instance} # kafka type?
-  provides:
-    binding: {as: my-kafka-creds}
-
 - name: rds
   type: manual
   provides:
@@ -70,7 +46,7 @@ resources:
 jobs:
 - name: foo
   consumes:
-     kafka: {from: my-kafka-creds} 
+     kafka-topic: {from: my-kafka-topic} 
   provides:
      ...
 
