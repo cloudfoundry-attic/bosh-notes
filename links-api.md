@@ -18,6 +18,8 @@ Recap: link structure is made of link consumer (LC), link itself (L) and link pr
 +----+           +----+
 ```
 
+## Proposed DB schema
+
 Following endpoints would be exposed based on deployments:
 
 ```
@@ -113,6 +115,11 @@ Other possible uses:
 - cross director linking
 - link rotation (to rotate creds)
 - operator consumed links
+
+
+## Current API schema
+
+...
 
 ## Proposed DB schema
 
