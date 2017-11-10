@@ -113,3 +113,44 @@ Other possible uses:
 - cross director linking
 - link rotation (to rotate creds)
 - operator consumed links
+
+## Proposed DB schema
+
+```
+link_providers:
+    - `id`
+    - `name`: Link Name (required)
+    - Shared (required)
+
+    - Deployment Id (should NOT be null) (required)
+    - Consumable (boolean) (required) [to nil out provider]
+    - Content (The full data that the link can provide) [examples???]
+
+    - `link_provider_defintion_type`: Link Type (required) [comes from a release]
+    - `link_provider_definition_name`: Link Original Name (required) [comes from a release]
+
+    - `owner_object_name`: Provider Name (Job, Variable, Manual, etc.) (required) [for debugging]
+    - `owner_object_type`: Provider Type (Job, Variable, Manual, etc.) (required) [for debugging]
+    - `owner_object_info`: Metadata (The extra information used by visualization) [for debugging]
+
+link_consumers:
+    - `id`
+    - `deployment_id`: Deployment the consumer belongs to (Can be null)
+
+    - `link_consumer_defintion_type`: Link Type (required) [comes from a release]
+    - `link_consumer_definition_name`: Link Original Name (required) [comes from a release]
+
+    - `owner_object_name`: Provider Name (cloud_contoller, etc.) (required) [for debugging]
+    - `owner_object_type`: Provider Type (Job, Variable, Manual, etc.) (required) [for debugging]
+    - `owner_object_info`: Metadata (The extra information used by visualization) [for debugging]
+
+links:
+    - `link_provider_id`: Provider (Can be null when a link is orphaned)
+    - `link_consumer_id`: Consumer
+    - Link Contents (Each consumer type can have its own expected keys) [example???]
+    - `created_at`: Created At
+```
+
+## Current DB schema
+
+...
