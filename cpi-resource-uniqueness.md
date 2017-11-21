@@ -2,13 +2,17 @@
 
 We've run into several cases when CPIs were not able to create unique resources based on resourece names because IaaS did not enforce naming uniquness.
 
+Typically uniqueness is only checked for IDs.
+
 Examples:
 
 - OpenStack
-  - Server groups (policy with anti affinity) -- uniqueness is only done for IDs
-  - Security groups
+  - server groups (anti affinity polcity)
+  - security groups (creation, deletion)
 - vSphere
-  - Security groups
+  - security groups (creation, deletion)
+- Azure
+  - removal of availability sets after all instances are deleted
 
 ## Potential resolutions
 
