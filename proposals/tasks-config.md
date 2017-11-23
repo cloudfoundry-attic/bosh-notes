@@ -18,9 +18,7 @@ We could group task limiting like so:
 
 Given that Director now supports consolidated configs API, we can define a new config type: `tasks` with the following format:
 
-```
-$ bosh update-config tasks tasks.yml
----
+```yaml
 tasks:
 - options:
     rate_limit: 0
@@ -39,6 +37,8 @@ tasks:
   include:
     task_types: [vms, ssh, logs]
 ```
+
+(set via `bosh update-config tasks tasks.yml`)
 
 `options` key can include 2 configurations:
 
