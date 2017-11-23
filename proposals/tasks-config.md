@@ -1,10 +1,10 @@
 - State: in-progress
 
-## Summary
+# Summary
 
 There needs to be a way to configure Director to rate limit, prioritize etc task executions so that tasks could be executed in a manner acceptance to the operators.
 
-## Details
+# Details
 
 We could group task limiting like so:
 
@@ -47,7 +47,7 @@ tasks:
 
 `include`/`exclude` declrations follow same rules as addons' include/exclude rules. Only `deployments`, `tasks` and `task_types` keys are allowed.
 
-## TBD
+# TBD
 
 - Director API rate limiting outside of tasks
 - Should there be a way to define X number of tasks that can run in parallel?
