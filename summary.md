@@ -39,6 +39,12 @@
 - [brokered-link](proposals/brokered-link.md)
   - State: discussing
 
+- [certificate-ca-rotation](proposals/certificate-ca-rotation.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Summary: It should be possible to rotate CA certificates with the help of config server API without incurring any downtime.
+
 - [cpi-api-v2](proposals/cpi-api-v2.md)
   - State: discussing
 
