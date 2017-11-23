@@ -1,34 +1,53 @@
 - State: in-progress
 
-## Tasks config
+## Summary
 
-- Pausing -> rate_limit: 0 workers
-- Rate limiting -> X workers at a time
-- Priority -> prefer one team over another
-- Time sharing between teams (or X)
-- Prioritize based on type of task (vms, ssh, etc.)
+There needs to be a way to configure Director to rate limit, prioritize etc task executions so that tasks could be executed in a manner acceptance to the operators.
+
+## Details
+
+We could group task limiting like so:
+
+- Rate limit
+  - Limit certain group of tasks so that only X of them can run
+  - Limit certain group of tasks so that none of them can run (X=0)
+- Priority
+  - Prefer one team's tasks over another
+  - Prefer one deployment's tasks over another
+  - Prefer particular task types (vms, ssh, logs) over another
+
+Given that Director now supports consolidated configs API, we can define a new config type: `tasks` with the following format:
 
 ```
-$ bosh tasks-config
+$ bosh update-config tasks tasks.yml
 ---
 tasks:
 - options:
     rate_limit: 0
   include:
-    deployment:
-      - some-name
-    jobs: [...]
-    teams: [...]
+    deployments:
+    - include-dep1
+    - include-dep2
+    teams:
+    - team-1
   exclude:
-    deployment:
-      - ads
+    deployments:
+    - exclude-dep10
 
-- include: ...
-  priority: 1
-
-- include: ...
+- options:
+    priority: 100
+  include:
+    task_types: [vms, ssh, logs]
 ```
+
+`options` key can include 2 configurations:
+
+- `rate_limit` [Integer] which represents maximum number of tasks running at a time
+- `priority` [Integer] which represents relative priority between tasks
+
+`include`/`exclude` declrations follow same rules as addons' include/exclude rules. Only `deployments`, `tasks` and `task_types` keys are allowed.
 
 ## TBD
 
 - Director API rate limiting outside of tasks
+- Should there be a way to define X number of tasks that can run in parallel?
