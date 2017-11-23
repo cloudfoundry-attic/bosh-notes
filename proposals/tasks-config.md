@@ -50,4 +50,5 @@ tasks:
 # TBD
 
 - Director API rate limiting outside of tasks
+- Should multiple resurrection configs be allowed?
 - Should there be a way to define X number of tasks that can run in parallel?
