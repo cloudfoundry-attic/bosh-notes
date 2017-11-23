@@ -1,8 +1,8 @@
 ## bosh-notes
 
-This repository contains collection of *proposals* for [BOSH](https://github.com/cloudfoundry/bosh).
+This repository contains collection of proposals for [BOSH](https://github.com/cloudfoundry/bosh). For implemented features and their documentation, please see [bosh.io/docs](https://bosh.io/docs)
 
-*** For actually implemented features and documentation, please see [bosh.io/docs](https://bosh.io/docs) ***
+Please see [summary.md](summary.md) for status of each proposal.
 
 You can also find currently in progress work in the Epics view in each Tracker:
 
