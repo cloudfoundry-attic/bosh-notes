@@ -1,6 +1,12 @@
 - State: in-progress
 
-# Registry removal
+# Summary
+
+BOSH currently contains Registry component which it technically does not need.
+
+# Details
+
+We can simplify Director-CPI-Agent communication by removing Registry and sending necessary persistent disks information directly to the Agent.
 
 ## CPI updates
 
