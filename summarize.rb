@@ -45,8 +45,7 @@ class ProposalCollection < Struct.new(:proposals)
     sorted.each do |state, props|
       puts "## #{state}\n\n"
       props.each do |prop|
-        puts "- #{prop.name}"
-        puts "  - Link: [#{prop.md_url}](#{prop.md_url})"
+        puts "- [#{prop.name}](#{prop.md_url})"
         prop.summary_kvs.each do |k, v|
           puts "  - #{k}: #{v}"
         end
