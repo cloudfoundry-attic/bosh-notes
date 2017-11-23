@@ -22,6 +22,12 @@
 - [to-be-deprecated](proposals/to-be-deprecated.md)
   - State: in-progress
 
+- [ubuntu-xenial-stemcells](proposals/ubuntu-xenial-stemcells.md)
+  - State: in-progress
+  - Start date: 10/23/2017
+  - End date: ?
+  - Summary: BOSH should provide Ubuntu Xenial stemcells for the community.
+
 - [update-strategy-create](proposals/update-strategy-create.md)
   - State: in-progress
 
