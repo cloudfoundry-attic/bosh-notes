@@ -1,0 +1,230 @@
+- State: discussing
+
+# CPI API v2
+
+Remove registry and NATS from the Director/Agent data path:
+
+- director and agents communicate directly instead of over NATS
+  - switch to using HTTPS
+- settings are sent directly to the agent instead of saved in the registry
+  - e.g. send update_settings to the agent after attach_disk CPI, before mount_disk
+
+Implications for the CPI API:
+
+The CPI used to get and set settings in the registry. To remove the registry the API methods need to take a settings json as an additional argument and return the modified settings json. Settings remain opaque to the director, which just passes the settings on to the agents directly.
+
+The following API methods read from and write to the registry and need to be adapted:
+
+- `create_vm`
+- `set_vm_metadata`
+- `configure_networks`
+- `attach_disk`
+- `detach_disk`
+- `current_vm_id`
+- `info`
+
+## create_vm(...)
+
+Arguments:
+
+- stemcell_cid [String]: Cloud ID of the stemcell to use as a base image for new VM.
+resource_pool_properties [Hash]: Cloud properties hash specified in the deployment manifest under VM’s resource pool.
+- agent_bootstrap_settings [Hash]: Initial agent settings.
+- cloud_properties [Hash]: CP for VM
+- networks_settings [Hash]: Networks hash that specifies which VM networks must be configured.
+- disk_cids [Array of strings] Array of disk cloud IDs for each disk that created VM will most likely be attached; they could be used to optimize VM placement so that disks are located nearby.
+- environment [Hash]: Resource pool’s env hash specified in deployment manifest.
+- metadata [Hash]: VM metadata
+
+Example
+
+Note: CPIs and the Director will duplicate code (simple merge) for merging agent_bootstrap_settings + network_settings + disk_settings.
+
+```
+[
+    "ami-478585",
+    { "instance_type": "m1.small" },
+    {
+        ...
+    },
+    { "availability_zone": "z1" },
+    {
+        "private": {
+            "type": "manual",
+            "netmask": "255.255.255.0",
+            "gateway": "10.230.13.1",
+            "ip": "10.230.13.6",
+            "default": [ "dns", "gateway" ],
+            "cloud_properties": { "net_id": "subnet-48rt54" }
+        },
+        "private2": {
+            "type": "dynamic",
+            "cloud_properties": { "net_id": "subnet-e12364" }
+        }
+        "public": {
+            "type": "vip",
+            "ip": "173.101.112.104",
+            "cloud_properties": {}
+        }
+    },
+    [ "vol-3475945" ],
+    {},
+    { "name": "job/1m834jkn2", "id": "1m834jkn2" }
+]
+```
+
+Returned
+
+- vm_cid [String]: Cloud ID of the created VM.
+- net_settings [Hash]
+- disk_settings [Hash]
+
+```
+[
+	"i-0478554",
+	{
+        "private": {
+            "type": "manual",
+            "netmask": "255.255.255.0",
+            "gateway": "10.230.13.1",
+            "ip": "10.230.13.6",
+            "default": [ "dns", "gateway" ],
+            "cloud_properties": { "net_id": "d29fdb0d-44d8-4e04-818d-5b03888f8eaa" }
+        },
+        "public": {
+            "type": "vip",
+            "ip": "173.101.112.104",
+            "cloud_properties": {}
+        }
+    },
+	{
+        "system": "/dev/sda",
+        "ephemeral": "/dev/sdb",
+        "persistent": {}
+    }
+]
+```
+
+## set_vm_metadata
+
+Remove this method entirely from the API.
+
+Note: create_vm will accept metadata for the VM created.
+
+## configure_networks(server_id, network_agent_settings)
+
+Remove this method entirely from the API.
+
+Note: This means that the CPI might not use the most efficient method to apply the desired configuration. E.g. changing VIP configuration requires re-creating the VM instead of detaching/attaching a VIP.
+
+## attach_disk(server_id, disk_id)
+
+Arguments:
+
+- vm_cid [String]: Cloud ID of the VM.
+- disk_cid [String]: Cloud ID of the disk.
+- disk_settings [Hash]
+
+Returned
+
+- disk_agent_settings [Hash]: Updated disk settings
+
+```
+{
+	"system": "/dev/sda",
+	"ephemeral": "/dev/sdb",
+	"persistent": {
+	    "vol-3475945": { "volume_id": "3" },
+	    "vol-7447851": { "path": "/dev/sdd" },
+	}
+}
+```
+
+
+## detach_disk(server_id, disk_id)
+
+Arguments:
+
+- vm_cid [String]: Cloud ID of the VM.
+- disk_cid [String]: Cloud ID of the disk.
+- disk_settings [Hash]
+
+Returned
+
+- disk_agent_settings [Hash]: Updated disk settings
+
+```
+{
+	"system": "/dev/sda",
+	"ephemeral": "/dev/sdb",
+	"persistent": {
+	    "vol-3475945": { "volume_id": "3" },
+	}
+}
+```
+
+## info
+
+Arguments: None
+
+Returned
+
+- info [Hash]: Info about CPI
+
+```
+{
+    "api_version": "2.0"
+}
+```
+
+## current_vm_id
+
+Remove this method entirely from the API.
+
+## Stories
+
+- cpi should be able to return version information in info call
+- bosh-init can call create_machine if CPI is version 2
+  - fail eventually since there is no create_machine
+  - if error is returned assume version 1
+- rename vm to machine in aws cpi
+  - new lifecycle tests that shell to cpi and call create_machine with some configuration
+  - new lifecycle tests will be able to work with other cpis
+- remove current_vm_id
+- remove configure_networks
+- change to keyed args
+  - change bosh-init to do so as well
+- bosh-init can create a machine with proper metadata via create_machine
+  - remove set_vm_metadata
+  - accept it in the create_machine call
+- new CPI can take create_machine and return net setting and disk settings
+  - takes in agent bootstrap settings
+  - rip out registry at this point from create machine stuff
+  - acceptance: call cpi directly
+- new bosh-init sends in initial bootstrap settings to create_machine call
+- new CPI can take in disk settings and return updated disk settings for attach_disk/detach_disk
+  - rip out registry at this point from disk stuff
+  - acceptance: call cpi directly
+- new bosh-init can use new aws cpi and old stemcell to attach a persistent disk
+  - bosh-init calls update_machine_settings(vm_id, settings, connection_info) to set registry stuff instead of CPI knowing about registry, blobstore
+- rename snapshots methods
+  - create_snapshot, delete_snapshot, restore_snapshot
+
+## Other stories
+
+- pass in vm id into director.self_vm_id
+
+# Modifications to agent_settings
+
+- add SSL certificates and rootCA chain
+- remove VM CID
+- Director knows about different parts in agent_settings: disk_settings, network_settings,
+- some parts of the agent_settings are only modified by the CPI and therefore never passed in, only returned: disk_settings, ???
+- some parts are only modified by the director and therefore never returned from the CPI: cert&key settings,
+- some parts are only passed from director to agent, without the CPI knowing about them: ntp settings, blobstore, env
+
+# TBD
+
+- how to handle CPI release versioning
+- bosh-init backwards compat
+- create_disk/create_snapshot should take metadata?
