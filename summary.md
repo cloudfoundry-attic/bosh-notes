@@ -45,6 +45,12 @@
   - End date: ?
   - Summary: It should be possible to rotate CA certificates with the help of config server API without incurring any downtime.
 
+- [computed-links](proposals/computed-links.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Summary: It should be possible for a job to control content of a provided link via an ERB template.
+
 - [cpi-api-v2](proposals/cpi-api-v2.md)
   - State: discussing
 
@@ -62,6 +68,12 @@
 
 - [generic-resources](proposals/generic-resources.md)
   - State: discussing
+
+- [granular-instance-updates](proposals/granular-instance-updates.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Summary: It should be possible for the operator to update particular instance or group of instances within a deployment without affecting any other instances.
 
 - [job-health-checks](proposals/job-health-checks.md)
   - State: discussing
