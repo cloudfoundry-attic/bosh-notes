@@ -8,12 +8,12 @@ end
 
 class ProposalCollection < Struct.new(:proposals)
   SORT_PRIORITY = {
-    "discussing"  => 0,
-    "rejected"    => 100,
+    "in-progress" => 0,
+    "discussing"  => 1,
     "accepted"    => 2,
-    "in-progress" => 3,
     "finished"    => 4,
-    nil           => 101, # unknown
+    "rejected"    => 5,
+    nil           => 6, # unknown
   }
 
   def self.build
@@ -37,17 +37,18 @@ class ProposalCollection < Struct.new(:proposals)
   end
 
   def sorted
-    proposals.group_by { |p| SORT_PRIORITY[p.state] }.sort_by { |prio,_| prio }.each { |_,ps| ps.sort_by!(&:name) }
+    proposals.group_by { |p| p.state }.sort_by { |state,_| SORT_PRIORITY[state] }.each { |_,ps| ps.sort_by!(&:name) }
   end
 
   def print_md
     puts "## Summary\n\n"
-    sorted.each do |_, props|
+    sorted.each do |state, props|
+      puts "## #{state}\n\n"
       props.each do |prop|
-        puts "## #{prop.name}"
-        puts "- Link: [#{prop.md_url}](#{prop.md_url})"
+        puts "- #{prop.name}"
+        puts "  - Link: [#{prop.md_url}](#{prop.md_url})"
         prop.summary_kvs.each do |k, v|
-          puts "- #{k}: #{v}"
+          puts "  - #{k}: #{v}"
         end
         puts ""
       end
