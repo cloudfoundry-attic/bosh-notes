@@ -24,3 +24,9 @@ You can also find currently in progress work in the Epics view in each Tracker:
   - `finished` when completed
 - Certain portions of a proposal may be left out of initial implementation hence new proposal should be formed
   - Use `-vX` (-v2) suffix for continuation
+
+## Development
+
+```
+./summarize.rb > summary.md
+```
