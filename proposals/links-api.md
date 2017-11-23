@@ -1,12 +1,19 @@
 - State: in-progress
+- Tracker label: links-api
 
-# Links Director API
+# Summary
+
+Deployment links information should be exposed over an API.
+
+# Motivation
 
 Starting use cases for exposing links over an API:
 
 - to visualize and help understand deployment topology [deployment]
 - to visualize and help understand releases' metadata [release]
 - to provide a way to access link's networking information for service brokers to include DNS in their bindings [deployment]
+
+# Details
 
 Recap: link structure is made of link consumer (LC), link itself (L) and link provider (LP). It's analogous to app, service binding and service instance.
 
