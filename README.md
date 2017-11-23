@@ -13,7 +13,7 @@ You can also find currently in progress work in the Epics view in each Tracker:
 
 ### Process
 
-- Check existing proposal for duplicate ideas
+- Check existing proposals for duplicate ideas
 - Submit a PR with your proposal (`proposals/` directory)
   - Include details about use cases, possible solutions, problems, related proposals, etc.
 - Proposal will go through different states
