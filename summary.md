@@ -1,18 +1,23 @@
-## Summary
+# Summary
 
 ## in-progress
 
 - [links-api](proposals/links-api.md)
   - State: in-progress
+  - Tracker label: links-api
+  - Summary: Deployment links information should be exposed over an API.
 
 - [registry-removal](proposals/registry-removal.md)
   - State: in-progress
+  - Summary: BOSH currently contains Registry component which it technically does not need.
 
 - [resurrection-config](proposals/resurrection-config.md)
   - State: in-progress
+  - Summary: HM should allow much more granular configuration for which deployments/jobs/instance groups should be resurrected.
 
 - [tasks-config](proposals/tasks-config.md)
   - State: in-progress
+  - Summary: There needs to be a way to configure Director to rate limit, prioritize etc task executions so that tasks could be executed in a manner acceptance to the operators.
 
 - [to-be-deprecated](proposals/to-be-deprecated.md)
   - State: in-progress

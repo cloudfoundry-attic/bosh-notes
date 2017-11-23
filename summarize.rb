@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 
-class Proposal < Struct.new(:name, :summary_kvs, :md_url)
+class Proposal < Struct.new(:name, :kvs, :summary, :md_url)
   def state
-    summary_kvs["State"]
+    kvs["State"]
   end
 end
 
@@ -21,15 +21,27 @@ class ProposalCollection < Struct.new(:proposals)
 
     Dir["proposals/*.md"].each do |file|
       lines = File.read(file).split("\n")
-      summary_kv_prefix = "- "
+      kv_prefix = "- "
 
-      still_summary = true
-      summary_lines = lines.select { |l| still_summary &= l.start_with?(summary_kv_prefix) }
+      still_kvs = true
+      kv_lines = lines.select { |l| still_kvs &= l.start_with?(kv_prefix) }
+
+      in_summary = false
+      summary_lines = lines.select do |l|
+        if l == "# Summary"
+          in_summary = true
+          next
+        elsif in_summary && l.start_with?("# ")
+          in_summary = false
+        end
+        in_summary
+      end
 
       proposals << Proposal.new.tap do |p|
         p.name = file[/\/(.*)\.md/,1]
         p.md_url = file
-        p.summary_kvs = Hash[summary_lines.map { |l| l.sub(summary_kv_prefix, "").split(": ", 2) }]
+        p.summary = summary_lines.join
+        p.kvs = Hash[kv_lines.map { |l| l.sub(kv_prefix, "").split(": ", 2) }]
       end
     end
 
@@ -41,14 +53,15 @@ class ProposalCollection < Struct.new(:proposals)
   end
 
   def print_md
-    puts "## Summary\n\n"
+    puts "# Summary\n\n"
     sorted.each do |state, props|
       puts "## #{state}\n\n"
       props.each do |prop|
         puts "- [#{prop.name}](#{prop.md_url})"
-        prop.summary_kvs.each do |k, v|
+        prop.kvs.each do |k, v|
           puts "  - #{k}: #{v}"
         end
+        puts "  - Summary: #{prop.summary}" unless prop.summary.empty?
         puts ""
       end
     end
