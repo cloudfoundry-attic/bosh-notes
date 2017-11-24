@@ -21,6 +21,7 @@
 
 - [to-be-deprecated](proposals/to-be-deprecated.md)
   - State: in-progress
+  - Summary: Tracking user features and specific code that needs to be deprecated. Permanently `in-progress`.
 
 - [ubuntu-xenial-stemcells](proposals/ubuntu-xenial-stemcells.md)
   - State: in-progress
@@ -30,6 +31,10 @@
 
 - [update-strategy-create](proposals/update-strategy-create.md)
   - State: in-progress
+  - Start date: 11/12/2017
+  - End date: ?
+  - Docs: ?
+  - Summary: BOSH should allow alternative instance update strategy that would reduce process downtime, helping significantly singleton processes.
 
 ## discussing
 
