@@ -1,6 +1,13 @@
 - State: discussing
+- Start date: ?
+- End date: ?
+- Related proposals: [proposals/instance-logs.md](proposals/instance-logs.md)
 
-# Blob Tracking
+# Summary
+
+Director should track various blobs in one way and potentially expose it via consolidated API.
+
+# Details
 
 `blobs` table
 
@@ -21,7 +28,6 @@ type:
 - compiled-package (delete when it's not referenced) [foreign key?]
 - job (delete when it's not referenced) [foreign key?]
 
-
 ```
 cleanup task - every 30 mins
 	- InstnaceLogsCleanup
@@ -35,49 +41,16 @@ cleanup task - every 30 mins
   - DnsCleanup
 ```
 
-## Fetching blob
-
 ```
 bosh download-blob blobstore-id [--sha1 ...]
   - can find out digest from the DB?
 ```
 
-## Instance logs
+# Drawbacks
 
-```
-bosh [OPTIONS] logs [--prev] [logs-OPTIONS] [INSTANCE-GROUP[/INSTANCE-ID]]
-bosh logs --prev -d foo
-bosh logs --prev -d foo mysql
-bosh logs --prev -d foo mysql/w98ry3467495y7
-```
+...
 
-- different command?
-
-```
-bosh events --instance ... --object-type logs
-starting event:
-  action=fetch
-  object-type=logs
-  object-name=empty
-  instance=instance-id
-ending event:
-  action=fetch
-  object-type=logs
-  object-name=empty
-  instance=instance-id
-  context={blobstore_id: ... sha1: ...}
-  error=?
-```
-
-`instance_logs` table
-
-[id, blob_id, instance, group, deployment]
-32       mysql/... mysql  foo
-<when id is empty - blob failure>
-
-- blob_id - foreign key to blobs table
-
-## TBD
+# Unresolved questions
 
 - eventually move debug/... task output into the blobstore
 - currently no way to delete all blobs from the blobstore

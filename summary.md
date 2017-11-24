@@ -40,6 +40,10 @@
 
 - [blob-tracking](proposals/blob-tracking.md)
   - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Related proposals: [proposals/instance-logs.md](proposals/instance-logs.md)
+  - Summary: Director should track various blobs in one way and potentially expose it via consolidated API.
 
 - [brokered-link](proposals/brokered-link.md)
   - State: discussing
@@ -89,6 +93,7 @@
   - Start date: ?
   - End date: ?
   - Docs: ?
+  - Related proposals: [proposals/blob-tracking.md](proposals/blob-tracking.md)
   - Summary: Director should record instance logs before terminating instances and provide a way for users to download these logs at a later time.
 
 - [job-health-checks](proposals/job-health-checks.md)

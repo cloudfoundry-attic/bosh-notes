@@ -2,6 +2,7 @@
 - Start date: ?
 - End date: ?
 - Docs: ?
+- Related proposals: [proposals/blob-tracking.md](proposals/blob-tracking.md)
 
 # Summary
 
