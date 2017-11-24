@@ -52,6 +52,7 @@
   - State: discussing
   - Start date: ?
   - End date: ?
+  - Docs: ?
   - Summary: It should be possible to rotate CA certificates with the help of config server API without incurring any downtime.
 
 - [computed-links](proposals/computed-links.md)
