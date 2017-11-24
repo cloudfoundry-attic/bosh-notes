@@ -84,6 +84,13 @@
   - End date: ?
   - Summary: It should be possible for the operator to update particular instance or group of instances within a deployment without affecting any other instances.
 
+- [instance-logs](proposals/instance-logs.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: Director should record instance logs before terminating instances and provide a way for users to download these logs at a later time.
+
 - [job-health-checks](proposals/job-health-checks.md)
   - State: discussing
   - Start date: ?
