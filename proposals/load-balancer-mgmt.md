@@ -9,11 +9,24 @@ Director should create, update, and delete load balancers dynamically so deploym
 
 # Motivation
 
-...
+Use cases:
+
+- support mgmt of CF gorouter HTTP & TCP load balancers
+- support mgmt of Concourse ATC load balancer
+- support mgmt of Kubo API node load balancer
 
 # Details
 
 ...
+
+## IaaS specifics
+
+- AWS
+- Azure
+- vSphere (F5 & NSX & NSX-T)
+- OpenStack
+- GCP
+- Warden & Docker
 
 # Drawbacks
 
@@ -21,4 +34,5 @@ Director should create, update, and delete load balancers dynamically so deploym
 
 # Unresolved questions
 
-...
+- management of certificates
+- integration with third party (non-IaaS) load balancers

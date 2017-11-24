@@ -86,6 +86,13 @@
 - [job-lifecycle](proposals/job-lifecycle.md)
   - State: discussing
 
+- [k8s-cloud-provider](proposals/k8s-cloud-provider.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: Director (and an additional component) should provide APIs to fulfill typical Kubernetes cloud provider to manage persistent disks, load balancers, and networks.
+
 - [load-balancer-mgmt](proposals/load-balancer-mgmt.md)
   - State: discussing
   - Start date: ?

@@ -15,6 +15,15 @@ Director should create, update, and delete networks dynamically so deployments c
 
 ...
 
+## IaaS specifics
+
+- AWS
+- Azure
+- vSphere (F5 & NSX & NSX-T)
+- OpenStack
+- GCP
+- Warden & Docker
+
 # Drawbacks
 
 ...
