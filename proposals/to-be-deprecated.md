@@ -1,6 +1,10 @@
 - State: in-progress
 
-# To Be Deprecated
+# Summary
+
+Tracking user features and specific code that needs to be deprecated. Permanently `in-progress`.
+
+# Details
 
 - ~`bosh public stemcells` CLI commands~
 - ~`bosh create/delete user` CLI commands~
