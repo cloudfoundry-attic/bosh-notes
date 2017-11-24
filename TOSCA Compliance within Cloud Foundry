@@ -1,0 +1,12 @@
+As we all know that BOSH is the prevalent orchestration mechanism employed within Cloud Foundry. However, TOSCA (Topology and Orchestration Specification for Cloud Applications) standard based orchestration is getting big traction in the software industry recently. I brought this issue up in one of the recent CAB meetings as far as support for TOSCA standard within Cloud Foundry environment. At that time, folks from IBM & SAP also showed interest in pursuing this further. I would like to follow up on that in the hope of pursuing this further. Following is a brief description to this regards.
+
+Because of the complex service topologies which are especially present in the Cloud environment, the paradigm of model-driven management of services and their underlying infrastructure is getting a big traction in the software industry. TOSCA is such a standard supported by prominent companies in the industry. TOSCA essentially enables the specification of portable topology models. TOSCA has the combination of declarative descriptions of the application topology with all its components - including the load balancer, network, the compute resources, software and everything else, along with an imperative set of workflows to describe the logic of any process we need to automate.
+
+From Telecom industry perspectives, TOSCA is very good when it comes to defining virtual application topologies, dependencies and relationships, actions to be performed as part of a lifecycle. This significantly simplifies the complexities involved with exposing networking elements and end-to-end lifecycle management for NFV (Network Function Virtualization), by abstracting the networking piece of deployment into an application blueprint. The fact that industry such as Telecom is known to be very standards driven, TOSCA is becoming quite prominent as part of the ongoing Network-Function-Virtualization (NFV) initiatives. 
+
+Juju is yet another model-drive approach. However it is tightly bound to Ubuntu Linux. Based on my understanding, folks at Altoros have recently been able to deploy Cloud Foundry environment purely using Juju instead of BOSH. Maybe, we can leverage lot of this Juju work in order to be able to port BOSH environment towards standards based TOSCA environment.
+
+I think pursuing this effort would be a win-win for the whole CF community. I would look forward to feedback from the community on this topic. Thanks.
+
+Regards,
+Deepak Vij
