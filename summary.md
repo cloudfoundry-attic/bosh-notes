@@ -67,6 +67,10 @@
 
 - [deployment-steps](proposals/deployment-steps.md)
   - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: ...
 
 - [disks-api](proposals/disks-api.md)
   - State: discussing
@@ -82,6 +86,10 @@
 
 - [job-health-checks](proposals/job-health-checks.md)
   - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: Release authors should be able to specify structured health checks to indicate whether job is healthy or unhealthy.
 
 - [job-lifecycle](proposals/job-lifecycle.md)
   - State: discussing
