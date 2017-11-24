@@ -54,7 +54,7 @@
   - State: discussing
   - Start date: ?
   - End date: ?
-  - Summary: It should be possible for a job to control content of a provided link via an ERB template.
+  - Summary: It should be possible for a job to control contents of a provided link via an ERB template.
 
 - [cpi-api-v2](proposals/cpi-api-v2.md)
   - State: discussing
@@ -86,8 +86,26 @@
 - [job-lifecycle](proposals/job-lifecycle.md)
   - State: discussing
 
-- [manifest-features](proposals/manifest-features.md)
+- [load-balancer-mgmt](proposals/load-balancer-mgmt.md)
   - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: Director should create, update, and delete load balancers dynamically so deployments can consume load balancers without relying on external tools.
+
+- [manifest-strictness](proposals/manifest-strictness.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: Director should validate and raise errors when unknown/incorrect keys are specified in configs and deployment manifests.
+
+- [network-mgmt](proposals/network-mgmt.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: Director should create, update, and delete networks dynamically so deployments can be assigned dedicated networks.
 
 - [ops-file-requests](proposals/ops-file-requests.md)
   - State: discussing
@@ -100,6 +118,13 @@
 
 - [restore-snapshot](proposals/restore-snapshot.md)
   - State: discussing
+
+- [security-group-mgmt](proposals/security-group-mgmt.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: Director should create, update, assign and delete security groups dynamically so that instances are automatically configured with them.
 
 - [snapshots](proposals/snapshots.md)
   - State: discussing
