@@ -36,3 +36,4 @@ Use cases:
 
 - management of certificates
 - integration with third party (non-IaaS) load balancers
+- floating ip creation?
