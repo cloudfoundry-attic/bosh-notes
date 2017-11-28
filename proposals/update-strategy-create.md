@@ -1,6 +1,8 @@
 - State: in-progress
 - Start date: 11/12/2017
 - End date: ?
+- Tracker: https://www.pivotaltracker.com/n/projects/2132441
+- Tracker label: hotswap
 - Docs: ?
 
 # Summary
