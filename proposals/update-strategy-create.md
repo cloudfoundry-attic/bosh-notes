@@ -3,6 +3,7 @@
 - End date: ?
 - Tracker: https://www.pivotaltracker.com/n/projects/2132441
 - Tracker label: hotswap
+- Track anchors: slack: @rdayreynolds @dzhao 
 - Docs: ?
 
 # Summary
