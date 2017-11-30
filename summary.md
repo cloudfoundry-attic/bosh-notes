@@ -4,7 +4,9 @@
 
 - [links-api](proposals/links-api.md)
   - State: in-progress
+  - Tracker: https://www.pivotaltracker.com/n/projects/2132440
   - Tracker label: links-api
+  - Track anchors: slack: @asu @dwick
   - Summary: Deployment links information should be exposed over an API.
 
 - [registry-removal](proposals/registry-removal.md)
@@ -33,10 +35,20 @@
   - State: in-progress
   - Start date: 11/12/2017
   - End date: ?
+  - Tracker: https://www.pivotaltracker.com/n/projects/2132441
+  - Tracker label: hotswap
+  - Track anchors: slack: @dzhao @rdayreynolds
   - Docs: ?
   - Summary: BOSH should allow alternative instance update strategy that would reduce process downtime, helping significantly singleton processes.
 
 ## discussing
+
+- [auto-deploy-logs](proposals/auto-deploy-logs.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: User should see automatically selected logs for certain types of deploy failures so that it's easier to debug the problem.
 
 - [blob-tracking](proposals/blob-tracking.md)
   - State: discussing
@@ -44,6 +56,27 @@
   - End date: ?
   - Related proposals: [proposals/instance-logs.md](proposals/instance-logs.md)
   - Summary: Director should track various blobs in one way and potentially expose it via consolidated API.
+
+- [bosh-bpm](proposals/bosh-bpm.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: BOSH release should use bpm to wrap jobs for cleanliness and improved security.
+
+- [bosh-dns-cert-sans](proposals/bosh-dns-cert-sans.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: BOSH Director should automatically configure certificates with correct SANs.
+
+- [bosh-dns-job-pointer](proposals/bosh-dns-job-pointer.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: BOSH DNS should use job destinations (instead of instance group destinations) in its DNS addresses.
 
 - [brokered-link](proposals/brokered-link.md)
   - State: discussing
@@ -80,6 +113,13 @@
 - [disks-api](proposals/disks-api.md)
   - State: discussing
 
+- [errand-triggers](proposals/errand-triggers.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: Errands should be able to run before and/or after particular events during a `bosh deploy` execution.
+
 - [generic-resources](proposals/generic-resources.md)
   - State: discussing
 
@@ -106,6 +146,13 @@
 
 - [job-lifecycle](proposals/job-lifecycle.md)
   - State: discussing
+
+- [job-ordering](proposals/job-ordering.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: User should be able to describe job order (startup, shutdown, etc.) within a single VM and across a deployment.
 
 - [k8s-cloud-provider](proposals/k8s-cloud-provider.md)
   - State: discussing
@@ -134,6 +181,13 @@
   - End date: ?
   - Docs: ?
   - Summary: Director should create, update, and delete networks dynamically so deployments can be assigned dedicated networks.
+
+- [openstack-director-az-to-multiple-iaas-azs](proposals/openstack-director-az-to-multiple-iaas-azs.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: OpenStack CPI should respect multiple `availability_zones` when creating VMs.
 
 - [ops-file-requests](proposals/ops-file-requests.md)
   - State: discussing
