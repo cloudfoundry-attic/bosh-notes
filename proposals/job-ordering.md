@@ -9,7 +9,12 @@ User should be able to describe job order (startup, shutdown, etc.) within a sin
 
 # Motivation
 
-...
+Use cases:
+
+- ipsec startup and shutdown (network)
+- bosh-dns and consul startup and shutdown (network)
+- disk formatting and encryption (disk)
+- antivirus/file integrity monitoring
 
 # Details
 
@@ -21,4 +26,4 @@ User should be able to describe job order (startup, shutdown, etc.) within a sin
 
 # Unresolved questions
 
-...
+- ordering on manual vm reboot
