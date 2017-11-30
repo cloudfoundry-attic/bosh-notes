@@ -13,6 +13,7 @@ Use cases:
 
 - ipsec startup and shutdown (network)
 - bosh-dns and consul startup and shutdown (network)
+- firewall configuration (network)
 - disk formatting and encryption (disk)
 - antivirus/file integrity monitoring
 
