@@ -1,6 +1,7 @@
 - State: in-progress
 - Tracker: https://www.pivotaltracker.com/n/projects/2132440
 - Tracker label: links-api
+- Track anchors: slack: @asu @dwick
 
 # Summary
 
