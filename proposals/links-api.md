@@ -177,7 +177,10 @@ Sample response:
     },
     "owner_object": {
       "name": "job_foo",
-      "type": "Job"
+      "type": "Job",
+      "info": {
+        "instance_group": "provider_ig"
+      }
     }
   }
 ]
@@ -195,10 +198,12 @@ Sample response:
   {
     "id": 1,
     "deployment": "deployment_bar",
-    "instance_group": "consumer_ig",
     "owner_object": {
       "name": "job_bar",
-      "type": "Job"
+      "type": "Job",
+      "info": {
+        "instance_group": "consumer_ig"
+      }
     }
   }
 ]
