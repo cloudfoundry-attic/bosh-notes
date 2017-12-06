@@ -21,4 +21,4 @@ User should be able to force to migrate persistent disks so that BOSH creates ne
 
 # Unresolved questions
 
-...
+- should this be part of deployment steps?
