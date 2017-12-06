@@ -42,4 +42,4 @@ depending on the use-case, either white- or blacklist is more convenient.
 
 # Unresolved questions
 
-- potentially related to [proposals/bosh-recreate-disks.md]
+- potentially related to [bosh-recreate-disks.md](bosh-recreate-disks.md)
