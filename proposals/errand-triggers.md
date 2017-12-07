@@ -1,6 +1,7 @@
 - State: discussing
 - Start date: ?
 - End date: ?
+- Related proposals: [job-ordering.md](job-ordering.md)
 - Docs: ?
 
 # Summary
@@ -26,7 +27,3 @@ Use cases:
 # Unresolved questions
 
 ...
-
-# Related
-
-- [job-ordering.md](job-ordering.md)
