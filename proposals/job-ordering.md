@@ -1,6 +1,7 @@
 - State: discussing
 - Start date: ?
 - End date: ?
+- Related proposals: [errand-triggers.md](errand-triggers.md)
 - Docs: ?
 
 # Summary
