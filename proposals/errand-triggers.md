@@ -26,3 +26,7 @@ Use cases:
 # Unresolved questions
 
 ...
+
+# Related
+
+- [job-ordering.md](job-ordering.md)
