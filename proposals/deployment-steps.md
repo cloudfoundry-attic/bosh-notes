@@ -39,6 +39,7 @@ depending on the use-case, either white- or blacklist is more convenient.
 - how do users discover/know about steps? How frequent are those changing?
   - if infrequent: hardcoded CLI switches might be enough instead of generic concept
   - if frequent: how would we frequently update those documentations/helps to match up with the new steps?
+- `--skip-drain` currently provides a shortcut for a very common use-case; giving more control may also make it less clear to users them which steps they ought to skip; maybe an argument for keeping around `--skip-drain` since it might be the most common use case?
 
 # Unresolved questions
 
