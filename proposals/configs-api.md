@@ -1,4 +1,5 @@
 - State: finished
+- Followup proposals: [proposals/configs-api-v2.md](proposals/configs-api-v2.md)
 
 # Common configs API
 
