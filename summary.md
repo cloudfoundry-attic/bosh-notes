@@ -2,13 +2,6 @@
 
 ## in-progress
 
-- [links-api](proposals/links-api.md)
-  - State: in-progress
-  - Tracker: https://www.pivotaltracker.com/n/projects/2132440
-  - Tracker label: links-api
-  - Track anchors: slack: @asu @dwick
-  - Summary: Deployment links information should be exposed over an API.
-
 - [registry-removal](proposals/registry-removal.md)
   - State: in-progress
   - Summary: BOSH currently contains Registry component which it technically does not need.
@@ -50,6 +43,20 @@
   - Docs: ?
   - Summary: User should see automatically selected logs for certain types of deploy failures so that it's easier to debug the problem.
 
+- [az-retry](proposals/az-retry.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: In a multi-AZ setup, BOSH should distribute the instances of an AZ to other AZs, in case an AZ fails completely.
+
+- [bbr-sdk](proposals/bbr-sdk.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: BOSH should take advantage of latest BBR SDK to support backing up remote DBs and blobstores.
+
 - [blob-tracking](proposals/blob-tracking.md)
   - State: discussing
   - Start date: ?
@@ -78,6 +85,20 @@
   - Docs: ?
   - Summary: BOSH DNS should use job destinations (instead of instance group destinations) in its DNS addresses.
 
+- [bosh-ha-nats](proposals/bosh-ha-nats.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: BOSH Agent should be able to connect to multiple NATS servers to support IPv4+IPv6 configurations, NATS server movement within a network, and failover.
+
+- [bosh-recreate-disks](proposals/bosh-recreate-disks.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: User should be able to force to migrate persistent disks so that BOSH creates new disks in the IaaS.
+
 - [brokered-link](proposals/brokered-link.md)
   - State: discussing
 
@@ -88,11 +109,25 @@
   - Docs: ?
   - Summary: It should be possible to rotate CA certificates with the help of config server API without incurring any downtime.
 
+- [cli-v2-windows](proposals/cli-v2-windows.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: CLI v2 should support Windows for release mgmt and Director operations (such as ssh and scp).
+
 - [computed-links](proposals/computed-links.md)
   - State: discussing
   - Start date: ?
   - End date: ?
   - Summary: It should be possible for a job to control contents of a provided link via an ERB template.
+
+- [configs-api-v2](proposals/configs-api-v2.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: CLI should provide a way to find different versions of configs stored in the Director.
 
 - [cpi-api-v2](proposals/cpi-api-v2.md)
   - State: discussing
@@ -117,6 +152,7 @@
   - State: discussing
   - Start date: ?
   - End date: ?
+  - Related proposals: [job-ordering.md](job-ordering.md)
   - Docs: ?
   - Summary: Errands should be able to run before and/or after particular events during a `bosh deploy` execution.
 
@@ -151,6 +187,7 @@
   - State: discussing
   - Start date: ?
   - End date: ?
+  - Related proposals: [errand-triggers.md](errand-triggers.md)
   - Docs: ?
   - Summary: User should be able to describe job order (startup, shutdown, etc.) within a single VM and across a deployment.
 
@@ -175,6 +212,20 @@
   - Docs: ?
   - Summary: Director should validate and raise errors when unknown/incorrect keys are specified in configs and deployment manifests.
 
+- [max-in-flight-v2](proposals/max-in-flight-v2.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: `max_in_flight` configuration should offer a way to roll updates across all availability zones at the same time.
+
+- [namespaced-jobs-and-packages](proposals/namespaced-jobs-and-packages.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: BOSH should allow jobs and packages with the same name coexist on the same VM.
+
 - [network-mgmt](proposals/network-mgmt.md)
   - State: discussing
   - Start date: ?
@@ -198,6 +249,13 @@
 - [property-validation](proposals/property-validation.md)
   - State: discussing
 
+- [quick-power-off](proposals/quick-power-off.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: BOSH should be able to stop (power off) and then start (power on) deployments quickly.
+
 - [restore-snapshot](proposals/restore-snapshot.md)
   - State: discussing
 
@@ -210,6 +268,20 @@
 
 - [snapshots](proposals/snapshots.md)
   - State: discussing
+
+- [team-scoped-configs](proposals/team-scoped-configs.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: BOSH teams should be able to set their own set of configs (cloud, runtime, etc.) in addition to picking up global configs, so that they can customize their environment.
+
+- [unmanaged-disks-resizing](proposals/unmanaged-disks-resizing.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: User should be able to request to size for unmanaged disks in the manifests and BOSH should be able to migrate contents, though without expanding partitions.
 
 ## finished
 
@@ -240,6 +312,7 @@
 
 - [configs-api](proposals/configs-api.md)
   - State: finished
+  - Followup proposals: [proposals/configs-api-v2.md](proposals/configs-api-v2.md)
 
 - [deployment-naming](proposals/deployment-naming.md)
   - State: finished
@@ -291,4 +364,9 @@
 - [director-config](proposals/director-config.md)
   - State: rejected
   - Reason: currently existing configuration facilities provide enough functionality
+
+## 
+
+- [links-api](proposals/links-api.md)
+  - Summary: Deployment links information should be exposed over an API.
 
