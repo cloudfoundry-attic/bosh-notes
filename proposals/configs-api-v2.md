@@ -26,7 +26,13 @@ POST /configs/diff
   resp: { diff: [...], error: "" }
   - if from is not specified pick last based on type/name specified in to
   - to is required
+
+GET /configs/:id
+  resp: { id: "138748", type: asdf, name: asdf, content: "asdf\nasdf" }
+
 ```
+
+
 
 Proposed CLI changes:
 
@@ -62,9 +68,9 @@ Using environment '192.168.50.6' as client 'admin'
 -   name: large
 ```
 
-New parameter `--version=` to be added to `bosh config` to receive an outdated version of a single config
+New parameter `--id=` to be added to `bosh config` to receive an outdated version of a single config.
 ```
-$ bosh config --version=3
+$ bosh config --id=3
 Using environment '192.168.50.6' as client 'admin'
 
 azs:
@@ -89,5 +95,6 @@ Succeeded
 ...
 
 # Unresolved questions
+* Are deleted versions and the ones where a newer version exists any different? Currently, `--include-outdated` would not include deleted configs
 * should we offer convenience to refer to versions, e.g. string `latest` and git-like syntax like `latest~1`?
 ...
