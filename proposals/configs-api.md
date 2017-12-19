@@ -56,9 +56,6 @@ GET /configs?[name=asdf][&type=asdf][&latest=true]
   resp: [{ id: "138748", type: asdf, name: asdf, content: "asdf\nasdf" }]
   - any combination of name, type, latest is allowed
 
-GET /configs/:id
-  resp: { id: "138748", type: asdf, name: asdf, content: "asdf\nasdf" }
-
 POST /configs
   req: { type: asdf, name: asdf, content: "asdf\nasdf" }
   resp: { id: "138748", type: asdf, name: asdf, content: "asdf\nasdf" }
