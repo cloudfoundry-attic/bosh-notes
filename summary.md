@@ -2,6 +2,13 @@
 
 ## in-progress
 
+- [links-api](proposals/links-api.md)
+  - State: in-progress
+  - Tracker: https://www.pivotaltracker.com/n/projects/2132440
+  - Tracker label: links-api
+  - Track anchors: slack: @asu @dwick
+  - Summary: Deployment links information should be exposed over an API.
+
 - [registry-removal](proposals/registry-removal.md)
   - State: in-progress
   - Summary: BOSH currently contains Registry component which it technically does not need.
@@ -35,6 +42,13 @@
   - Summary: BOSH should allow alternative instance update strategy that would reduce process downtime, helping significantly singleton processes.
 
 ## discussing
+
+- [api-pagination](proposals/api-pagination.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: API should allow pagination for expensive/lengthy resources. Pagination should account for concurrent deletions made during listing, hence have to use some kind of cursor mechanics.Pagination should not introduce breaking change to the API response.
 
 - [auto-deploy-logs](proposals/auto-deploy-logs.md)
   - State: discussing
@@ -127,6 +141,15 @@
   - Start date: ?
   - End date: ?
   - Docs: ?
+  - Related proposals: [proposals/configs-api-v2-alt.md](proposals/configs-api-v2-alt.md)
+  - Summary: CLI should provide a way to find different versions of configs stored in the Director.
+
+- [configs-api-v2-alt1](proposals/configs-api-v2-alt1.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Related proposals: [proposals/configs-api-v2.md](proposals/configs-api-v2.md)
   - Summary: CLI should provide a way to find different versions of configs stored in the Director.
 
 - [cpi-api-v2](proposals/cpi-api-v2.md)
@@ -144,6 +167,13 @@
   - End date: ?
   - Docs: ?
   - Summary: ...
+
+- [diff](proposals/diff.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: Users should be able to view full diff of their changes without affecting currently running system. Diff should include details such as VM, disk recreation, new versions of releases, etc.
 
 - [disks-api](proposals/disks-api.md)
   - State: discussing
@@ -364,9 +394,4 @@
 - [director-config](proposals/director-config.md)
   - State: rejected
   - Reason: currently existing configuration facilities provide enough functionality
-
-## 
-
-- [links-api](proposals/links-api.md)
-  - Summary: Deployment links information should be exposed over an API.
 
