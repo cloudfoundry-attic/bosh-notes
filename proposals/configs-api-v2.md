@@ -2,6 +2,7 @@
 - Start date: ?
 - End date: ?
 - Docs: ?
+- Related proposals: [proposals/configs-api-v2-alt.md](proposals/configs-api-v2-alt.md)
 
 # Summary
 
@@ -31,6 +32,7 @@ POST /configs/diff
 Proposed CLI changes:
 
 New flag `--include-outdated` to display also outdated versions of a config. The column `ID` is shown to reference an outdated version for follow-up commands. All other filtering for `name` and `type` applies as usual.
+
 ```
 $ bosh configs --include-outdated
 Using environment '192.168.50.6' as client 'admin'
@@ -63,6 +65,7 @@ Using environment '192.168.50.6' as client 'admin'
 ```
 
 New parameter `--version=` to be added to `bosh config` to receive an outdated version of a single config
+
 ```
 $ bosh config --version=3
 Using environment '192.168.50.6' as client 'admin'

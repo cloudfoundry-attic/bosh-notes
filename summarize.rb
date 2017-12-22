@@ -23,6 +23,10 @@ class ProposalCollection < Struct.new(:proposals)
       lines = File.read(file).split("\n")
       kv_prefix = "- "
 
+      if lines.length == 0 || !lines[0].start_with?(kv_prefix)
+        raise "Error: Expected '#{file}' to start with metadata (marked by '#{kv_prefix}')"
+      end
+
       still_kvs = true
       kv_lines = lines.select { |l| still_kvs &= l.start_with?(kv_prefix) }
 

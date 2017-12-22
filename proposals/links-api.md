@@ -1,5 +1,3 @@
-# Links API
-
 - State: in-progress
 - Tracker: https://www.pivotaltracker.com/n/projects/2132440
 - Tracker label: links-api
@@ -274,7 +272,7 @@ There are no API endpoints for accessing links information.
 ### How are links stored?
 Let's talk about the providers first. When we have a someone providing the link, that information is only kept in memory at the time of resolving the links; thus not stored anywhere. There is one exception to that rule, cross deployment links. The details for cross deployment links are stored in the `deployments` table under the column `link_spec_json`.
 
-"What about consumers?" You ask. Consumers are stored individually per instance in a column called `spec_json` in the `instances` table. In the way it's currently implemented, each consumer is an instance. The information stored is required for rendering a template successfully. 
+"What about consumers?" You ask. Consumers are stored individually per instance in a column called `spec_json` in the `instances` table. In the way it's currently implemented, each consumer is an instance. The information stored is required for rendering a template successfully.
 
 <details><summary>Example `link_spec_json`</summary>
 
@@ -361,5 +359,3 @@ Let's talk about the providers first. When we have a someone providing the link,
 | `link_consumer_id` | Integer | yes | Id of the consumer (Foreign key of `link_consumers` table) |
 | `link_content` | String | yes | Content shared by the provider or manual link's definition |
 | `created_at` | Time | yes | Time this link was created |
-
-
