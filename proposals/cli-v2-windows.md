@@ -65,16 +65,18 @@ Taken from charlievieth post about tar [here](https://github.com/cloudfoundry/bo
 
 ## How to execute a file
 - Linux uses the first line of the shell script
-- Windows uses the file extension, where a file without an extension can't be assigned a program and the user will be prompted to select a program to use to process the file.
+- Windows uses the file extension, where a file without an extension can't be assigned a program and the user will be prompted to select a program to use to process the file. This can be avoided by calling the program that runs the script without an extension, rather than calling the script directly. This way the script doesn't need to have a file extension.
 ### BOSH Releases
 - Linux
   - The packaging scripts are currently all [bash scripts](https://github.com/cloudfoundry/bosh-cli/blob/master/installation/pkg/compiler.go#L95).
 - Windows
   - `create-env` isn't working on Windows yet, but there are PowerShell packaging scripts, e.g [golang](https://github.com/bosh-packages/golang-release/blob/master/packages/golang-1.8-windows/packaging).
 ### Thoughts
-- If Windows does need to be able to run shell scripts, then ideally git repositories would be set up to explicitly have all shell scripts have LF as the line ending. This could be done in the following ways:
-  - Renaming all scripts to have a .sh extension and adding a `.gitattributes` file with `*.sh text eol=lf`
-  - Adding a `.gitattributes` file listing all shell scripts as having a line ending as LF
+- If Windows does need to be able to run shell scripts:
+  - ideally git repositories would be set up to explicitly have all shell scripts have LF as the line ending. This could be done in one of the following ways:
+    - Renaming all scripts to have a .sh extension and adding a `.gitattributes` file with `*.sh text eol=lf`
+    - Adding a `.gitattributes` file listing all shell scripts as having a line ending as LF
+  - bash should be called explicitly, which is what [this pull request](https://github.com/cloudfoundry/bosh-cli/pull/322) is doing.
 
 # Known issues
 - bosh-cli
