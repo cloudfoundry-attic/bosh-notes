@@ -37,11 +37,13 @@ C:\Windows\Temp\foo | valid | valid | valid | invalid
 
 &ast; if current path is on C drive
 
-bash version | uname
-------|--------
-Cygwin | CYGWIN_NT-10.0
-MSYS2 | MSYS_NT-10.0
-Windows Subsystems for Linux | Linux
+bash version | uname | Inherits Environment Variables
+-------------|-------|------------------------------
+Cygwin | CYGWIN_NT-10.0 | Yes
+MSYS2 | MSYS_NT-10.0 | Yes
+Windows Subsystems for Linux | Linux | No (&ast;)
+
+&ast; To set environment variables when calling Windows Subsystems for Linux, set them inside of bash, e.g. using [`export`](https://github.com/Fydon/bosh-cli/blob/feature/CompileOnWindows/installation/pkg/compiler.go#L106-L117).
 
 ### tar
 Path | Windows API | BSD Tar | MSYS2 Tar
