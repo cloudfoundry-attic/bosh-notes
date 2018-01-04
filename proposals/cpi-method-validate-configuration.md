@@ -26,7 +26,8 @@ Use cases:
 ## Proposed solution
 
 - add new CPI method `validate_configuration`
-- have Director 
+- have Director call CPI method during `bosh cck`
+  - this would assume that operator has empty deployment
 
 ## IaaS specifics
 
@@ -104,8 +105,9 @@ Possible properties to check during validate configuration CPI call:
 
 # Drawbacks
 
-...
+- adds time to the deploy
 
 # Unresolved questions
 
 - should CPIs check for permissions?
+- create-env integration?
