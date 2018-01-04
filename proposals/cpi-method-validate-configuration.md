@@ -102,6 +102,10 @@ Possible properties to check during validate configuration CPI call:
 
 - Warden & Docker
   - connect to ??? endpoint (internet connectivity)
+  
+## Possible integrations
+
+This check could be automated to run by the monitoring software on a timer and be alerted on.
 
 # Drawbacks
 
