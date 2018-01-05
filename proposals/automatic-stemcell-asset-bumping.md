@@ -42,6 +42,7 @@ we must look at that commit, then to see what OS image stages looked like at the
 # Details
 
 We propose to introduce a file like `bosh-linux-stemcell-builder/stemcell_builder/blobs/manifest.yml`:
+
     ---
     assets:
     - bosh-agent:
