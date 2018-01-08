@@ -25,34 +25,37 @@ Use cases:
   - deployment is deleted
   - IG is deleted
   - instance is deleted
-
 - instance is stopped
   - via IaaS
   - bosh stop
   - bosh stop --hard
   - bosh delete-vm
-
 - instance is updated
   - bosh deploy
-
 - instance is created
   - bosh deploy
-  
 - vm is deleted
   - bosh deploy
   - instance is deleted
-  
 - vm is created
   - bosh deploy/recreate/start/...
   - resurrection
+
+## Proposed changes
+
+Following environment variables should be passed into `bin/drain` script with modifications.
 
 ```
 BOSH_JOB_STATE={persistent_disk: ...}
 BOSH_JOB_NEXT_STATE={persistent_disk: ...}
 ```
 
-TBD: job vs instance?
-TBD: colocation of helper jobs: data-exporter?
+possible job states: running, stopped, deleted
+
+possible disk states: available, unavailable, deleted
+
+- TBD: job vs instance?
+- TBD: colocation of helper jobs: data-exporter?
 
 # Drawbacks
 
