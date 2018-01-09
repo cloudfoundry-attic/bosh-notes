@@ -57,6 +57,13 @@
   - Docs: ?
   - Summary: User should see automatically selected logs for certain types of deploy failures so that it's easier to debug the problem.
 
+- [automatic-stemcell-asset-bumping](proposals/automatic-stemcell-asset-bumping.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: Versioned assets which go into stemcells should be recorded in a permanent audittrail, and less vulnerable to developer error when bumping in new stemcell versions.This proposal describes a flow to automate the new version information to berobustly committed to a permanent record & pulled into the Stemcell Builderas part of CI.
+
 - [az-retry](proposals/az-retry.md)
   - State: discussing
   - Start date: ?
@@ -168,6 +175,14 @@
 - [cpi-resource-uniqueness](proposals/cpi-resource-uniqueness.md)
   - State: discussing
 
+- [deployment-configs](proposals/deployment-configs.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Related proposals: [proposals/configs-api-v2-alt1.md](proposals/configs-api-v2-alt1.md)
+  - Summary: Director user should see deployment manifests in configs view (`bosh configs` command). Manifests should be referenced by an id by the deployment, similarly to how runtime and cloud configs are referenced.
+
 - [deployment-steps](proposals/deployment-steps.md)
   - State: discussing
   - Start date: ?
@@ -190,7 +205,7 @@
   - Start date: ?
   - End date: ?
   - Docs: ?
-  - Summary: Job authors should be able to find out in their drain scripts whether instance is being updated, removed, deleted, etc.
+  - Summary: Release job authors should be able to find out in their drain scripts whether instance is being updated, removed, deleted, etc.
 
 - [errand-triggers](proposals/errand-triggers.md)
   - State: discussing
@@ -291,6 +306,13 @@
 
 - [os-reload](proposals/os-reload.md)
   - State: discussing
+
+- [persistent-disk-az-migration](proposals/persistent-disk-az-migration.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: BOSH should be able to migrate persistent disks between AZs.
 
 - [property-validation](proposals/property-validation.md)
   - State: discussing
