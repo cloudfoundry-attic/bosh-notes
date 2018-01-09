@@ -27,7 +27,51 @@ There are several advantages to a different update strategy (aka hotswap):
 
 # Details
 
-...
+## Multiple VM flow
+
+```
+prev VM         new VM
+
+...             create_vm
+                prepare
+                apply
+drain
+stop
+post-stop
+unmount
+detach
+         swap
+                attach
+                mount
+                pre-start
+                start 
+                ...
+```
+
+## Single VM flow
+
+```
+prev VM
+
+drain
+stop
+post-stop
+unmount
+delete
+
+          swap
+
+new VM
+
+create_vm
+prepare
+apply
+attach
+mount
+  apply... <--- ideally removed
+pre-start
+start 
+```
 
 # TBD
 
