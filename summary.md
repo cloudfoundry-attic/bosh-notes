@@ -158,6 +158,13 @@
 - [cpi-cleanup](proposals/cpi-cleanup.md)
   - State: discussing
 
+- [cpi-method-validate-configuration](proposals/cpi-method-validate-configuration.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: BOSH should be able ask CPIs if their configuration (IaaS creds, connectivity, etc.) is valid. 
+
 - [cpi-resource-uniqueness](proposals/cpi-resource-uniqueness.md)
   - State: discussing
 
@@ -178,11 +185,20 @@
 - [disks-api](proposals/disks-api.md)
   - State: discussing
 
+- [drain-actions](proposals/drain-actions.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: Job authors should be able to find out in their drain scripts whether instance is being updated, removed, deleted, etc.
+
 - [errand-triggers](proposals/errand-triggers.md)
   - State: discussing
   - Start date: ?
   - End date: ?
   - Related proposals: [job-ordering.md](job-ordering.md)
+  - Related issues: [Issue #1688](https://github.com/cloudfoundry/bosh/issues/1688)
+  - Related slacks: [link 1](https://cloudfoundry.slack.com/archives/C02HPPYQ2/p1515193109000126)
   - Docs: ?
   - Summary: Errands should be able to run before and/or after particular events during a `bosh deploy` execution.
 
