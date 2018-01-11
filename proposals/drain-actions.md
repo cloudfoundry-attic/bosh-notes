@@ -16,6 +16,7 @@ Use cases:
 - move data to a different node (if it's the only copy) when instance is deleted
 - check that data is replicated elsewhere before instance (and its disk) is deleted
 - do not move data to a different node when instance is deleted
+- deregister etcd member when scaling down instance group
 
 # Details
 
