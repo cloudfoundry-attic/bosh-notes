@@ -3,6 +3,7 @@
 - End date: ?
 - Docs: ?
 - Related issue: [#1860](https://github.com/cloudfoundry/bosh/issues/1860)
+- Related proposals: [proposals/update-strategy-create.md](proposals/update-strategy-create.md)
 
 # Summary
 
@@ -22,4 +23,4 @@ See issue #1860 for an example.
 
 # Unresolved questions
 
-...
+- better name (https://www.pivotaltracker.com/story/show/154157545)
