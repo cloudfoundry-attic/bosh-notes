@@ -21,4 +21,5 @@ Currently `max_in_flight` is limited to a single AZ. Especially during fresh dep
 
 # Unresolved questions
 
-- should there be update section that's different for new vms and new deployments
+- should there be create/update/delete section?
+  - does create apply to new instances when scaling up
