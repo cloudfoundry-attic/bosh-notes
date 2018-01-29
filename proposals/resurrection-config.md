@@ -9,7 +9,7 @@ HM should allow much more granular configuration for which deployments/jobs/inst
 Given that Director now supports consolidated configs API, we can define a new config type: `resurrection` with the following format:
 
 ```yaml
-resurrection:
+rules:
 - options:
     enabled: false
   include:
