@@ -19,7 +19,7 @@ We could group task limiting like so:
 Given that Director now supports consolidated configs API, we can define a new config type: `tasks` with the following format:
 
 ```yaml
-tasks:
+rules:
 - options:
     rate_limit: 0
   include:
