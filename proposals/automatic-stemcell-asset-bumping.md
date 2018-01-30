@@ -86,3 +86,23 @@ can or should we automatically detect new OS image versions via a Concourse reso
 can this process help prevent stemcell-only changes from triggering new OS Image builds?
 and vice-versa?
 
+# Alternative
+
+```
+[bosh-agent]
+  # aggregate artifacts and commit to an orphan branch 
+  [build] -> @artifacts/{branch}/v1.2.3.meta4
+
+^^^^^^
+separate products, separation of concerns
+vvvvvv
+
+[bosh-linux-stemcell-builder]
+  
+  [watches bosh-agent ((branch))] -> @{branch}/assets/agent.meta4
+  [build-os-image] -> @{branch}/assets/{OS_IMAGE}.meta4
+  [stemcell]
+    [os-image]
+      filedownloader.rb -> meta4 file-download assets/{OS_IMAGE].meta4
+    wget s3/bosh-agent-linux-amd64 -> meta4 file-download bosh-agent-*-linux-amd64
+```
