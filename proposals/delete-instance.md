@@ -12,6 +12,7 @@ Operator should be able to delete any instance from an instance group for whatev
 Use cases:
 
 - remove "bad" instance to recover (something went wrong with combination VM and persistent disk)
+  - any quorum system may benefit from this -> operator chooses "good" instance, and deletes everything else
 - scale down manually by killing off particular data instance
   - instance is selected by the operator for some reason (may be due to data on it, may be due to its uuid)
   - examples: [logsearch](https://github.com/cloudfoundry-community/logsearch-boshrelease/blob/ee8467b4943968e58a07e1c05d9c20529ef5540f/docs/running_the_cluster.md#bulletproof-downgrade)
