@@ -27,6 +27,7 @@ $ bosh -d dep1 delete elasticsearch_data/b6b31012-84b0-4e47-8b55-a98d9c6e05e8
 ```
 
 - called `delete` to follow start/stop/etc convention
+- lock is taken on the deployment (unlike delete-vm; what does orphan-disk expect?)
 
 After running this command, if manifest is unchanged it's expected that new instance is brought up via `bosh deploy`. Since instance is gone, HM will not be able to bring it back automatically.
 
