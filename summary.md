@@ -50,6 +50,13 @@
   - Docs: ?
   - Summary: API should allow pagination for expensive/lengthy resources. Pagination should account for concurrent deletions made during listing, hence have to use some kind of cursor mechanics.Pagination should not introduce breaking change to the API response.
 
+- [auto-clean-up](proposals/auto-clean-up.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: bosh clean-up should run automatically on schedule to remove unused assets.
+
 - [auto-deploy-logs](proposals/auto-deploy-logs.md)
   - State: discussing
   - Start date: ?
@@ -123,6 +130,13 @@
 - [brokered-link](proposals/brokered-link.md)
   - State: discussing
 
+- [centos-stemcells-improvements-v1](proposals/centos-stemcells-improvements-v1.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: This proposal is used to keep track of suggested CentOS stemcell improvements.
+
 - [certificate-ca-rotation](proposals/certificate-ca-rotation.md)
   - State: discussing
   - Start date: ?
@@ -142,14 +156,6 @@
   - Start date: ?
   - End date: ?
   - Summary: It should be possible for a job to control contents of a provided link via an ERB template.
-
-- [configs-api-v2](proposals/configs-api-v2.md)
-  - State: discussing
-  - Start date: ?
-  - End date: ?
-  - Docs: ?
-  - Related proposals: [proposals/configs-api-v2-alt.md](proposals/configs-api-v2-alt.md)
-  - Summary: CLI should provide a way to find different versions of configs stored in the Director.
 
 - [configs-api-v2-alt1](proposals/configs-api-v2-alt1.md)
   - State: discussing
@@ -174,6 +180,13 @@
 
 - [cpi-resource-uniqueness](proposals/cpi-resource-uniqueness.md)
   - State: discussing
+
+- [delete-instance](proposals/delete-instance.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: Operator should be able to delete any instance from an instance group for whatever reason.
 
 - [deployment-configs](proposals/deployment-configs.md)
   - State: discussing
@@ -206,6 +219,13 @@
   - End date: ?
   - Docs: ?
   - Summary: Release job authors should be able to find out in their drain scripts whether instance is being updated, removed, deleted, etc.
+
+- [errand-execution-args](proposals/errand-execution-args.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: Operator should be able to execute an errand with specific set of arguments via CLI.
 
 - [errand-triggers](proposals/errand-triggers.md)
   - State: discussing
@@ -280,6 +300,14 @@
   - Docs: ?
   - Summary: `max_in_flight` configuration should offer a way to roll updates across all availability zones at the same time.
 
+- [multi-cpi-v2](proposals/multi-cpi-v2.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Related proposals: [multi-cpi.md](multi-cpi.md)
+  - Summary: Director users should be able to use multi CPI as a default configuration for the Director. It should be possible to seemlessly upgrade from non-multi-CPI configuration.
+
 - [namespaced-jobs-and-packages](proposals/namespaced-jobs-and-packages.md)
   - State: discussing
   - Start date: ?
@@ -337,6 +365,13 @@
 - [snapshots](proposals/snapshots.md)
   - State: discussing
 
+- [team-mgmt](proposals/team-mgmt.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: Users should be able to assign teams to deployments via dedicated CLI commands.
+
 - [team-scoped-configs](proposals/team-scoped-configs.md)
   - State: discussing
   - Start date: ?
@@ -350,6 +385,22 @@
   - End date: ?
   - Docs: ?
   - Summary: User should be able to request to size for unmanaged disks in the manifests and BOSH should be able to migrate contents, though without expanding partitions.
+
+- [update-strategy-scale-down](proposals/update-strategy-scale-down.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: Some software may benefit from first scaling down to 1, then updating, then scaling back to original instances.
+
+- [update-strategy-surge](proposals/update-strategy-surge.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Related issue: [#1860](https://github.com/cloudfoundry/bosh/issues/1860)
+  - Related proposals: [proposals/update-strategy-create.md](proposals/update-strategy-create.md)
+  - Summary: Operator should be able to specify acceptable "instance surge" amount so that while instance group update is in progress there are enough resources available for the software to stay up.
 
 ## finished
 
