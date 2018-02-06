@@ -24,7 +24,7 @@
     - at most num nodes running
 
 - instance group update
-  - scale up X%/num
+  - scale up X%/num (implies that new instances are kept, and old instances are killed)
     - create new instances (and delete old instances at the end)
     - TBD: what max_in_flight is used for newly created instances?
   - scale down to X%/num and then create new instances? (etcd?)
