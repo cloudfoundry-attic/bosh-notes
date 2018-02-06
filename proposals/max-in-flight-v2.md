@@ -13,7 +13,19 @@ Currently `max_in_flight` is limited to a single AZ. Especially during fresh dep
 
 # Details
 
-...
+```
+instance_groups:
+- name: foo
+  update: # <-- backwards compat
+    ...
+  plan:
+    create:
+      ...
+    update: 
+      ...
+    delete: 
+      ...
+```
 
 # Drawbacks
 
