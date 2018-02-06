@@ -26,9 +26,10 @@
 - instance group update
   - scale up X%/num
     - create new instances (and delete old instances at the end)
-  - scale down to X%/num and then create new instances?
-  - [scale down to 0%] turn off all instances, then update
+  - scale down to X%/num and then create new instances? (etcd?)
+  - [scale down to 0%] turn off all instances, then update (earlang)
     - applies to legacy, or hotswap
+    - TBD: how do you deal with optional scale down to 0% since most of the update we are NOT updating earlang
 
 # Drawbacks
 
