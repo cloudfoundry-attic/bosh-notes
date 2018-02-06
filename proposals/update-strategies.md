@@ -20,7 +20,7 @@
 
 - instance update (replacement of instances is not connected to scale up/down)
   - reuse existing instances
-  - full instance replace
+  - full instance replace (new instance info, new persistent disks)
     - at most num nodes running
 
 - instance group update
