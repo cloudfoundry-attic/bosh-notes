@@ -17,6 +17,7 @@ Use cases:
 - check that data is replicated elsewhere before instance (and its disk) is deleted
 - do not move data to a different node when instance is deleted
 - deregister etcd member when scaling down instance group
+- drain kubelet (talks to master) during update, but not during delete
 
 # Details
 
