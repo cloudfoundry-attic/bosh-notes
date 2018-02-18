@@ -57,9 +57,9 @@ To ID   ...
 Content ...
 ```
 
-- example: `bosh diff-config --from-name xxx --from-type xxx --to-path new-cfg.yml`
+- example: `bosh diff-config --from-id X --to-content new-cfg.yml`
 - no positional args
-- requires one of id|path for from/to
+- requires one of id|content for from/to
 
 ```
 $ bosh config [id] [--type xxx] [--name xxx]
