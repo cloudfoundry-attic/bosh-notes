@@ -49,20 +49,18 @@ CLI will be using task result output (user can look at it via `bosh task X --res
 
   "impact": {
     "instances": [{
-      "name": ...
-      "id": ...
-      "summary": ...?
-      
+      "name": "...",
+      "id": "...",
+      "summary": "...",
       "changes": [
-        {"type":"dirty"},
-        {"type":"restart", "summary": "..."},
-        ...
+        {"type": "dirty"},
+        {"type": "restart", "summary": "..."}
       ]
     },{
-      "name": ...
-      "id": ...
-      "summary": ...?
-      "changes": [{"type":"state", TBD deleted}]
+      "name": "...",
+      "id": "...",
+      "summary": "...",
+      "changes": [{"type": "state", TBD deleted}]
     }],
     
     // possible refinements additions
