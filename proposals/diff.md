@@ -94,6 +94,7 @@ TBD:
 - figure out how to deal with links across deployments.
 - how does one revert portion of changes and see impact summary?
 - what should API show while changes are "staged"
+- should we have `bosh clean-up --staged` to release "staged" IPs
 
 Sample workflow for users that may want to determine set of changes across multiple configs:
 
