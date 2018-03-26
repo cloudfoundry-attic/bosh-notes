@@ -32,3 +32,5 @@ Use cases:
 - hooks that are team specific?
 - resolution of stemcell and release versions
   - do not want to duplicate logic in director and hook
+- synchronous vs async
+- at this point in time should director execute hooks and whether there should be multiple of them
