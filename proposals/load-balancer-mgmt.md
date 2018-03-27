@@ -27,6 +27,9 @@ Use cases:
 - OpenStack
 - GCP
 - Warden & Docker
+- Nginx
+- Gorouter
+- Envoy?
 
 # Drawbacks
 
@@ -37,3 +40,4 @@ Use cases:
 - management of certificates
 - integration with third party (non-IaaS) load balancers
 - floating ip creation?
+- how does consuming job know about system entrypoint
