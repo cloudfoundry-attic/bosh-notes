@@ -2,7 +2,7 @@
 - Start date: ?
 - End date: ?
 - Docs: ?
-- Related proposals: [max-in-flight-v2.md](https://github.com/cloudfoundry/bosh-notes/blob/master/proposals/max-in-flight-v2.md)
+- Related proposals: [max-in-flight-v2.md](https://github.com/cloudfoundry/bosh-notes/blob/master/proposals/max-in-flight-v2.md), [update-strategy-create.md (aka hotswap)](https://github.com/cloudfoundry/bosh-notes/blob/master/proposals/update-strategy-create.md), [update-strategy-scale-down.md](https://github.com/cloudfoundry/bosh-notes/blob/master/proposals/update-strategy-scale-down.md), [update-strategy-surge.md](https://github.com/cloudfoundry/bosh-notes/blob/master/proposals/update-strategy-surge.md)
 
 # Summary
 
