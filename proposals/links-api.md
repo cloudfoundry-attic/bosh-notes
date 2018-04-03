@@ -359,3 +359,11 @@ Let's talk about the providers first. When we have a someone providing the link,
 | `link_consumer_id` | Integer | yes | Id of the consumer (Foreign key of `link_consumers` table) |
 | `link_content` | String | yes | Content shared by the provider or manual link's definition |
 | `created_at` | Time | yes | Time this link was created |
+
+## Cheat sheet
+
+with bosh (https://github.com/cloudfoundry/bosh-cli/pull/408)
+
+```
+$ bosh curl -X POST /links --body <(echo '{"link_provider_id":4, "link_consumer": {"owner_object_name": "external_link_consumer2", "owner_object_type": "external"}}') -H "Content-Type: application/json"
+```
