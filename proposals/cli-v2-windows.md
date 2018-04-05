@@ -9,7 +9,12 @@ CLI v2 should support Windows for release mgmt and Director operations (such as 
 
 # Motivation
 
-...
+Use case:
+
+- running tests which shell out to bosh cli (ssh, scp)
+  - problem with scp paths found
+- running bosh create-release to build unique release for unique deployments (PCF)
+  - problem with tar found
 
 # Details
 
