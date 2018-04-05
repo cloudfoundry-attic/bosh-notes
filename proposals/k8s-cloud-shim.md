@@ -17,7 +17,7 @@ Director (and an additional component) should provide APIs to fulfill typical Ku
 
 # Drawbacks
 
-...
+- API is provided by the Director, so if Director is not available then Kube calls will be in queued state.
 
 # Unresolved questions
 
