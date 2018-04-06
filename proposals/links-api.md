@@ -165,7 +165,7 @@ Sample response:
 ```JavaScript
 [
   {
-    "id": 1,
+    "id": "1",
     "name": "foo",
     "shared": true,
     "deployment": "deployment_foo",
@@ -194,7 +194,7 @@ Sample response:
 ```JavaScript
 [
   {
-    "id": 1,
+    "id": "1",
     "deployment": "deployment_bar",
     "owner_object": {
       "name": "job_bar",
@@ -218,10 +218,10 @@ Sample Response:
 ```JavaScript
 [
   {
-    "id": 1,
+    "id": "1",
     "name": "foobar", // This is the original name from consumer definition
-    "link_consumer_id": 2,
-    "link_provider_id": 3,
+    "link_consumer_id": "2",
+    "link_provider_id": "3",
     "created_at": "Jan 20 1890 15:42:75 +500"
   }
 ]
@@ -233,7 +233,13 @@ POST /links
 ```
 Sample request:
 ```
-TBD
+{
+  "link_provider_id": "2",
+  "link_consumer": {
+    "owner_object_name": "external_consumer_1",
+    "owner_object_type": "external"
+  }
+}
 ```
 
 To delete a link:
