@@ -1,7 +1,7 @@
-State: discussing
-Start date: ?
-End date: ?
-Docs: ?
+- State: discussing
+- Start date: ?
+- End date: ?
+- Docs: ?
 
 # Summary
 This proposal is used to keep track of generic improvements to the stemcells and stemcell building code
