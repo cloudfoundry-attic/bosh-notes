@@ -14,9 +14,9 @@
 
 # Details
 
-- vm update
-  - `legacy` -> `in-place-replace-vm` - existing, previous behavior
-  - `hot-swap` -> `duplicate-and-replace-vm` - current hot swap track
+- `update.vm_strategy`
+  - `legacy` -> `delete-create` - existing, previous behavior
+  - `hot-swap` -> `create-swap-delete` - current hotswap track
 
 - instance update (replacement of instances is not connected to scale up/down)
   - reuse existing instances
