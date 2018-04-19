@@ -2,6 +2,16 @@
 
 ## in-progress
 
+- [configs-api-v2-alt1](proposals/configs-api-v2-alt1.md)
+  - State: in-progress
+  - Tracker: https://www.pivotaltracker.com/n/projects/1456570
+  - Tracker-label: gen-conf2
+  - Start date: 12/2017
+  - End date: ?
+  - Docs: ?
+  - Related proposals: [proposals/configs-api-v2.md](proposals/configs-api-v2.md)
+  - Summary: CLI should provide a way to find different versions of configs stored in the Director.
+
 - [links-api](proposals/links-api.md)
   - State: in-progress
   - Tracker: https://www.pivotaltracker.com/n/projects/2132440
@@ -104,7 +114,7 @@
   - Start date: ?
   - End date: ?
   - Docs: ?
-  - Summary: BOSH Director should automatically configure certificates with correct SANs.
+  - Summary: BOSH Director should automatically configure certificates (variables) with correct names (CN and SANs).
 
 - [bosh-dns-job-pointer](proposals/bosh-dns-job-pointer.md)
   - State: discussing
@@ -151,19 +161,18 @@
   - Docs: ?
   - Summary: CLI v2 should support Windows for release mgmt and Director operations (such as ssh and scp).
 
+- [compilation-config-v2](proposals/compilation-config-v2.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: Users on AWS should be able to have meaningful compilation block that works for ubuntu and windows machines.
+
 - [computed-links](proposals/computed-links.md)
   - State: discussing
   - Start date: ?
   - End date: ?
   - Summary: It should be possible for a job to control contents of a provided link via an ERB template.
-
-- [configs-api-v2-alt1](proposals/configs-api-v2-alt1.md)
-  - State: discussing
-  - Start date: ?
-  - End date: ?
-  - Docs: ?
-  - Related proposals: [proposals/configs-api-v2.md](proposals/configs-api-v2.md)
-  - Summary: CLI should provide a way to find different versions of configs stored in the Director.
 
 - [cpi-api-v2](proposals/cpi-api-v2.md)
   - State: discussing
@@ -180,6 +189,13 @@
 
 - [cpi-resource-uniqueness](proposals/cpi-resource-uniqueness.md)
   - State: discussing
+
+- [create-env-perf-improvements](proposals/create-env-perf-improvements.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: As an operator who deploys Director+UAA+Credhub, I expect deploy procedure to go as fast as possible.
 
 - [delete-instance](proposals/delete-instance.md)
   - State: discussing
@@ -209,6 +225,28 @@
   - End date: ?
   - Docs: ?
   - Summary: Users should be able to view full diff of their changes without affecting currently running system. Diff should include details such as VM, disk recreation, new versions of releases, etc.
+
+- [director-action-visibility](proposals/director-action-visibility.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Github comment: https://github.com/cloudfoundry/bosh-cli/issues/365#issuecomment-373142642
+  - Summary: As a Director user, I expect to see some form of feedback in task events log that indicates whether, for example:- object was found and deleted- object was not found, hence skipped from deletion- recreate skips ignored instanceSee examples in GH comment collected by Tom.
+
+- [director-deploy-perf-improvements](proposals/director-deploy-perf-improvements.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: As an operator, I expect Director to parallelize and be as speedy as possible when performing deploys (fresh or existing update).
+
+- [disk-backup-while-deploying](proposals/disk-backup-while-deploying.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: As a Director user, I expect that disks are copied while deploy is happening so that I'm sure new version of software I'm deploying does not corrupt my data (and I have a way to recover).
 
 - [disks-api](proposals/disks-api.md)
   - State: discussing
@@ -240,11 +278,25 @@
 - [generic-resources](proposals/generic-resources.md)
   - State: discussing
 
+- [generic_stemcell_improvements](proposals/generic_stemcell_improvements.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: This proposal is used to keep track of generic improvements to the stemcells and stemcell building code
+
 - [granular-instance-updates](proposals/granular-instance-updates.md)
   - State: discussing
   - Start date: ?
   - End date: ?
   - Summary: It should be possible for the operator to update particular instance or group of instances within a deployment without affecting any other instances.
+
+- [iaas-resource-tagging](proposals/iaas-resource-tagging.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: As an operator, I expect that IaaS resources like stemcells are tagged with consistent set of tags (similar to VMs tags).
 
 - [instance-logs](proposals/instance-logs.md)
   - State: discussing
@@ -253,6 +305,13 @@
   - Docs: ?
   - Related proposals: [proposals/blob-tracking.md](proposals/blob-tracking.md)
   - Summary: Director should record instance logs before terminating instances and provide a way for users to download these logs at a later time.
+
+- [instance-selectors](proposals/instance-selectors.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: Operator should select zero or more instances for particular activity such as deploy, run-errand, delete, etc.
 
 - [job-health-checks](proposals/job-health-checks.md)
   - State: discussing
@@ -272,12 +331,13 @@
   - Docs: ?
   - Summary: User should be able to describe job order (startup, shutdown, etc.) within a single VM and across a deployment.
 
-- [k8s-cloud-provider](proposals/k8s-cloud-provider.md)
+- [k8s-cloud-shim](proposals/k8s-cloud-shim.md)
   - State: discussing
   - Start date: ?
   - End date: ?
   - Docs: ?
-  - Summary: Director (and an additional component) should provide APIs to fulfill typical Kubernetes cloud provider to manage persistent disks, load balancers, and networks.
+  - Related: [disks-api.md](https://github.com/cloudfoundry/bosh-notes/blob/master/proposals/disks-api.md)
+  - Summary: Director (and an additional component) should provide APIs to fulfill typical Kubernetes cloud provider to manage persistent disks (CSI), load balancers, networks, and VMs (cluster API).
 
 - [load-balancer-mgmt](proposals/load-balancer-mgmt.md)
   - State: discussing
@@ -308,6 +368,13 @@
   - Related proposals: [multi-cpi.md](multi-cpi.md)
   - Summary: Director users should be able to use multi CPI as a default configuration for the Director. It should be possible to seemlessly upgrade from non-multi-CPI configuration.
 
+- [multi-os-release-support](proposals/multi-os-release-support.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: As a release author, I would like to have all typical features work in a release that contains Linux and Windows jobs.
+
 - [namespaced-jobs-and-packages](proposals/namespaced-jobs-and-packages.md)
   - State: discussing
   - Start date: ?
@@ -331,6 +398,13 @@
 
 - [ops-file-requests](proposals/ops-file-requests.md)
   - State: discussing
+
+- [ordered-update](proposals/ordered-update.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: Operator should be able to specify in cooperation with release authors which nodes should be updated first.
 
 - [os-reload](proposals/os-reload.md)
   - State: discussing
@@ -365,6 +439,13 @@
 - [snapshots](proposals/snapshots.md)
   - State: discussing
 
+- [streaming-errand-logs](proposals/streaming-errand-logs.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: As a Director user, I expect to see errand logs streamed to me while running an errand.
+
 - [team-mgmt](proposals/team-mgmt.md)
   - State: discussing
   - Start date: ?
@@ -386,12 +467,20 @@
   - Docs: ?
   - Summary: User should be able to request to size for unmanaged disks in the manifests and BOSH should be able to migrate contents, though without expanding partitions.
 
+- [update-strategies](proposals/update-strategies.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Related proposals: [max-in-flight-v2.md](https://github.com/cloudfoundry/bosh-notes/blob/master/proposals/max-in-flight-v2.md), [update-strategy-create.md (aka hotswap)](https://github.com/cloudfoundry/bosh-notes/blob/master/proposals/update-strategy-create.md), [update-strategy-scale-down.md](https://github.com/cloudfoundry/bosh-notes/blob/master/proposals/update-strategy-scale-down.md), [update-strategy-surge.md](https://github.com/cloudfoundry/bosh-notes/blob/master/proposals/update-strategy-surge.md)
+  - Summary: ...
+
 - [update-strategy-scale-down](proposals/update-strategy-scale-down.md)
   - State: discussing
   - Start date: ?
   - End date: ?
   - Docs: ?
-  - Summary: Some software may benefit from first scaling down to 1, then updating, then scaling back to original instances.
+  - Summary: Some software may benefit from first scaling down to 1, then updating, then scaling back to original instances.Opposite to [update-strategy-surge.md](https://github.com/cloudfoundry/bosh-notes/blob/master/proposals/update-strategy-surge.md)
 
 - [update-strategy-surge](proposals/update-strategy-surge.md)
   - State: discussing
@@ -400,7 +489,28 @@
   - Docs: ?
   - Related issue: [#1860](https://github.com/cloudfoundry/bosh/issues/1860)
   - Related proposals: [proposals/update-strategy-create.md](proposals/update-strategy-create.md)
-  - Summary: Operator should be able to specify acceptable "instance surge" amount so that while instance group update is in progress there are enough resources available for the software to stay up.
+  - Summary: Operator should be able to specify acceptable "instance surge" amount so that while instance group update is in progress there are enough resources available for the software to stay up.Opposite to [update-strategy-scale-down.md](https://github.com/cloudfoundry/bosh-notes/edit/master/proposals/update-strategy-scale-down.md).
+
+- [vip-network-auto-assignment](proposals/vip-network-auto-assignment.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: As a Director user, I expect to be able to get automatically assigned VIP (floating, elastic IPs) for each instance if I just assign VIP network to an instance group.
+
+- [vm-debug-info](proposals/vm-debug-info.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: As a Director user, I want to see some IaaS information that may be helpful for debugging about VMs such as which hosts they landed on, which security groups are applied, instance sizing, etc.
+
+- [vm-resources-improvements](proposals/vm-resources-improvements.md)
+  - State: discussing
+  - Start date: ?
+  - End date: ?
+  - Docs: ?
+  - Summary: This proposal is used to keep track of suggested VM resources improvements.
 
 ## finished
 
