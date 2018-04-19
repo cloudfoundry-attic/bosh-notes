@@ -1,5 +1,6 @@
-- State: discussing
-- Start date: ?
+- State: in-progress
+- Tracker: https://www.pivotaltracker.com/n/projects/1456570
+- Start date: 12/2017
 - End date: ?
 - Docs: ?
 - Related proposals: [proposals/configs-api-v2.md](proposals/configs-api-v2.md)
