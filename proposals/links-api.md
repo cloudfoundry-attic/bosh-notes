@@ -371,5 +371,7 @@ Let's talk about the providers first. When we have a someone providing the link,
 with bosh (https://github.com/cloudfoundry/bosh-cli/pull/408)
 
 ```
-$ bosh curl -X POST /links --body <(echo '{"link_provider_id":4, "link_consumer": {"owner_object_name": "external_link_consumer2", "owner_object_type": "external"}}') -H "Content-Type: application/json"
+$ bosh curl -X POST /links --body <(echo '{"link_provider_id":"2", "link_consumer": {"owner_object": {"name": "external_link_consumer1", "type": "external"}}}') -H "Content-Type: application/json"
+
+$ bosh curl '/link_address?link_id=3&azs[]=z3&azs[]=z1&status=unhealthy'
 ```
