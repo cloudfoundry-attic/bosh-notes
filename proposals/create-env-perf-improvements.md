@@ -20,7 +20,9 @@ In variety of cases, operators have to update Director VM and we would like to r
 
 ...
 
-Example of a create-env based on bosh-deployment on GCP:
+Example #1:
+
+- bosh-deployment on GCP
 
 ```
 step: creating bosh director
@@ -91,7 +93,10 @@ Started deploying
 Finished deploying (00:11:00)
 ```
 
-Example of a create-env on GCP (note slow 'Rendering templates' stage):
+Example #2:
+
+- opsman is 2vCPUs and 7.5GB RAM on GCP
+- note slow 'Rendering templates' stage
 
 ```
 Started validating
