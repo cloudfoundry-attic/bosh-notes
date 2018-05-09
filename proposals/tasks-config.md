@@ -20,8 +20,7 @@ Given that Director now supports consolidated configs API, we can define a new c
 
 ```yaml
 rules:
-- options:
-    rate_limit: 0
+- rate_limit: 0
   include:
     deployments:
     - include-dep1
@@ -32,20 +31,16 @@ rules:
     deployments:
     - exclude-dep10
 
-- options:
-    priority: 100
+- priority: 100
   include:
     task_types: [vms, ssh, logs]
 ```
 
-(set via `bosh update-config tasks tasks.yml`)
-
-`options` key can include 2 configurations:
+(set via `bosh update-config --type tasks --name default tasks.yml`)
 
 - `rate_limit` [Integer] which represents maximum number of tasks running at a time
 - `priority` [Integer] which represents relative priority between tasks
-
-`include`/`exclude` declrations follow same rules as addons' include/exclude rules. Only `deployments`, `tasks` and `task_types` keys are allowed.
+- `include`/`exclude` declrations follow same rules as addons' include/exclude rules. Only `deployments`, `tasks` and `task_types` keys are allowed.
 
 # TBD
 
