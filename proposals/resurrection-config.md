@@ -10,14 +10,12 @@ Given that Director now supports consolidated configs API, we can define a new c
 
 ```yaml
 rules:
-- options:
-    enabled: false
+- enabled: false
   include:
     deployments:
     - dep1
 
-- options:
-    enabled: true
+- enabled: true
   include:
     deployments:
     - dep1
@@ -25,15 +23,12 @@ rules:
     - api
 ```
 
-(set via `bosh update-config resurrection resurrection.yml`)
+(set via `bosh update-config --type resurrection --name default resurrection.yml`)
 
 By default HM will continue to resurrect by default unless it finds resurrection configuration that disables it for a particular set of deployment or instance groups.
 
-`options` key can include 1 configuration:
-
 - `enabled` [Boolean] which represents whether resurrection should occur or not.
-
-`include`/`exclude` declrations follow same rules as addons' include/exclude rules. Only `deployments` and `instance_groups` keys are allowed.
+- `include`/`exclude` declrations follow same rules as addons' include/exclude rules. Only `deployments` and `instance_groups` keys are allowed.
 
 # TBD
 
