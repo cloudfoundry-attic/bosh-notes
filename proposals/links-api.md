@@ -1,4 +1,4 @@
-- State: in-progress
+- State: finished
 - Tracker: https://www.pivotaltracker.com/n/projects/2132440
 - Tracker label: links-api
 - Track anchors: slack: @asu @dwick
@@ -509,26 +509,27 @@ GET /link_address?link_id=...&azs[]=...
 
 - **link_id** [String] (Required): The link id
 - **azs** [Array]: AZs to use for the address
+- **status** [String]: Filter for link address status (e.g. healthy, unhealthy, all, default)
 
 #### Response body schema
 
-- **AAA** [Type]: ABC.
+- **address** [String]: IP or DNS address for the link
 
 #### Example
 
 ```shell
-$ curl -s -k "https://admin:admin@192.168.50.4:25555/link_address?link_id=1" | jq .
+$ curl -s -k "https://admin:admin@192.168.50.4:25555/link_address?link_id=1&azs[]=az1&status=healthy" | jq .
 ```
 
 ```yaml
 {
-  "address": "foo.instance_group.bosh"
+  "address": "q-a1s3.instance_group.bosh"
 }
 ```
 
 ---
 
-## Current DB schema
+## Previous DB schema
 ### How are links stored?
 Let's talk about the providers first. When we have a someone providing the link, that information is only kept in memory at the time of resolving the links; thus not stored anywhere. There is one exception to that rule, cross deployment links. The details for cross deployment links are stored in the `deployments` table under the column `link_spec_json`.
 
@@ -582,43 +583,81 @@ Let's talk about the providers first. When we have a someone providing the link,
 
 </details>
 
-## Proposed DB schema
-
+## Current DB schema
 
 ### Providers (`link_providers` table)
-| name | type | required? | description |
+| name | type | not null | description |
 |---|---|---|---|
 | `id` | Integer | yes | Unique identifier for each provider |
-| `name` | String | yes | Alias specified by `as` in manifest; otherwise original name from release job |
-| `shared` | Boolean | yes | Provider can be consumed by another deployment/external |
-| `deployment_id` | Integer | yes | Deployment id of provider deployment (Foreign key of `deployments` table) |
-| `consumable` | Boolean | yes | Usually true, only false when feature to nil out providers is implemented. (https://www.pivotaltracker.com/story/show/151894692) |
-| `link_provider_definition_type` | String | yes | Type specified in the release job |
-| `link_provider_definition_name` | String | yes | Original name specified in the release job |
-| `owner_object_name` | String | yes | Name of the provider owner (eg. Name of job) |
-| `owner_object_type` | String | yes | Type of the provider owner (eg. Job, Instance group) |
-| `content` | String | yes | The full set of properties provided by the provider |
+| `deployment_id` | Integer | yes | Deployment ID of provider deployment (Foreign key of `deployments` table) |
+| `instance_group` | String | yes | Instance group name for provider |
+| `name` | String | yes | Provider name |
+| `type` | String | yes | Provider type (e.g. job, disk, etc) |
+| `serial_id` | Integer | yes | Serial ID corresponding to the deployment; incremented for subsequent deployments |
 
+### Provider Intents (`link_provider_intents` table)
+| name | type | not null | description |
+|---|---|---|---|
+| `id` | Integer | yes | Unique identifier for each provider |
+| `link_provider_id` | Integer | yes | ID of Link Provider (Foreign key of `link_providers` table) |
+| `original_name` | String | yes | Original link name specified in job spec |
+| `type` | String | yes | Link type |
+| `name` | String | no | Alias specified by `as` in manifest; otherwise original name from release job |
+| `content` | String | no | Link content |
+| `shared` | Boolean | yes | Whether link is shared across deployments or not. |
+| `consumable` | Boolean | yes | Usually true, only false when provider is nil (see https://www.pivotaltracker.com/story/show/151894692) |
+| `metadata` | String | no | Metadata |
+| `serial_id` | Integer | yes | Serial ID corresponding to deployment; incremented for subsequent deployments |
 
 ### Consumers (`link_consumers` table)
-| name | type | required? | description |
+| name | type | not null | description |
+|---|---|---|---|
+| `id` | Integer | yes | Unique identifier for each consumer |
+| `deployment_id` | Integer | no | Deployment ID of consumer; Deployment ID of provider if consumer created through Links API (Foreign key of `deployments` table) |
+| `instance_group` | String | no | Instance group name of consumer; empty if consumer is external (created through API) |
+| `name` | String | yes | Name of the consumer (eg. name of job, name of consumer owner provided through API, etc) |
+| `type` | String | yes | Type of the consumer (e.g. job, disk, external, etc) |
+| `serial_id` | Integer | yes | Serial ID corresponding to deployment; incremented for subsequent deployments |
+
+### Consumer Intents (`link_consumer_intents` table)
+| name | type | not null | description |
 |---|---|---|---|
 | `id` | Integer | yes | Unique identifier for each provider |
-| `deployment_id` | Integer | no | Deployment id of consumer; Deployment id of provider if external (Foreign key of `deployments` table) |
-| `instance_group` | String | no | Instance group this consumer belongs to; Null if the consumer is external |
-| `owner_object_name` | String | yes | Name of the consumer owner (eg. Name of job) |
-| `owner_object_type` | String | yes | Type of the consumer owner (eg. Job, Instance group) |
+| `link_consumer_id` | Integer | yes | ID of Link Consumer (Foreign key of `link_consumers` table) |
+| `original_name` | String | yes | Original link name specified in job spec |
+| `type` | String | yes | Link type |
+| `name` | String | no | Alias specified by `as` in manifest; otherwise original name from release job |
+| `optional` | Boolean | yes | Consumption of the link is optional |
+| `blocked` | Boolean | yes | Consumption of the link is blocked |
+| `metadata` | String | yes | Metadata |
+| `serial_id` | Integer | yes | Serial ID corresponding to deployment; incremented for subsequent deployments |
 
 
 ### Links (`links` table)
-| name | type | required? | description |
+| name | type | not null | description |
 |---|---|---|---|
 | `id` | Integer | yes | Unique identifier for each provider |
+| `link_provider_intent_id` | Integer | no | Id of the provider intent (Foreign key of `link_provider_intents` table) |
+| `link_consumer_intent_id` | Integer | yes | Id of the consumer intent (Foreign key of `link_consumer_intents` table) |
 | `name` | String | yes | Name of the consumer owner (eg. Name of job) |
-| `link_provider_id` | Integer | no | Id of the provider (Foreign key of `link_providers` table) |
-| `link_consumer_id` | Integer | yes | Id of the consumer (Foreign key of `link_consumers` table) |
 | `link_content` | String | yes | Content shared by the provider or manual link's definition |
 | `created_at` | Time | yes | Time this link was created |
+
+### Instances Links
+| name | type | not null | description |
+|---|---|---|---|
+| `id` | Integer | yes | Unique identifier for each provider |
+| `link_id` | Integer | yes | Id of the link (Foreign key of `links` table) |
+| `instance_id` | Integer | yes | Id of the instance (Foreign key of `instances` table) |
+| `serial_id` | Integer | yes | Serial ID corresponding to deployment; incremented for subsequent deployments |
+
+
+### Indices
+- `link_providers_constraint`: [deployment_id, instance_group, name, type] unique index on `link_providers` table
+- `link_provider_intents_constraint`: [link_provider_id, original_name] unique index on `link_provider_intents` table
+- `link_consumers_constraint`: [deployment_id, instance_group, name, type] unique index on `link_consumers` table
+- `link_consumer_intents_constraint`: [link_consumer_id, original_name] unique index on `link_consumer_intents` table
+- `instances_links_constraint`: [link_id, instance_id] unique index on `instances_links` table
 
 ## Cheat sheet
 
