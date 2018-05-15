@@ -272,7 +272,261 @@ TBD
 </details>
 
 ## Current API schema
-There are no API endpoints for accessing links information.
+
+### List links for a deployment
+```
+GET /links?deployment=...
+```
+#### Request query
+
+- **deployment** [String] (Required): Deployment for which links are queried.
+
+#### Response body schema
+
+**root** [Array]: List of links.
+
+- **id** [String]: Link ID.
+- **name** [String]: Original link name from consumer definition.
+- **link_consumer_id** [String]: Internal ID for link consumer.
+- **link_provider_id** [String]: Internal ID for link provider.
+- **created_at** [Time]: Timestamp of link creation in text form.
+
+#### Example
+
+```shell
+$ curl -v -s -k "https://admin:admin@192.168.50.4:25555/links?deployment=links-api" | jq .
+```
+
+```yaml
+[
+  {
+    "id": "1",
+    "name": "link1-name",
+    "link_consumer_id": "1",
+    "link_provider_id": "8",
+    "created_at": "2018-05-12 13:17:19 -0400"
+  },
+  {
+    "id": "2",
+    "name": "link2-name",
+    "link_consumer_id": "2",
+    "link_provider_id": "4",
+    "created_at": "2018-05-14 17:02:13 -0400"
+  },
+  ...
+]
+```
+
+----
+
+### Create an external link
+```
+POST /links
+```
+
+#### Request headers
+
+- **Content-Type** must be `application/json`.
+
+#### Request body schema
+
+- **link_provider_id** [String]: The id corresponding to the existing link provider
+- **link_consumer** [Object]:
+  - **owner_object** [Object]:
+    - **name** [String]: The name for this new consumer
+    - **type** [String]: Type is always "external"
+
+
+```yaml
+{
+  "link_provider_id": "1",
+  "link_consumer": {
+    "owner_object": {
+      "name": "external_consumer_1",
+      "type": "external"
+    }
+  }
+}
+```
+
+#### Response body schema
+
+- **id** [String]: The id for the new link
+- **name** [String]: Name of  the new consumer
+- **link_consumer_id** [String]: Id of the new consumer
+- **link_provider_id** [String]: Id of the associated provider
+- **created_at** [Time]: Creation time
+
+#### Example
+
+```shell
+$ curl -X POST -s -k "https://admin:admin@192.168.50.4:25555/links" -H "Content-Type: application/json" -d '{"link_provider_id":"1","link_consumer":{"owner_object":{"name":"external_consumer_1","type":"external"}}}' | jq .
+```
+
+```yaml
+{
+  "id": "1",
+  "name": "external_consumer_1",
+  "link_consumer_id": "1",
+  "link_provider_id": "1"
+}
+```
+
+---
+
+### Delete a link
+```
+DELETE /links/:id
+```
+#### Request param
+
+- **id** [Integer]: The link id.
+
+#### Response code
+- **204** Deleted successfully
+
+#### Example
+
+```shell
+$ curl -s -k -X DELETE "https://admin:admin@192.168.50.4:25555/links/1" | jq .
+```
+
+---
+
+### Link Consumers
+```
+GET /link_consumers?deployment=...
+```
+#### Request query
+
+- **deployment** [String] (Required): Deployment name
+
+#### Response body schema
+
+**[root]** [Array]: List of link consumers
+
+- **id** [String]: Link id
+- **name** [String]: Link name
+- **optional** [Boolean]: The consumption of the link is optional
+- **deployment** [String]: The consumer deployment name
+- **owner_object** [Object]:
+  - **name** [String]: Consumer name
+  - **type** [String]: Consumer type
+  - **info** [Object]:
+    - **instance_group** [String]: Consumer instance group
+- **link_consumer_definition** [Object]:
+  - **name** [String]: Original link name
+  - **type** [String]: Link type
+#### Example
+
+```shell
+$ curl -s -k "https://admin:admin@192.168.50.4:25555/link_consumers?deployment=links-api" | jq .
+```
+
+```yaml
+[
+  {
+    "id": "1",
+    "name": "link1",
+    "optional": false,
+    "deployment": "links-api",
+    "owner_object": {
+      "type": "job",
+      "name": "links-api-job",
+      "info": {
+        "instance_group": "links-api-ig",
+      },
+    },
+    "link_consumer_definition": {
+        "type": "conn",
+        "name": "db",
+    }
+  },
+  ...
+]
+```
+---
+
+### Link Providers
+```
+GET /link_providers?deployment=...
+```
+#### Request query
+
+- **deployment** [String] (Required): Deployment name
+
+#### Response body schema
+
+**[root]** [Array]: List of link providers
+
+- **id** [String]: Link id
+- **name** [String]: Link name
+- **shared** [Boolean]: Link is shared across deployments
+- **deployment** [String]: The provider deployment name
+- **link_provider_definition** [Object]:
+  - **name** [String]: Original link name
+  - **type** [String]: Link type
+- **owner_object** [Object]:
+- **name** [String]: Provider name
+- **type** [String]: Provider type
+- **info** [Object]:
+  - **instance_group** [String]: Provider instance group
+
+#### Example
+
+```shell
+$ curl -v -s -k "https://admin:admin@192.168.50.4:25555/link_providers?deployment=links-api" | jq .
+```
+
+```yaml
+[
+  {
+    "id": "1",
+    "name": "link1",
+    "shared": true,
+    "deployment": "links-api",
+    "link_provider_definition": {
+        "type": "conn",
+        "name": "db",
+    },
+    "owner_object": {
+      "type": "job",
+      "name": "links-api-job",
+      "info": {
+        "instance_group": "links-api-ig",
+      },
+    }
+  },
+  ...
+]
+```
+---
+
+```
+GET /link_address?link_id=...&azs[]=...
+```
+#### Request query
+
+- **link_id** [String] (Required): The link id
+- **azs** [Array]: AZs to use for the address
+
+#### Response body schema
+
+- **AAA** [Type]: ABC.
+
+#### Example
+
+```shell
+$ curl -s -k "https://admin:admin@192.168.50.4:25555/link_address?link_id=1" | jq .
+```
+
+```yaml
+{
+  "address": "foo.instance_group.bosh"
+}
+```
+
+---
 
 ## Current DB schema
 ### How are links stored?
