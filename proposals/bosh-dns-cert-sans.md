@@ -83,6 +83,10 @@ Users should be explicit about specifying common_name and alternative_name links
 
 By default, none of the link consumers in variables should allow implicit linking.
 
+### Backwards compat with Consul / BOSH DNS aliases
+
+Deployment authors that currently use Consul and/or BOSH DNS aliases can continue adding these values explicitly into `alternative_names` options section of a variable, so that existing services can successfully validate certificates.
+
 ---
 ## Certificate variables from cf-deployment
 
