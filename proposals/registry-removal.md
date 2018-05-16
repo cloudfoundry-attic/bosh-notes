@@ -34,8 +34,11 @@ API version 2 of CPIs will differ from version 1 by the following:
 ```
 # a new vm gets created (v2 is now with networking)
 $ create_vm(...)
-["vm-32r7834yt834", {"private": { "type": "manual", "netmask": "255.255.255.0", "gateway": "10.230.13.1", "ip": "10.230.13.6", "default": [ "dns", "gateway" ], "cloud_properties": { "net_id": "d29fdb0d-44d8-4e04-818d-5b03888f8eaa" }}, 
-"public":  { "type": "vip", "ip": "173.101.112.104", "cloud_properties": {}} }]
+[ "vm-32r7834yt834", 
+  {"private": { "type": "manual", "netmask": "255.255.255.0", "gateway": "10.230.13.1", "ip": "10.230.13.6", "default": [ "dns", "gateway" ], "cloud_properties": { "net_id": "d29fdb0d-44d8-4e04-818d-5b03888f8eaa" }}, 
+    "public":  { "type": "vip", "ip": "173.101.112.104", "cloud_properties": {}} 
+  }
+]
 
 # in the case where we need a new IaaS disk (same as before)
 $ create_disk(...)
