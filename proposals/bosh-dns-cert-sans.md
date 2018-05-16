@@ -23,9 +23,11 @@ instance_groups:
   jobs:
   - name: bbs
     provides:
-      bbs_networking:
-        custom: true
-        type: address
+      bbs_networking: {as: foo}
+    custom_provider_definitions:
+    - name: bbs_networking
+      type: address
+      # properties is allowed here with property names
 
 variables:
 - name: bbs
@@ -42,13 +44,9 @@ variables:
     - 127.0.0.1
 ```
 
-### Custom link type declartion
+### Custom provider definitions
 
-Custom link type by default does not export any properties but does include address and instances.
-
-If `custom: true` is included, Director will raise an error if link provider name shadows whatever link provides are specified in the release job.
-
-As part of separate functionality we will allow specifying instances and properties for better link export control (only applies where `custom: true` is specified.)
+Custom provider definitions are not allowed to shadow provider definitions specified in the release job.
 
 ### Supported certificate link consumers
 
