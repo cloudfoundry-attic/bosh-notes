@@ -12,38 +12,37 @@ We can simplify Director-CPI-Agent communication by removing Registry and sendin
 
 API version 2 of CPIs will differ from version 1 by the following:
 
-- `create_vm` will return disks configuration in addition to returning VM CID
-  - `{"system": ..., "ephemeral": ...}`
-
-- `attach_disk` will accept disks configuration in addition to VM CID and disk CID
-  - `detach_disk` does not change since it should be able to determine disk by disk CID
+- `create_vm` will return network configuration in addition to returning VM CID
+  - `{"private": ..., "public": ...}`
 
 - `attach_disk` will return disk hint as its result
 
+- `detach_disk` does not change since it should be able to determine disk by disk CID
+
 ## Director updates
 
-- should have initially returned list of disks from `create_vm`
+- should expect getting list of networks from `create_vm`
 
-- should keep track of attached persistent disks (their hints) from `attach_disk` CPI call
-  - updates `persistent` portion of disks configuration
+- should forward the hints from `attach_disk` CPI call
   - calls `mount_disk` Agent method with disk hint for that disk
 
-- should keep track of detached persistent disks from `detach_disk` CPI call
+- `detach_disk` CPI call should stay the same
 	- calls `unmount_disk` Agent method exactly the same way
 
 ## Sample API Calls
 
 ```
-# a new vm gets created (v2 is now disk hints)
+# a new vm gets created (v2 is now with networking)
 $ create_vm(...)
-["vm-32r7834yt834", {"system": "/dev/sda", "ephemeral": "/dev/sdb"}]
+["vm-32r7834yt834", {"private": { "type": "manual", "netmask": "255.255.255.0", "gateway": "10.230.13.1", "ip": "10.230.13.6", "default": [ "dns", "gateway" ], "cloud_properties": { "net_id": "d29fdb0d-44d8-4e04-818d-5b03888f8eaa" }}, 
+"public":  { "type": "vip", "ip": "173.101.112.104", "cloud_properties": {}} }]
 
 # in the case where we need a new IaaS disk (same as before)
 $ create_disk(...)
 "disk-39748564"
 
-# request the cpi attaches a disk and give director a hint about where the the disk is mounted
-$ attach_disk("vm-32r7834yt834", "disk-39748564", {"system": "/dev/sda", "ephemeral": "/dev/sdb"}]
+# request the cpi attaches a disk and returns a hint about where the director should mount the disk
+$ attach_disk("vm-32r7834yt834", "disk-39748564")
 "/dev/sdc"
 # now we director knows the hint about where the disk is mounted (contract between agent + cpi)
 # director will be sure to record the hint for future operations
@@ -53,8 +52,7 @@ $ attach_disk("vm-32r7834yt834", "disk-39748564", {"system": "/dev/sda", "epheme
   agent$ mount_disk("disk-39748564", "/dev/sdc")
 
 # attaching a (another) disk (future-ish for multiple persistent disk support)
-# cpi is able to see current list of disks in case it needs to calculate what the next device should be
-$ attach_disk("vm-32r7834yt834", "disk-54367", {"system": "/dev/sda", "ephemeral": "/dev/sdb", "persistent": {"disk-39748564": "/dev/sdc"}})
+$ attach_disk("vm-32r7834yt834", "disk-54367")
 "/dev/sdd"
 ```
 
@@ -100,7 +98,7 @@ director:
 - if cpi_api_version>=2 && sc_api_version>=2
   - create_vm doesnt change
     - except we want to save return values
-  - attach_disk changes to pass saved return values from create_vm
+  - attach_disk return values are sent to mount_disk
   - detach_disk doesnt change
     - director to keep track of disks
   - call agent with new agent signatures
