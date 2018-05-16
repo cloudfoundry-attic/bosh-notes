@@ -23,72 +23,69 @@ instance_groups:
   jobs:
   - name: bbs
     provides:
-      bbs: {as: bbs2}
+      bbs_networking:
+        custom: true
+        type: address
 
 variables:
 - name: bbs
   type: certificate
   consumes:
-    wildcard_cn: {from: bbs2}
-    wildcard_sans: {from: bbs2}
+    common_name:
+      from: bbs_networking
+      properties: {wildcard: true}
+    alternative_name:
+      from: bbs_networking
   options:
-    alternative_names:
+    common_name: ... # replace link
+    alternative_names: # adds to link
     - 127.0.0.1
 ```
 
-```
-instance_groups:
-- name: ...
-  jobs:
-  - name: bbs
-    default_provides:
-      networking: {from: bbs_networking}
+### Custom link type declartion
 
-variables:
-- name: bbs
-  type: certificate
-  consumes:
-    wildcard_sans: {from: bbs_networking}
-```
+Custom link type by default does not export any properties but does include address and instances.
+
+If `custom: true` is included, Director will raise an error if link provider name shadows whatever link provides are specified in the release job.
+
+As part of separate functionality we will allow specifying instances and properties for better link export control (only applies where `custom: true` is specified.)
 
 ### Supported certificate link consumers
 
-- wildcard_common_name
-- wildcard_alternative_name
-- common_name
+- common_name (type: address)
+- alternative_name (type: address)
+
+### Multiple alternative names
+
 - alternative_name
 
-## Multiple alternative names
+TBD: In future we may support list of alternative names through list of links
 
+### Group DNS addresses
 
-## `default_provides`
+Most use cases that we have seen in the wild revolve around addressing group of instances instead of individual instances. We currently have a way to get a group DNS address via link(...).address ERB accessor (eg q-s0.ig.net.dep.tld).
 
-Instead of requiring all jobs that need certificates to expose a link just for the sake of certificate, Director should provide `default_provides.wildcard_alternative_name` of type <TBD> 
+Link consumer on certificate variables can specify whether DNS address should be wildcarded (first label of a DNS address is replaced with a *). By default DNS address is not wildcarded.
 
-## Group DNS addresses
-
-Most use cases that we have seen in the wild revolve around addressing group of instances instead of individual instances. We currently have a way to get a group DNS address via link(...).address ERB accessor.
-
-## Short DNS addresses
+### Short DNS addresses
 
 Some software may not tolerate long DNS addresses. It also appears that x509 RFC only allows up to 64 chars in CN/SANs. MySQL is our current example of such software. OpenSSL generally does not like longer than 64 char CNs.
 
 BOSH has a notion of short DNS addresses to avoid having to deal with long DNS names. They are generated automatically if deployment opts into features.use_short_dns_addresses. 
 
-## CN vs SANs
+Same rules as specified in "Group DNS addresses" section
+
+### CN vs SANs
 
 Some software may require use of CN vs SANs.
 
-## 
+Users should be explicit about specifying common_name and alternative_name links. You can specify both links at once.
 
-# Drawbacks
+### Implicit linking for certificate variables
 
-...
+By default, none of the link consumers in variables should allow implicit linking.
 
-# Unresolved questions
-
-...
-
+---
 ## Certificate variables from cf-deployment
 
 Common names from below:
