@@ -16,9 +16,27 @@ Director users should be able to use multi CPI as a default configuration for th
 
 Improvements:
 
-- uploading existing stemcell after new CPI is defined shuold result in IaaS stemcell import
-- user should be able to specify one CPI as default
+- ~~[done] uploading existing stemcell after new CPI is defined shuold result in IaaS stemcell import~~
+- ~~[wont fix] user should be able to specify one CPI as default~~
 - [user should be able to delete stemcell for specific CPI](https://github.com/cloudfoundry/bosh-cli/issues/154)
+- user should be able to configure vm_types, vm_exts, disk_types with AZ specific variations. example:
+
+```
+vm_types:
+- name: default
+  cloud_properties:
+    ...cps...
+    
+# becomes...
+    
+vm_types:
+- name: default
+  variations:
+  - az: z1
+    # ...azs: [z1, z2]
+    cloud_properties:
+      ...cps...
+```
 
 # Drawbacks
 
