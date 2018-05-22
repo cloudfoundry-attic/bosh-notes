@@ -71,6 +71,8 @@ First cut at this involves exposing instance changes (based on existing changes 
 - trusted_certs_changed?
   - change to trusted certs in director tile
   - less expensive (because vm is not recreated) => requires processes restarts
+  
+- is instance added/deleted?
 
 [1] https://github.com/cloudfoundry/bosh/blob/b2fdc44b38e36cc9cff6582c8252952a0e768fdc/src/bosh-director/lib/bosh/director/deployment_plan/instance_plan.rb#L63-L76
 
@@ -92,6 +94,7 @@ CLI will be using task result output (user can look at it via `bosh task X --res
       "name": "...",
       "id": "...",
       "summary": "...",
+      "state": "added|unaffected|updated|deleted",
       "changes": [
         {"type": "dirty"},
         {"type": "restart", "summary": "..."}
