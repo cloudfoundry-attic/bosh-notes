@@ -15,6 +15,7 @@
 
 - as a director api user, I expect to be able to hit `/link_instances' api endpoint to get back a list of instances
   - The behaviour should be similar to that of `link(...).instances.map { ... }`
+- better authorization for links api consumer
 
 # Drawbacks
 
