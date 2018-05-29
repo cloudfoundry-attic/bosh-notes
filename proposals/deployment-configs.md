@@ -23,7 +23,7 @@ dep1  bosh-dns    bosh-...     123 cloud/default latest   team1
 
 ### API changes
 
-* Introduce query parameter to exclude config information from list of deployments, as there are consumers which don't care about those `GET /deployments/:name?exclude_configs=true`
+* Introduce query parameter to exclude config information from list of deployments, as there are consumers which don't care about those `GET /deployments?exclude_configs=true`
   * Switch BOSH HM to use this query parameter
 * Introduce new API endpoint returning all configs associated with all deployments. Can be filtered for an individual deployment with a query parameter.
   * The new endpoint no longer includes the `latest`/`outdated` marker, just config IDs
