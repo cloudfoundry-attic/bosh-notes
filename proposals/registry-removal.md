@@ -147,3 +147,24 @@ agent:
 
 TBD: should we backport agent changes to be sc_api_verison=2?
 ```
+
+### Reference Table (Based on each component version)
+* Reg./reg. : Registry
+
+| Director | CPI | Stemcell  | Should update Reg.   | Add agent setting to Iaas `user-metadata`   |
+|----------|-----|-----------|----------------------|---|
+| 1  | 1  | 1  | Update Reg.  | Dont add agent setting to iaas  |
+| 1  | 1  | 2  | Update Reg.  | Dont add agent setting to iaas  |
+| 1  | 2  | 2  | Update Reg.  | Dont add agent setting to iaas  |
+| 2  | 2  | 2  | DON'T add anything to reg.   | Yes, agent will read `user-metadata` and not call reg.  |
+| 1  | 2  | 1  | Update Reg.  | Dont add agent setting to iaas  |
+| 2  | 2  | 1  | Update Reg.  | Dont add agent setting to iaas (no agent support)  |
+| 2  | 1  | 1  | Update Reg. (cpi will by default update reg.)  | Dont add agent setting to iaas |
+| 2  | 1  | 2  | Update Reg. (cpi will by default update reg.)  | Dont add agent setting to iaas |
+
+
+**NOTE:** Few other combination should be taken under consideration
+- Which version of cpi is specified in cpi.json
+- director is adding cpi_api_version in its properties or not
+- **FOR Test phase**: is director specifying [`cpi_api_test_max_version`](https://github.com/cloudfoundry-incubator/bosh-cpi-certification/blob/master/aws/assets/ops/director_cpi_version.yml) in its properties or not
+
