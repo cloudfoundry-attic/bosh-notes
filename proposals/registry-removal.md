@@ -77,8 +77,7 @@ cli:
     - experimental/ ops file to remove ssh_tunnel
 
 - if cpi_api_version>=2 && sc_api_version==1
-  - ??? TBD: how do we know if cpi does not work with v1 contract?
-    - probably noop
+  - do existing flow. sc_api_version implies cpi response version. we use cpi version to determine response when sc_api_version == 2
 
 - if cpi_api_version==1 && sc_api_version==1
   - do existing flow
