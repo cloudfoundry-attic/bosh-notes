@@ -5,7 +5,7 @@
 
 # Summary
 
-Release job authors should be able to find out in their drain scripts whether instance is being updated, removed, deleted, etc.
+Release job authors should be able to find out in their drain scripts which instance(s) are being added, updated, removed, stopped, etc.
 
 # Motivation
 
@@ -18,6 +18,7 @@ Use cases:
 - do not move data to a different node when instance is deleted
 - deregister etcd member when scaling down instance group
 - drain kubelet (talks to master) during update, but not during delete
+- allow nodes being updated to ignore nodes that have been deleted (e.g. [cf-mysql-release](https://github.com/cloudfoundry/cf-mysql-release/pull/209#issuecomment-396753314))
 
 # Details
 
@@ -64,5 +65,8 @@ possible disk states: available, unavailable, deleted
 ...
 
 # Unresolved questions
+
+- should this be generalized to cover all instance group properties before/after the deploy (to detect e.g. password changes for database users, certificate rotations, user creation/deletion)?
+- should this information be available only during drain or also during start? (pre-start? post-deploy?)
 
 ...
