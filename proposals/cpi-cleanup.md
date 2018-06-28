@@ -17,6 +17,8 @@ OpenStack CPI:
 vSphere CPI:
 * **DRS Rules** are automatically created (similar to Azure Availability Sets). Not sure how they're cleaned up and if this might lead to problems at some point?
 
+* **folders** (in datastores and clusters view)
+
 AWS CPI: ???
 
 GCP CPI: ???
