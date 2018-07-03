@@ -66,7 +66,7 @@ possible disk states: available, unavailable, deleted
 
 # Unresolved questions
 
-- should this be generalized to cover all instance group properties before/after the deploy (to detect e.g. password changes for database users, certificate rotations, user creation/deletion)?
+- should this be generalized to cover all instance group properties before/after the deploy (to detect e.g. password changes for database users, certificate rotations, user creation/deletion, modify listening ports)?
 - should this information be available only during drain or also during start? (pre-start? post-deploy?)
 
 ...
