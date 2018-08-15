@@ -166,4 +166,10 @@ TBD: should we backport agent changes to be sc_api_verison=2?
 - Which version of cpi is specified in cpi.json
 - director is adding cpi_api_version in its properties or not
 - **FOR Test phase**: is director specifying [`cpi_api_test_max_version`](https://github.com/cloudfoundry-incubator/bosh-cpi-certification/blob/master/aws/assets/ops/director_cpi_version.yml) in its properties or not
+- On CPI side you can specify cpi version for debugging:
+```
+ debug.cpi.api_version:
+    description: api_version supported by cpi (can be used as an override for fallback).
+    default: null
+```
 
