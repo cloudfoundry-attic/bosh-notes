@@ -23,25 +23,31 @@ Use cases:
 
 ## Scenarios
 
-- instance is deleted
-  - deployment is deleted
-  - IG is deleted
-  - instance is deleted
-- instance is stopped
-  - via IaaS
-  - bosh stop
-  - bosh stop --hard
-  - bosh delete-vm
-- instance is updated
-  - bosh deploy
-- instance is created
-  - bosh deploy
-- vm is deleted
-  - bosh deploy
-  - instance is deleted
-- vm is created
-  - bosh deploy/recreate/start/...
-  - resurrection
+Drain scripts are called in the following situations:
+- During a deployment `bosh deploy`
+  - When scaling down an instance
+  - When deleting an instance group
+  - When removing AZs
+  - When `--recreate` flag is used
+  - When migrating from another instance group [to be investigated]
+  - When a VM will become orphaned [to be investigated, see: create-swap-delete]
+- During a `bosh stop`
+- During a `bosh stop --hard`
+- During a `bosh delete-vm`
+- During a `bosh recreate`
+
+The information exposed to the drain script will include:
+- The expected (target) state for the instance. We can be in multiple states at the same time (eg. Deleted + Recreated)
+  - Deleted (All the above scenarios except `bosh stop`)
+  - Stopped (`bosh stop`)
+  - Recreated (`--recreate` flag used on deploy, `bosh recreate`)
+- The expected (target) state for the deployment
+  - Deleted (`bosh delete-deployment`)
+  - Updated (`bosh deploy`)
+- The expected (target) state for the instance group
+  - Scaled-down
+  - Removed-AZ
+  - Updated
 
 ## Proposed changes
 
