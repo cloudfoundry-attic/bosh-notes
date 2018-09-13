@@ -239,7 +239,10 @@ cloud_properties:
 ```
 
 
-All the updated contracts required for V2 support are published in the latest `bosh-cpi-ruby` gem [v2.5.0](https://github.com/cloudfoundry/bosh-cpi-ruby/releases/tag/v2.5.0)
+All the updated contracts required for V2 support are published in the latest:
+
+- Ruby: `bosh-cpi-ruby` gem [v2.5.0](https://github.com/cloudfoundry/bosh-cpi-ruby/releases/tag/v2.5.0)
+- GoLang: `bosh-cpi-go` [library](https://github.com/cppforlife/bosh-cpi-go)
 
 
 
