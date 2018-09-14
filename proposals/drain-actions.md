@@ -25,10 +25,11 @@ Use cases:
 
 Drain scripts are called in the following situations:
 - During a deployment `bosh deploy`
+  - When updating any job on the instance (includes removing a job)
   - When scaling down an instance
   - When deleting an instance group
   - When removing AZs
-  - When `--recreate` flag is used
+  - When the `--recreate` flag is used
   - When migrating from another instance group [to be investigated]
   - When a VM will become orphaned [to be investigated, see: create-swap-delete]
 - During a `bosh stop`
