@@ -24,36 +24,36 @@ Following workflow would enable operator to rotate certificates and their CAs:
     - only v1 is active
   - Director issues call to create-or-update `simple-cert` (type: certificate) that uses `simple-ca` as its CA
     - only v1 is active
-  - Director renderes web-server job to use `simple-cert` as its server certificate (eg `((simple-cert.certificate))`)
-  - Director renderes web-client job to use `simple-cert`'s CA as its server certificate (eg `((simple-cert.ca))`)
+  - Director renders web-server job to use `simple-cert` as its server certificate (eg `((simple-cert.certificate))`)
+  - Director renders web-client job to use `simple-cert`'s CA as its server certificate (eg `((simple-cert.ca))`)
 
-- operator triggers to regenerate simple-cert
+- operator triggers to regenerate `simple-cert`
   - Director issues call to create-or-update `simple-ca`
     - only v1 is active
   - Director issues call to create-or-update `simple-cert`
     - only v2 is active (but using on v1 of simple-ca)
-  - Director renderes web-server job to use `simple-cert` as its server certificate (eg `((simple-cert.certificate))`)
-  - Director renderes web-client job to use `simple-cert`'s CA as its server certificate (eg `((simple-cert.ca))`)
+  - Director renders web-server job to use `simple-cert` as its server certificate (eg `((simple-cert.certificate))`)
+  - Director renders web-client job to use `simple-cert`'s CA as its server certificate (eg `((simple-cert.ca))`)
 
-- operator triggers to regenerate simple-ca
+- operator triggers to regenerate `simple-ca`
   - Director issues call to create-or-update `simple-ca`
     - v1 and v2 are active
   - Director issues call to create-or-update `simple-cert`
     - only v2 is active
-  - Director renderes web-server job to use `simple-cert` as its server certificate (eg `((simple-cert.certificate))`)
-  - Director renderes web-client job to use `simple-cert`'s CA as its server certificate (eg `((simple-cert.ca))`)
+  - Director renders web-server job to use `simple-cert` as its server certificate (eg `((simple-cert.certificate))`)
+  - Director renders web-client job to use `simple-cert`'s CA as its server certificate (eg `((simple-cert.ca))`)
     - Director automatically concatenates v1 and v2 contents and returns result as a combined PEM string
 
 - TBD: regenerate all certificates?
   - TBD: what about all intermediate certificates?
 
-- operator triggers to regenerate simple-ca
+- operator triggers to regenerate `simple-ca`
   - Director issues call to create-or-update `simple-ca`
     - only v2 is active
   - Director issues call to create-or-update `simple-cert`
     - only v3 is active
-  - Director renderes web-server job to use `simple-cert` as its server certificate (eg `((simple-cert.certificate))`)
-  - Director renderes web-client job to use `simple-cert`'s CA as its server certificate (eg `((simple-cert.ca))`)
+  - Director renders web-server job to use `simple-cert` as its server certificate (eg `((simple-cert.certificate))`)
+  - Director renders web-client job to use `simple-cert`'s CA as its server certificate (eg `((simple-cert.ca))`)
     - Director automatically concatenates v1 and v2 contents and returns result as a combined PEM string
 
 # Drawbacks
