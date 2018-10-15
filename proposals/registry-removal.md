@@ -208,6 +208,8 @@ Response:
 
 - CPI `info` method should expose `api_version` supported
 - CPI V2 should use stemcell `api_version` to differenciate behaviour from older agents
+- CPI V2 has different return values for `create_vm` and `attach_disk`
+- CPI V2 adds agent settings (previously sent to registry) into VM metadata/user-data
   
 #### Agent changes with V2 contracts:
 
