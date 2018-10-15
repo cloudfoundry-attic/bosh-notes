@@ -23,7 +23,7 @@ Following workflow would enable operator to rotate certificates and their CAs:
   - Director issues call to create-or-update `simple-ca` (type: certificate)
     - only v1 is active
   - Director issues call to create-or-update `simple-cert` (type: certificate) that uses `simple-ca` as its CA
-    - only v1 is active
+    - only v1 is active (signed by v1 ca)
   - Director renders web-server job to use `simple-cert` as its server certificate (eg `((simple-cert.certificate))`)
   - Director renders web-client job to use `simple-cert`'s CA as its server certificate (eg `((simple-cert.ca))`)
 
@@ -37,24 +37,35 @@ Following workflow would enable operator to rotate certificates and their CAs:
 
 - operator triggers to regenerate `simple-ca`
   - Director issues call to create-or-update `simple-ca`
-    - v1 and v2 are active
+    - v1 is active
+    - v2 is transitional
   - Director issues call to create-or-update `simple-cert`
-    - only v2 is active
+    - only v2 is active (signed by v1 ca)
   - Director renders web-server job to use `simple-cert` as its server certificate (eg `((simple-cert.certificate))`)
   - Director renders web-client job to use `simple-cert`'s CA as its server certificate (eg `((simple-cert.ca))`)
     - Director automatically concatenates v1 and v2 contents and returns result as a combined PEM string
-
-- TBD: regenerate all certificates?
-  - TBD: what about all intermediate certificates?
 
 - operator triggers to regenerate `simple-ca`
   - Director issues call to create-or-update `simple-ca`
-    - only v2 is active
+    - v1 is transitional
+    - v2 is active
   - Director issues call to create-or-update `simple-cert`
-    - only v3 is active
+    - only v3 is active (signed by v2 ca)
   - Director renders web-server job to use `simple-cert` as its server certificate (eg `((simple-cert.certificate))`)
   - Director renders web-client job to use `simple-cert`'s CA as its server certificate (eg `((simple-cert.ca))`)
     - Director automatically concatenates v1 and v2 contents and returns result as a combined PEM string
+
+- operator triggers to regenerate `simple-ca`
+  - Director issues call to create-or-update `simple-ca`
+    - only v2 is active (transitional flag removed from v1)
+  - Director issues call to create-or-update `simple-cert`
+    - only v3 is active (signed by v2 ca)
+  - Director renders web-server job to use `simple-cert` as its server certificate (eg `((simple-cert.certificate))`)
+  - Director renders web-client job to use `simple-cert`'s CA as its server certificate (eg `((simple-cert.ca))`)
+
+- Rotating intermediate CAs
+  - This should behave similar to rotating your CAs where, all child certificates must be regenerated.
+  - TBD: More details on how to go about this.
 
 # Drawbacks
 
