@@ -5,7 +5,7 @@
 
 # Summary
 
-CPI should pass metadata information as part of create_vm and create_disk call
+CPI should pass metadata information as part of create_vm, create_disk, create_snapshot call
 
 # Motivation
 
@@ -15,7 +15,8 @@ Created disk could also be organized using this metadata information
  
 # Details
 
-Metadata will include basic information about director, deployment and instance_group. E.g
+Metadata will include basic information about director, deployment and instance_group. All the tags that is being sent as part of set_vm_metadata call right now.
+E.g
 
 ```
 {
@@ -46,4 +47,6 @@ Change to CPI contract
 
 # Unresolved questions
 
-What other information can be added as part of this set?
+How should set_vm_metadata and set_disk_metadat methods be updated?
+
+As suggested set_vm_metadata and set_disk_metadata could send metadata keys hich can change later after the initial create vm/disk/snapshot call.
