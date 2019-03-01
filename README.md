@@ -1,4 +1,10 @@
-## bosh-notes
+## bosh-notes - deprecated
+
+**This repository is now archived for historical purposes.**
+
+Please reach out to the #bosh team on [CloudFoundry Slack](https://cloudfoundry.slack.com). Submit issues and feature requests against the project repo [BOSH](https://github.com/cloudfoundry/bosh).
+
+---
 
 This repository contains collection of proposals for [BOSH](https://github.com/cloudfoundry/bosh). For implemented features and their documentation, please see [bosh.io/docs](https://bosh.io/docs)
 
